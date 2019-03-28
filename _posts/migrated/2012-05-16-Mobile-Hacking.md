@@ -5,6 +5,7 @@ date: 2012-05-16 00:00:00 -0700
 categories: Blog Misc
 permalink: /:title.html
 ---
+<br />
 I have always loved wireless security.  It is just such an easy target.  The only issue that I have had is that I was restricted to carrying around a laptop and I just didn’t like the idea of having to operate the software while I was out.  So I came up with this neat little COMPLETELY mobile wireless hacking/trap solution.  Here is what you will need.
 
 ## Equipment
