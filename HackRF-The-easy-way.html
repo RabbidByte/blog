@@ -1,0 +1,289 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.15.2 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>HackRF: The easy way - RabbidByte</title>
+<meta name="description" content="The StoryRecently many different radio hacks (mousejack, drone hijacking) have hit the internet. This has spurred my interest in analogoue and digital radio. After some bindge shopping on the internet and a few days wait I have had some very nice toys show up. Once the new electronics smell and novelty of a new toy had worn off the frustration kicked in.RTL-SDR is a dirt cheap way to start playing with radio using the RTL2832U chipset. I like to do things right when I start a project so I decided to purchase a nice SDR hardware transciever that would provide all the functionality needed without breaking the bank. Enter the HackRF One from Great Scott Gadgets.Now wanting to get up and running with this device ASAP I followed the recommendation from Michael Ossmann https://greatscottgadgets.com/sdr/1/ and downloaded Pentoo Linux. This distro with the disposable laptop that I had dedicated to radio caused ALL my frustration. First off new inexpensive laptops now all come with Windows 10 … I like to keep that around for convenience. So I shrunk the partition and started the install of Pentoo. Now this HP laptop has the WORST BIOS I have ever come across. The ability to enable legacy booting is there but it lacks the option to set priority between UEFI and Legacy. Solution: Troubleshooting reboot to UEFI device from Windows EVERY TIME, then crash the boot process with USB drive, then the BIOS will let you select an OS from the MBR … so bloody painful!Finally I am logged into Pentoo … no network … and video keeps crapping out. I felt like I was working on a linux system back in 1999 hunting for drivers. Let’s make this part of the story short shall we? After about 5 hours of messing with this crap Gentoo distro and not being able to get openGL running right I almost chucked the laptop across the room. Why spend all this time trying to make a piece of junk like Gentoo working when the time could be spent building a proper box with support for HackRF?ENTER Fedora 23, yes I would much rather run RedHat however I am too cheap to pay for a subscription. I could not believe how streamlined it is to get HackRF going in Fedora so I decided to write this to save others time and pain with a crappy ass Gentoo distro. Oh and did I mention that Fedora 23 has UEFI support? Makes everything so much nicer.This is not the officially recommended way to install gnuradio. I encountered issues with PyBOMBS and version numbers. This supposedly was fixed https://github.com/gnuradio/pybombs/pull/246 although it didn’t work for me. I decided to go with dnf and see what I could do with the repositories and was pleasantly surprised.My recommendations for HackRF One:..* DON’T use Pentoo..* Screen shots and build done on a VM, don’t do this. Load onto your hardware so that you can take advantage of the high USB speeds of the HackRF One..* Install gqrx with Fedora. Not needed but very useful.BUILD  Perform a normal installation of Fedora 23 Workstation  Open the CLI and run the following:    sudo dnf update            sudo dnf install kernel-devel-4.2.3-300.fc23.x86_64        (Most likely not needed but I had to install to compile the VM additions)    sudo dnf install gnuradio            sudo dnf install gr-osmosdr            sudo dnf install gqrx            hackrf_info        (Used to check if all is good)    You are done … yup that’s it. Way easier than Pentoo.Additional ReadingThe Hobbyist’s Guide to the RTL-SDR: Really Cheap Software Defined RadioA Software-Defined Radio for the Masses, Part 1ECE 4670 Spring 2014 Lab 6 Software Defined Radio and the RTL-SDR USB Dongle">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="RabbidByte">
+<meta property="og:title" content="HackRF: The easy way">
+<meta property="og:url" content="http://192.168.1.30:4000/HackRF-The-easy-way.html">
+
+
+  <meta property="og:description" content="The StoryRecently many different radio hacks (mousejack, drone hijacking) have hit the internet. This has spurred my interest in analogoue and digital radio. After some bindge shopping on the internet and a few days wait I have had some very nice toys show up. Once the new electronics smell and novelty of a new toy had worn off the frustration kicked in.RTL-SDR is a dirt cheap way to start playing with radio using the RTL2832U chipset. I like to do things right when I start a project so I decided to purchase a nice SDR hardware transciever that would provide all the functionality needed without breaking the bank. Enter the HackRF One from Great Scott Gadgets.Now wanting to get up and running with this device ASAP I followed the recommendation from Michael Ossmann https://greatscottgadgets.com/sdr/1/ and downloaded Pentoo Linux. This distro with the disposable laptop that I had dedicated to radio caused ALL my frustration. First off new inexpensive laptops now all come with Windows 10 … I like to keep that around for convenience. So I shrunk the partition and started the install of Pentoo. Now this HP laptop has the WORST BIOS I have ever come across. The ability to enable legacy booting is there but it lacks the option to set priority between UEFI and Legacy. Solution: Troubleshooting reboot to UEFI device from Windows EVERY TIME, then crash the boot process with USB drive, then the BIOS will let you select an OS from the MBR … so bloody painful!Finally I am logged into Pentoo … no network … and video keeps crapping out. I felt like I was working on a linux system back in 1999 hunting for drivers. Let’s make this part of the story short shall we? After about 5 hours of messing with this crap Gentoo distro and not being able to get openGL running right I almost chucked the laptop across the room. Why spend all this time trying to make a piece of junk like Gentoo working when the time could be spent building a proper box with support for HackRF?ENTER Fedora 23, yes I would much rather run RedHat however I am too cheap to pay for a subscription. I could not believe how streamlined it is to get HackRF going in Fedora so I decided to write this to save others time and pain with a crappy ass Gentoo distro. Oh and did I mention that Fedora 23 has UEFI support? Makes everything so much nicer.This is not the officially recommended way to install gnuradio. I encountered issues with PyBOMBS and version numbers. This supposedly was fixed https://github.com/gnuradio/pybombs/pull/246 although it didn’t work for me. I decided to go with dnf and see what I could do with the repositories and was pleasantly surprised.My recommendations for HackRF One:..* DON’T use Pentoo..* Screen shots and build done on a VM, don’t do this. Load onto your hardware so that you can take advantage of the high USB speeds of the HackRF One..* Install gqrx with Fedora. Not needed but very useful.BUILD  Perform a normal installation of Fedora 23 Workstation  Open the CLI and run the following:    sudo dnf update            sudo dnf install kernel-devel-4.2.3-300.fc23.x86_64        (Most likely not needed but I had to install to compile the VM additions)    sudo dnf install gnuradio            sudo dnf install gr-osmosdr            sudo dnf install gqrx            hackrf_info        (Used to check if all is good)    You are done … yup that’s it. Way easier than Pentoo.Additional ReadingThe Hobbyist’s Guide to the RTL-SDR: Really Cheap Software Defined RadioA Software-Defined Radio for the Masses, Part 1ECE 4670 Spring 2014 Lab 6 Software Defined Radio and the RTL-SDR USB Dongle">
+
+
+
+
+
+  <meta name="twitter:site" content="@RabbidByte">
+  <meta name="twitter:title" content="HackRF: The easy way">
+  <meta name="twitter:description" content="The StoryRecently many different radio hacks (mousejack, drone hijacking) have hit the internet. This has spurred my interest in analogoue and digital radio. After some bindge shopping on the internet and a few days wait I have had some very nice toys show up. Once the new electronics smell and novelty of a new toy had worn off the frustration kicked in.RTL-SDR is a dirt cheap way to start playing with radio using the RTL2832U chipset. I like to do things right when I start a project so I decided to purchase a nice SDR hardware transciever that would provide all the functionality needed without breaking the bank. Enter the HackRF One from Great Scott Gadgets.Now wanting to get up and running with this device ASAP I followed the recommendation from Michael Ossmann https://greatscottgadgets.com/sdr/1/ and downloaded Pentoo Linux. This distro with the disposable laptop that I had dedicated to radio caused ALL my frustration. First off new inexpensive laptops now all come with Windows 10 … I like to keep that around for convenience. So I shrunk the partition and started the install of Pentoo. Now this HP laptop has the WORST BIOS I have ever come across. The ability to enable legacy booting is there but it lacks the option to set priority between UEFI and Legacy. Solution: Troubleshooting reboot to UEFI device from Windows EVERY TIME, then crash the boot process with USB drive, then the BIOS will let you select an OS from the MBR … so bloody painful!Finally I am logged into Pentoo … no network … and video keeps crapping out. I felt like I was working on a linux system back in 1999 hunting for drivers. Let’s make this part of the story short shall we? After about 5 hours of messing with this crap Gentoo distro and not being able to get openGL running right I almost chucked the laptop across the room. Why spend all this time trying to make a piece of junk like Gentoo working when the time could be spent building a proper box with support for HackRF?ENTER Fedora 23, yes I would much rather run RedHat however I am too cheap to pay for a subscription. I could not believe how streamlined it is to get HackRF going in Fedora so I decided to write this to save others time and pain with a crappy ass Gentoo distro. Oh and did I mention that Fedora 23 has UEFI support? Makes everything so much nicer.This is not the officially recommended way to install gnuradio. I encountered issues with PyBOMBS and version numbers. This supposedly was fixed https://github.com/gnuradio/pybombs/pull/246 although it didn’t work for me. I decided to go with dnf and see what I could do with the repositories and was pleasantly surprised.My recommendations for HackRF One:..* DON’T use Pentoo..* Screen shots and build done on a VM, don’t do this. Load onto your hardware so that you can take advantage of the high USB speeds of the HackRF One..* Install gqrx with Fedora. Not needed but very useful.BUILD  Perform a normal installation of Fedora 23 Workstation  Open the CLI and run the following:    sudo dnf update            sudo dnf install kernel-devel-4.2.3-300.fc23.x86_64        (Most likely not needed but I had to install to compile the VM additions)    sudo dnf install gnuradio            sudo dnf install gr-osmosdr            sudo dnf install gqrx            hackrf_info        (Used to check if all is good)    You are done … yup that’s it. Way easier than Pentoo.Additional ReadingThe Hobbyist’s Guide to the RTL-SDR: Really Cheap Software Defined RadioA Software-Defined Radio for the Masses, Part 1ECE 4670 Spring 2014 Lab 6 Software Defined Radio and the RTL-SDR USB Dongle">
+  <meta name="twitter:url" content="http://192.168.1.30:4000/HackRF-The-easy-way.html">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2016-04-01T01:00:00-06:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://192.168.1.30:4000/HackRF-The-easy-way.html">
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "RabbidByte",
+      "url": "http://192.168.1.30:4000/",
+      "sameAs": null
+    }
+  </script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="RabbidByte Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if IE ]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/fav/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/fav/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/fav/favicon-16x16.png">
+<link rel="manifest" href="/assets/fav/site.webmanifest">
+<link rel="mask-icon" href="/assets/fav/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--splash">
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/88x88.png" alt=""></a>
+        
+        <a class="site-title" href="/">RabbidByte</a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/index.html" >Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tools.html" >Tools</a>
+            </li><li class="masthead__menu-item">
+              <a href="/ctf.html" >CtF</a>
+            </li><li class="masthead__menu-item">
+              <a href="/resources.html" >Resources</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about.html" >About</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+<div id="main" role="main">
+  <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="HackRF: The easy way">
+    <meta itemprop="description" content="The StoryRecently many different radio hacks (mousejack, drone hijacking) have hit the internet. This has spurred my interest in analogoue and digital radio. After some bindge shopping on the internet and a few days wait I have had some very nice toys show up. Once the new electronics smell and novelty of a new toy had worn off the frustration kicked in.RTL-SDR is a dirt cheap way to start playing with radio using the RTL2832U chipset. I like to do things right when I start a project so I decided to purchase a nice SDR hardware transciever that would provide all the functionality needed without breaking the bank. Enter the HackRF One from Great Scott Gadgets.Now wanting to get up and running with this device ASAP I followed the recommendation from Michael Ossmann https://greatscottgadgets.com/sdr/1/ and downloaded Pentoo Linux. This distro with the disposable laptop that I had dedicated to radio caused ALL my frustration. First off new inexpensive laptops now all come with Windows 10 … I like to keep that around for convenience. So I shrunk the partition and started the install of Pentoo. Now this HP laptop has the WORST BIOS I have ever come across. The ability to enable legacy booting is there but it lacks the option to set priority between UEFI and Legacy. Solution: Troubleshooting reboot to UEFI device from Windows EVERY TIME, then crash the boot process with USB drive, then the BIOS will let you select an OS from the MBR … so bloody painful!Finally I am logged into Pentoo … no network … and video keeps crapping out. I felt like I was working on a linux system back in 1999 hunting for drivers. Let’s make this part of the story short shall we? After about 5 hours of messing with this crap Gentoo distro and not being able to get openGL running right I almost chucked the laptop across the room. Why spend all this time trying to make a piece of junk like Gentoo working when the time could be spent building a proper box with support for HackRF?ENTER Fedora 23, yes I would much rather run RedHat however I am too cheap to pay for a subscription. I could not believe how streamlined it is to get HackRF going in Fedora so I decided to write this to save others time and pain with a crappy ass Gentoo distro. Oh and did I mention that Fedora 23 has UEFI support? Makes everything so much nicer.This is not the officially recommended way to install gnuradio. I encountered issues with PyBOMBS and version numbers. This supposedly was fixed https://github.com/gnuradio/pybombs/pull/246 although it didn’t work for me. I decided to go with dnf and see what I could do with the repositories and was pleasantly surprised.My recommendations for HackRF One:..* DON’T use Pentoo..* Screen shots and build done on a VM, don’t do this. Load onto your hardware so that you can take advantage of the high USB speeds of the HackRF One..* Install gqrx with Fedora. Not needed but very useful.BUILD  Perform a normal installation of Fedora 23 Workstation  Open the CLI and run the following:    sudo dnf update            sudo dnf install kernel-devel-4.2.3-300.fc23.x86_64        (Most likely not needed but I had to install to compile the VM additions)    sudo dnf install gnuradio            sudo dnf install gr-osmosdr            sudo dnf install gqrx            hackrf_info        (Used to check if all is good)    You are done … yup that’s it. Way easier than Pentoo.Additional ReadingThe Hobbyist’s Guide to the RTL-SDR: Really Cheap Software Defined RadioA Software-Defined Radio for the Masses, Part 1ECE 4670 Spring 2014 Lab 6 Software Defined Radio and the RTL-SDR USB Dongle">
+    <meta itemprop="datePublished" content="April 01, 2016">
+    
+
+    <section class="page__content" itemprop="text">
+      <p><br />
+<img src="/assets/images/HRF/HRF-768x280.jpg" alt="alt text" title="HackRF Title" /></p>
+<h2 id="the-story">The Story</h2>
+<p>Recently many different radio hacks (mousejack, drone hijacking) have hit the internet. This has spurred my interest in analogoue and digital radio. After some bindge shopping on the internet and a few days wait I have had some very nice toys show up. Once the new electronics smell and novelty of a new toy had worn off the frustration kicked in.</p>
+
+<p>RTL-SDR is a dirt cheap way to start playing with radio using the RTL2832U chipset. I like to do things right when I start a project so I decided to purchase a nice SDR hardware transciever that would provide all the functionality needed without breaking the bank. Enter the HackRF One from <a href="https://greatscottgadgets.com/hackrf/">Great Scott Gadgets</a>.</p>
+
+<p>Now wanting to get up and running with this device ASAP I followed the recommendation from Michael Ossmann <a href="https://greatscottgadgets.com/sdr/1/">https://greatscottgadgets.com/sdr/1/</a> and downloaded Pentoo Linux. This distro with the disposable laptop that I had dedicated to radio caused ALL my frustration. First off new inexpensive laptops now all come with Windows 10 … I like to keep that around for convenience. So I shrunk the partition and started the install of Pentoo. Now this HP laptop has the WORST BIOS I have ever come across. The ability to enable legacy booting is there but it lacks the option to set priority between UEFI and Legacy. Solution: Troubleshooting reboot to UEFI device from Windows EVERY TIME, then crash the boot process with USB drive, then the BIOS will let you select an OS from the MBR … so bloody painful!</p>
+
+<p>Finally I am logged into Pentoo … no network … and video keeps crapping out. I felt like I was working on a linux system back in 1999 hunting for drivers. Let’s make this part of the story short shall we? After about 5 hours of messing with this crap Gentoo distro and not being able to get openGL running right I almost chucked the laptop across the room. Why spend all this time trying to make a piece of junk like Gentoo working when the time could be spent building a proper box with support for HackRF?</p>
+
+<p>ENTER Fedora 23, yes I would much rather run RedHat however I am too cheap to pay for a subscription. I could not believe how streamlined it is to get HackRF going in Fedora so I decided to write this to save others time and pain with a crappy ass Gentoo distro. Oh and did I mention that Fedora 23 has UEFI support? Makes everything so much nicer.</p>
+
+<p>This is not the officially recommended way to install gnuradio. I encountered issues with PyBOMBS and version numbers. This supposedly was fixed <a href="https://github.com/gnuradio/pybombs/pull/246">https://github.com/gnuradio/pybombs/pull/246</a> although it didn’t work for me. I decided to go with dnf and see what I could do with the repositories and was pleasantly surprised.</p>
+
+<p>My recommendations for HackRF One:
+..* DON’T use Pentoo
+..* Screen shots and build done on a VM, don’t do this. Load onto your hardware so that you can take advantage of the high USB speeds of the HackRF One
+..* Install gqrx with Fedora. Not needed but very useful.</p>
+
+<h2 id="build">BUILD</h2>
+
+<ol>
+  <li>Perform a normal installation of Fedora 23 Workstation</li>
+  <li>Open the CLI and run the following:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo dnf update
+</code></pre></div>    </div>
+    <p><img src="/assets/images/HRF/hrf-01.png" alt="alt text" title="hrf-01" /></p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo dnf install kernel-devel-4.2.3-300.fc23.x86_64
+</code></pre></div>    </div>
+    <p>(Most likely not needed but I had to install to compile the VM additions)
+<img src="/assets/images/HRF/hrf-03.png" alt="alt text" title="hrf-03" /></p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo dnf install gnuradio
+</code></pre></div>    </div>
+    <p><img src="/assets/images/HRF/hrf-04.png" alt="alt text" title="hrf-04" /></p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo dnf install gr-osmosdr
+</code></pre></div>    </div>
+    <p><img src="/assets/images/HRF/hrf-05.png" alt="alt text" title="hrf-05" /></p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo dnf install gqrx
+</code></pre></div>    </div>
+    <p><img src="/assets/images/HRF/hrf-06.png" alt="alt text" title="hrf-06" /></p>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hackrf_info
+</code></pre></div>    </div>
+    <p>(Used to check if all is good)<br />
+<img src="/assets/images/HRF/hrf-07.png" alt="alt text" title="hrf-07" /></p>
+  </li>
+  <li>You are done … yup that’s it. Way easier than Pentoo.
+<img src="/assets/images/HRF/hrf-08.png" alt="alt text" title="hrf-08" /></li>
+</ol>
+
+<h2 id="additional-reading">Additional Reading</h2>
+
+<p><a href="http://www.amazon.com/The-Hobbyists-Guide-RTL-SDR-Software-ebook/dp/B00KCDF1QI">The Hobbyist’s Guide to the RTL-SDR: Really Cheap Software Defined Radio</a></p>
+
+<p><a href="http://www.arrl.org/files/file/Technology/tis/info/pdf/020708qex013.pdf">A Software-Defined Radio for the Masses, Part 1</a></p>
+
+<p><a href="http://www.eas.uccs.edu/~mwickert/ece4670/lecture_notes/Lab6.pdf">ECE 4670 Spring 2014 Lab 6 Software Defined Radio and the RTL-SDR USB Dongle</a></p>
+
+    </section>
+  </article>
+</div>
+
+    </div>
+
+    
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2019 RabbidByte. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.7.1/js/all.js" integrity="sha384-eVEQC9zshBn0rFj4+TU78eNA19HMNigMviK/PU/FFjLXqa/GKPgX58rvt5Z8PLs7" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

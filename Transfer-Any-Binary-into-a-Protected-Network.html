@@ -1,0 +1,280 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.15.2 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Transfer Any Binary into a Protected Network - RabbidByte</title>
+<meta name="description" content="SummaryWell this is another old trick that still works today.  It still gets past all edge security and antivirus … well that is until you pull the executable out again.  I find myself using this trick when I need to bring penetration testing tools into a network.  Most of the time antivirus or edge security devices will stop the transfer of these executables.  So what can you do to get them in?The first is very obvious, just zip them up and encrypt them.  This will get the package into some networks but not all.  Many networks now configure edge devices and email security systems to block and/or alert on encrypted attachments.  This would probably blow your cover and game over.Another way to get executables into networks is by using a system called TransHex written while I was running essentialexploit.com.  As of now this has not been released but it will be very soon (update TransHex is now released).  This application requires a web server on the internet that dynamically converts binary to hex and then gives you a text file that you can download.  Once you have the text file the TransHex client will put that back into a binary for you.The simplest way to get an executable into a network is to email it or just download it.  However as we mentioned earlier most edge devices will stop the download and alert the admins.  Not something that you want to have happen, however with a little prep you can hide any binary into another file and just bring it on into a network.  Here is how it works.How To Do ItYou must know beforehand which executibles you want send.  This is the downside.  If you forget about a program that you need you will have to have access to the outside system again to send it.  Sometimes this could delay your penetration testing by quite a few hours, and sometimes it is not a problem at all.  So here’s what you do.  On an external windows system take a harmless picture file and your executable and drop them in the same folder so that it’s easy to work with them  Compress your executable (no encryption needed) into a zip file  Open up a windows command prompt  Navigate into the folder where your files are located  Run – copy /B [image file] + [zip file] [new image file]  Now there is a new file in your folder that looks exactly like your original image  This new file is the image file with the zip in binary appended to the end of the file  Now send this file into the protected network either by email, http … whatever  On the internal windows system open up 7zip  Under “File” select “open” and find your image file  Once 7zip opens the image … you see your package!  Extract it and away you go, but beware of local antivirus because once the exe is extracted it will most likely be scanned.Images From TestingThe commandThe filesScan the attachment (just to show that it was malicious)Scan the malicious imageExtracting the package from the image">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="RabbidByte">
+<meta property="og:title" content="Transfer Any Binary into a Protected Network">
+<meta property="og:url" content="http://192.168.1.30:4000/Transfer-Any-Binary-into-a-Protected-Network.html">
+
+
+  <meta property="og:description" content="SummaryWell this is another old trick that still works today.  It still gets past all edge security and antivirus … well that is until you pull the executable out again.  I find myself using this trick when I need to bring penetration testing tools into a network.  Most of the time antivirus or edge security devices will stop the transfer of these executables.  So what can you do to get them in?The first is very obvious, just zip them up and encrypt them.  This will get the package into some networks but not all.  Many networks now configure edge devices and email security systems to block and/or alert on encrypted attachments.  This would probably blow your cover and game over.Another way to get executables into networks is by using a system called TransHex written while I was running essentialexploit.com.  As of now this has not been released but it will be very soon (update TransHex is now released).  This application requires a web server on the internet that dynamically converts binary to hex and then gives you a text file that you can download.  Once you have the text file the TransHex client will put that back into a binary for you.The simplest way to get an executable into a network is to email it or just download it.  However as we mentioned earlier most edge devices will stop the download and alert the admins.  Not something that you want to have happen, however with a little prep you can hide any binary into another file and just bring it on into a network.  Here is how it works.How To Do ItYou must know beforehand which executibles you want send.  This is the downside.  If you forget about a program that you need you will have to have access to the outside system again to send it.  Sometimes this could delay your penetration testing by quite a few hours, and sometimes it is not a problem at all.  So here’s what you do.  On an external windows system take a harmless picture file and your executable and drop them in the same folder so that it’s easy to work with them  Compress your executable (no encryption needed) into a zip file  Open up a windows command prompt  Navigate into the folder where your files are located  Run – copy /B [image file] + [zip file] [new image file]  Now there is a new file in your folder that looks exactly like your original image  This new file is the image file with the zip in binary appended to the end of the file  Now send this file into the protected network either by email, http … whatever  On the internal windows system open up 7zip  Under “File” select “open” and find your image file  Once 7zip opens the image … you see your package!  Extract it and away you go, but beware of local antivirus because once the exe is extracted it will most likely be scanned.Images From TestingThe commandThe filesScan the attachment (just to show that it was malicious)Scan the malicious imageExtracting the package from the image">
+
+
+
+
+
+  <meta name="twitter:site" content="@RabbidByte">
+  <meta name="twitter:title" content="Transfer Any Binary into a Protected Network">
+  <meta name="twitter:description" content="SummaryWell this is another old trick that still works today.  It still gets past all edge security and antivirus … well that is until you pull the executable out again.  I find myself using this trick when I need to bring penetration testing tools into a network.  Most of the time antivirus or edge security devices will stop the transfer of these executables.  So what can you do to get them in?The first is very obvious, just zip them up and encrypt them.  This will get the package into some networks but not all.  Many networks now configure edge devices and email security systems to block and/or alert on encrypted attachments.  This would probably blow your cover and game over.Another way to get executables into networks is by using a system called TransHex written while I was running essentialexploit.com.  As of now this has not been released but it will be very soon (update TransHex is now released).  This application requires a web server on the internet that dynamically converts binary to hex and then gives you a text file that you can download.  Once you have the text file the TransHex client will put that back into a binary for you.The simplest way to get an executable into a network is to email it or just download it.  However as we mentioned earlier most edge devices will stop the download and alert the admins.  Not something that you want to have happen, however with a little prep you can hide any binary into another file and just bring it on into a network.  Here is how it works.How To Do ItYou must know beforehand which executibles you want send.  This is the downside.  If you forget about a program that you need you will have to have access to the outside system again to send it.  Sometimes this could delay your penetration testing by quite a few hours, and sometimes it is not a problem at all.  So here’s what you do.  On an external windows system take a harmless picture file and your executable and drop them in the same folder so that it’s easy to work with them  Compress your executable (no encryption needed) into a zip file  Open up a windows command prompt  Navigate into the folder where your files are located  Run – copy /B [image file] + [zip file] [new image file]  Now there is a new file in your folder that looks exactly like your original image  This new file is the image file with the zip in binary appended to the end of the file  Now send this file into the protected network either by email, http … whatever  On the internal windows system open up 7zip  Under “File” select “open” and find your image file  Once 7zip opens the image … you see your package!  Extract it and away you go, but beware of local antivirus because once the exe is extracted it will most likely be scanned.Images From TestingThe commandThe filesScan the attachment (just to show that it was malicious)Scan the malicious imageExtracting the package from the image">
+  <meta name="twitter:url" content="http://192.168.1.30:4000/Transfer-Any-Binary-into-a-Protected-Network.html">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2013-06-24T01:00:00-06:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://192.168.1.30:4000/Transfer-Any-Binary-into-a-Protected-Network.html">
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "RabbidByte",
+      "url": "http://192.168.1.30:4000/",
+      "sameAs": null
+    }
+  </script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="RabbidByte Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if IE ]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/fav/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/fav/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/fav/favicon-16x16.png">
+<link rel="manifest" href="/assets/fav/site.webmanifest">
+<link rel="mask-icon" href="/assets/fav/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--splash">
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/88x88.png" alt=""></a>
+        
+        <a class="site-title" href="/">RabbidByte</a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/index.html" >Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tools.html" >Tools</a>
+            </li><li class="masthead__menu-item">
+              <a href="/ctf.html" >CtF</a>
+            </li><li class="masthead__menu-item">
+              <a href="/resources.html" >Resources</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about.html" >About</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+<div id="main" role="main">
+  <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Transfer Any Binary into a Protected Network">
+    <meta itemprop="description" content="SummaryWell this is another old trick that still works today.  It still gets past all edge security and antivirus … well that is until you pull the executable out again.  I find myself using this trick when I need to bring penetration testing tools into a network.  Most of the time antivirus or edge security devices will stop the transfer of these executables.  So what can you do to get them in?The first is very obvious, just zip them up and encrypt them.  This will get the package into some networks but not all.  Many networks now configure edge devices and email security systems to block and/or alert on encrypted attachments.  This would probably blow your cover and game over.Another way to get executables into networks is by using a system called TransHex written while I was running essentialexploit.com.  As of now this has not been released but it will be very soon (update TransHex is now released).  This application requires a web server on the internet that dynamically converts binary to hex and then gives you a text file that you can download.  Once you have the text file the TransHex client will put that back into a binary for you.The simplest way to get an executable into a network is to email it or just download it.  However as we mentioned earlier most edge devices will stop the download and alert the admins.  Not something that you want to have happen, however with a little prep you can hide any binary into another file and just bring it on into a network.  Here is how it works.How To Do ItYou must know beforehand which executibles you want send.  This is the downside.  If you forget about a program that you need you will have to have access to the outside system again to send it.  Sometimes this could delay your penetration testing by quite a few hours, and sometimes it is not a problem at all.  So here’s what you do.  On an external windows system take a harmless picture file and your executable and drop them in the same folder so that it’s easy to work with them  Compress your executable (no encryption needed) into a zip file  Open up a windows command prompt  Navigate into the folder where your files are located  Run – copy /B [image file] + [zip file] [new image file]  Now there is a new file in your folder that looks exactly like your original image  This new file is the image file with the zip in binary appended to the end of the file  Now send this file into the protected network either by email, http … whatever  On the internal windows system open up 7zip  Under “File” select “open” and find your image file  Once 7zip opens the image … you see your package!  Extract it and away you go, but beware of local antivirus because once the exe is extracted it will most likely be scanned.Images From TestingThe commandThe filesScan the attachment (just to show that it was malicious)Scan the malicious imageExtracting the package from the image">
+    <meta itemprop="datePublished" content="June 24, 2013">
+    
+
+    <section class="page__content" itemprop="text">
+      <h2 id="summary">Summary</h2>
+
+<p>Well this is another old trick that still works today.  It still gets past all edge security and antivirus … well that is until you pull the executable out again.  I find myself using this trick when I need to bring penetration testing tools into a network.  Most of the time antivirus or edge security devices will stop the transfer of these executables.  So what can you do to get them in?</p>
+
+<p>The first is very obvious, just zip them up and encrypt them.  This will get the package into some networks but not all.  Many networks now configure edge devices and email security systems to block and/or alert on encrypted attachments.  This would probably blow your cover and game over.</p>
+
+<p>Another way to get executables into networks is by using a system called <a href="https://github.com/RabbidByte/TransHex" title="TransHex Download">TransHex</a> written while I was running essentialexploit.com.  As of now this has not been released but it will be very soon (<em>update</em> TransHex is now released).  This application requires a web server on the internet that dynamically converts binary to hex and then gives you a text file that you can download.  Once you have the text file the TransHex client will put that back into a binary for you.</p>
+
+<p>The simplest way to get an executable into a network is to email it or just download it.  However as we mentioned earlier most edge devices will stop the download and alert the admins.  Not something that you want to have happen, however with a little prep you can hide any binary into another file and just bring it on into a network.  Here is how it works.</p>
+
+<h2 id="how-to-do-it">How To Do It</h2>
+
+<p>You must know beforehand which executibles you want send.  This is the downside.  If you forget about a program that you need you will have to have access to the outside system again to send it.  Sometimes this could delay your penetration testing by quite a few hours, and sometimes it is not a problem at all.  So here’s what you do.</p>
+
+<ol>
+  <li>On an external windows system take a harmless picture file and your executable and drop them in the same folder so that it’s easy to work with them</li>
+  <li>Compress your executable (no encryption needed) into a zip file</li>
+  <li>Open up a windows command prompt</li>
+  <li>Navigate into the folder where your files are located</li>
+  <li>Run – copy /B [image file] + [zip file] [new image file]</li>
+  <li>Now there is a new file in your folder that looks exactly like your original image</li>
+  <li>This new file is the image file with the zip in binary appended to the end of the file</li>
+  <li>Now send this file into the protected network either by email, http … whatever</li>
+  <li>On the internal windows system open up 7zip</li>
+  <li>Under “File” select “open” and find your image file</li>
+  <li>Once 7zip opens the image … you see your package!  Extract it and away you go, but beware of local antivirus because once the exe is extracted it will most likely be scanned.</li>
+</ol>
+
+<h2 id="images-from-testing">Images From Testing</h2>
+<p>The command</p>
+
+<p><img src="/assets/images/transhex/command.png" alt="alt text" title="The Command" /></p>
+
+<p>The files</p>
+
+<p><img src="/assets/images/transhex/file_listing.png" alt="alt text" title="The Files" /></p>
+
+<p>Scan the attachment (just to show that it was malicious)</p>
+
+<p><img src="/assets/images/transhex/scan-1.png" alt="alt text" title="Scan 1" /></p>
+
+<p>Scan the malicious image</p>
+
+<p><img src="/assets/images/transhex/scan-2.png" alt="alt text" title="Scan 2" /></p>
+
+<p>Extracting the package from the image</p>
+
+<p><img src="/assets/images/transhex/zip.png" alt="alt text" title="Zip" /></p>
+
+    </section>
+  </article>
+</div>
+
+    </div>
+
+    
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2019 RabbidByte. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.7.1/js/all.js" integrity="sha384-eVEQC9zshBn0rFj4+TU78eNA19HMNigMviK/PU/FFjLXqa/GKPgX58rvt5Z8PLs7" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

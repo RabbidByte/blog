@@ -1,0 +1,298 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.15.2 by Michael Rose
+  Copyright 2013-2019 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>AWS S3: Misconfiguration, Discovery, and Abuse - RabbidByte</title>
+<meta name="description" content="SummaryRecent news of the Verizon data leak http://www.darkreading.com/cloud/verizon-suffers-cloud-data-leak-exposing-data-on-millions-of-customers/ and a similar scenario concerning Dow Jones http://www.darkreading.com/cloud/dow-jones-data-leak-results-from-amazon-aws-configuration-error/ prompted me to do a little “poking around”. The basic misconfiguration in these cases was that the administrators of the AWS S3 buckets permitted read access to “Everyone” from anywhere. So really all someone had to do was find the S3 bucket and take whatever they wanted. The interesting thing is that AWS has changed the ACL configuration on S3 buckets pretty much right after the news of Dow Jones hit the main stream media.I started to think a little bit about this situation. If administrators make the mistake to leave sensitive information out on S3 buckets with anonymous read access could they make bigger mistakes? What if an administrator left an S3 bucket open with anonymous read/write access? All that someone would need to do is find the bucket, see if they could write to that bucket, figure out what it is used for, and then manipulate content for fun/profit.FYI – I will not post my code for bots/spidersFind S3 Buckets (one way out of many)Going through the net finding S3 buckets and testing them is painfully tedious if done manually and you would probably never find anything of use. You have to automate this process and the way I would go about doing this would be by creating a Spider.Create a simple spider that wonders through the web looking at the source code of webpages that have the following ‘src=’ tags.*.s3.amazonaws.com*.s3-[aws regions].amazonaws.comOnce the spider finds these URLs in the SRC tags have it dump the value, along with the page’s URL to a log file after checking for duplicate entries. That’s it … you found an S3 bucket … whoopee, note sarcasmIf you need help building a bot or spider pick up a book and learn. I recommend this one https://www.amazon.com/Webbots-Spiders-Screen-Scrapers-Developing/dp/1593273975/I will use CNN.com as an example. I found on the main page the S3 bucket http://s3.amazonaws.com/cnn-sponsored-contentCheck for Write Permissions (2 different ways)Get the ACLcurl [s3 bucket url]/?aclProbably the easiest and most detailed way to see if you can get anonymous write access is by reading the ACL. This has its drawbacks though as administrators could misconfigure the ACL for the bucket objects and have no access to read or write the ACL. In this case the bot would show that access is denied.The example from CNN.com gives us the ACL because “Everyone” has access to read the ACL (READ_ACP). You can see this listed at the bottom of the server’s response.&lt;URI&gt;http://acs.amazonaws.com/groups/global/AllUsers&lt;/URI&gt;&lt;/Grantee&gt;&lt;Permission&gt; WRITE&lt;/Permission&gt;Again we don’t want to have to go through all of this manually … you got a puter … use it. Write a simple script to monitor the log file for new entries. When a new S3 bucket URL is written to the log file the script just needs to request the ACL and check for write access. This can all be done with a combination of (you don’t need them all really) curl, grep, awk, and xmllint. Don’t know how to do it? Try google, I really do not want to provide all information for someone to launch a potentially malicious bot/spider.Just Try to Write to the BucketAnother way to test to see if you have write access to an S3 bucket is just to write to it. Create a simple txt file with a couple characters in it. Then use curl to upload it to the S3 bucket. If the connection ENDS with an HTTP/1.1 100 Continue then you have write access to the bucket.curl -v -H acl=public-read -H key=test.txt -T test.txt http://s3.amazonaws.com/cnn-sponsored-contentAbuse: What Does the Bucket ContainThis is where it gets a tad fun. So lets say that CNN had all their videos for their website hosted in an S3 bucket called cnn_video and we successfully wrote to http://s3.amazonaws.com/cnn_video Well if you have write access in S3 you also have delete access (at least it seems that way in my testing).So if the video http://s3.amazonaws.com/cnn_video/main.mp4 was linked in www.cnn.com/index.htm then all an attacker would have to do is use the AWS REST API to delete (http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectDELETE.html) the video in the bucket and replace it with whatever other video they wanted (just named the same). The attacker now has their video posted on CNN … hypothetically of course.Note:  All CNN links with the exception of the one S3 bucket are fictional  Yes, this was written quickly  Yes, this is incomplete  No, I will not give you the code for my spider">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="RabbidByte">
+<meta property="og:title" content="AWS S3: Misconfiguration, Discovery, and Abuse">
+<meta property="og:url" content="http://192.168.1.30:4000/AWS-S3-Misconfiguration-Discovery-and-Abuse.html">
+
+
+  <meta property="og:description" content="SummaryRecent news of the Verizon data leak http://www.darkreading.com/cloud/verizon-suffers-cloud-data-leak-exposing-data-on-millions-of-customers/ and a similar scenario concerning Dow Jones http://www.darkreading.com/cloud/dow-jones-data-leak-results-from-amazon-aws-configuration-error/ prompted me to do a little “poking around”. The basic misconfiguration in these cases was that the administrators of the AWS S3 buckets permitted read access to “Everyone” from anywhere. So really all someone had to do was find the S3 bucket and take whatever they wanted. The interesting thing is that AWS has changed the ACL configuration on S3 buckets pretty much right after the news of Dow Jones hit the main stream media.I started to think a little bit about this situation. If administrators make the mistake to leave sensitive information out on S3 buckets with anonymous read access could they make bigger mistakes? What if an administrator left an S3 bucket open with anonymous read/write access? All that someone would need to do is find the bucket, see if they could write to that bucket, figure out what it is used for, and then manipulate content for fun/profit.FYI – I will not post my code for bots/spidersFind S3 Buckets (one way out of many)Going through the net finding S3 buckets and testing them is painfully tedious if done manually and you would probably never find anything of use. You have to automate this process and the way I would go about doing this would be by creating a Spider.Create a simple spider that wonders through the web looking at the source code of webpages that have the following ‘src=’ tags.*.s3.amazonaws.com*.s3-[aws regions].amazonaws.comOnce the spider finds these URLs in the SRC tags have it dump the value, along with the page’s URL to a log file after checking for duplicate entries. That’s it … you found an S3 bucket … whoopee, note sarcasmIf you need help building a bot or spider pick up a book and learn. I recommend this one https://www.amazon.com/Webbots-Spiders-Screen-Scrapers-Developing/dp/1593273975/I will use CNN.com as an example. I found on the main page the S3 bucket http://s3.amazonaws.com/cnn-sponsored-contentCheck for Write Permissions (2 different ways)Get the ACLcurl [s3 bucket url]/?aclProbably the easiest and most detailed way to see if you can get anonymous write access is by reading the ACL. This has its drawbacks though as administrators could misconfigure the ACL for the bucket objects and have no access to read or write the ACL. In this case the bot would show that access is denied.The example from CNN.com gives us the ACL because “Everyone” has access to read the ACL (READ_ACP). You can see this listed at the bottom of the server’s response.&lt;URI&gt;http://acs.amazonaws.com/groups/global/AllUsers&lt;/URI&gt;&lt;/Grantee&gt;&lt;Permission&gt; WRITE&lt;/Permission&gt;Again we don’t want to have to go through all of this manually … you got a puter … use it. Write a simple script to monitor the log file for new entries. When a new S3 bucket URL is written to the log file the script just needs to request the ACL and check for write access. This can all be done with a combination of (you don’t need them all really) curl, grep, awk, and xmllint. Don’t know how to do it? Try google, I really do not want to provide all information for someone to launch a potentially malicious bot/spider.Just Try to Write to the BucketAnother way to test to see if you have write access to an S3 bucket is just to write to it. Create a simple txt file with a couple characters in it. Then use curl to upload it to the S3 bucket. If the connection ENDS with an HTTP/1.1 100 Continue then you have write access to the bucket.curl -v -H acl=public-read -H key=test.txt -T test.txt http://s3.amazonaws.com/cnn-sponsored-contentAbuse: What Does the Bucket ContainThis is where it gets a tad fun. So lets say that CNN had all their videos for their website hosted in an S3 bucket called cnn_video and we successfully wrote to http://s3.amazonaws.com/cnn_video Well if you have write access in S3 you also have delete access (at least it seems that way in my testing).So if the video http://s3.amazonaws.com/cnn_video/main.mp4 was linked in www.cnn.com/index.htm then all an attacker would have to do is use the AWS REST API to delete (http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectDELETE.html) the video in the bucket and replace it with whatever other video they wanted (just named the same). The attacker now has their video posted on CNN … hypothetically of course.Note:  All CNN links with the exception of the one S3 bucket are fictional  Yes, this was written quickly  Yes, this is incomplete  No, I will not give you the code for my spider">
+
+
+
+
+
+  <meta name="twitter:site" content="@RabbidByte">
+  <meta name="twitter:title" content="AWS S3: Misconfiguration, Discovery, and Abuse">
+  <meta name="twitter:description" content="SummaryRecent news of the Verizon data leak http://www.darkreading.com/cloud/verizon-suffers-cloud-data-leak-exposing-data-on-millions-of-customers/ and a similar scenario concerning Dow Jones http://www.darkreading.com/cloud/dow-jones-data-leak-results-from-amazon-aws-configuration-error/ prompted me to do a little “poking around”. The basic misconfiguration in these cases was that the administrators of the AWS S3 buckets permitted read access to “Everyone” from anywhere. So really all someone had to do was find the S3 bucket and take whatever they wanted. The interesting thing is that AWS has changed the ACL configuration on S3 buckets pretty much right after the news of Dow Jones hit the main stream media.I started to think a little bit about this situation. If administrators make the mistake to leave sensitive information out on S3 buckets with anonymous read access could they make bigger mistakes? What if an administrator left an S3 bucket open with anonymous read/write access? All that someone would need to do is find the bucket, see if they could write to that bucket, figure out what it is used for, and then manipulate content for fun/profit.FYI – I will not post my code for bots/spidersFind S3 Buckets (one way out of many)Going through the net finding S3 buckets and testing them is painfully tedious if done manually and you would probably never find anything of use. You have to automate this process and the way I would go about doing this would be by creating a Spider.Create a simple spider that wonders through the web looking at the source code of webpages that have the following ‘src=’ tags.*.s3.amazonaws.com*.s3-[aws regions].amazonaws.comOnce the spider finds these URLs in the SRC tags have it dump the value, along with the page’s URL to a log file after checking for duplicate entries. That’s it … you found an S3 bucket … whoopee, note sarcasmIf you need help building a bot or spider pick up a book and learn. I recommend this one https://www.amazon.com/Webbots-Spiders-Screen-Scrapers-Developing/dp/1593273975/I will use CNN.com as an example. I found on the main page the S3 bucket http://s3.amazonaws.com/cnn-sponsored-contentCheck for Write Permissions (2 different ways)Get the ACLcurl [s3 bucket url]/?aclProbably the easiest and most detailed way to see if you can get anonymous write access is by reading the ACL. This has its drawbacks though as administrators could misconfigure the ACL for the bucket objects and have no access to read or write the ACL. In this case the bot would show that access is denied.The example from CNN.com gives us the ACL because “Everyone” has access to read the ACL (READ_ACP). You can see this listed at the bottom of the server’s response.&lt;URI&gt;http://acs.amazonaws.com/groups/global/AllUsers&lt;/URI&gt;&lt;/Grantee&gt;&lt;Permission&gt; WRITE&lt;/Permission&gt;Again we don’t want to have to go through all of this manually … you got a puter … use it. Write a simple script to monitor the log file for new entries. When a new S3 bucket URL is written to the log file the script just needs to request the ACL and check for write access. This can all be done with a combination of (you don’t need them all really) curl, grep, awk, and xmllint. Don’t know how to do it? Try google, I really do not want to provide all information for someone to launch a potentially malicious bot/spider.Just Try to Write to the BucketAnother way to test to see if you have write access to an S3 bucket is just to write to it. Create a simple txt file with a couple characters in it. Then use curl to upload it to the S3 bucket. If the connection ENDS with an HTTP/1.1 100 Continue then you have write access to the bucket.curl -v -H acl=public-read -H key=test.txt -T test.txt http://s3.amazonaws.com/cnn-sponsored-contentAbuse: What Does the Bucket ContainThis is where it gets a tad fun. So lets say that CNN had all their videos for their website hosted in an S3 bucket called cnn_video and we successfully wrote to http://s3.amazonaws.com/cnn_video Well if you have write access in S3 you also have delete access (at least it seems that way in my testing).So if the video http://s3.amazonaws.com/cnn_video/main.mp4 was linked in www.cnn.com/index.htm then all an attacker would have to do is use the AWS REST API to delete (http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectDELETE.html) the video in the bucket and replace it with whatever other video they wanted (just named the same). The attacker now has their video posted on CNN … hypothetically of course.Note:  All CNN links with the exception of the one S3 bucket are fictional  Yes, this was written quickly  Yes, this is incomplete  No, I will not give you the code for my spider">
+  <meta name="twitter:url" content="http://192.168.1.30:4000/AWS-S3-Misconfiguration-Discovery-and-Abuse.html">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2017-06-20T01:00:00-06:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://192.168.1.30:4000/AWS-S3-Misconfiguration-Discovery-and-Abuse.html">
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "RabbidByte",
+      "url": "http://192.168.1.30:4000/",
+      "sameAs": null
+    }
+  </script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="RabbidByte Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if IE ]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+
+    <!-- start custom head snippets -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/fav/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/fav/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/fav/favicon-16x16.png">
+<link rel="manifest" href="/assets/fav/site.webmanifest">
+<link rel="mask-icon" href="/assets/fav/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--splash">
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/"><img src="/assets/images/88x88.png" alt=""></a>
+        
+        <a class="site-title" href="/">RabbidByte</a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/index.html" >Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tools.html" >Tools</a>
+            </li><li class="masthead__menu-item">
+              <a href="/ctf.html" >CtF</a>
+            </li><li class="masthead__menu-item">
+              <a href="/resources.html" >Resources</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about.html" >About</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+<div id="main" role="main">
+  <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="AWS S3: Misconfiguration, Discovery, and Abuse">
+    <meta itemprop="description" content="SummaryRecent news of the Verizon data leak http://www.darkreading.com/cloud/verizon-suffers-cloud-data-leak-exposing-data-on-millions-of-customers/ and a similar scenario concerning Dow Jones http://www.darkreading.com/cloud/dow-jones-data-leak-results-from-amazon-aws-configuration-error/ prompted me to do a little “poking around”. The basic misconfiguration in these cases was that the administrators of the AWS S3 buckets permitted read access to “Everyone” from anywhere. So really all someone had to do was find the S3 bucket and take whatever they wanted. The interesting thing is that AWS has changed the ACL configuration on S3 buckets pretty much right after the news of Dow Jones hit the main stream media.I started to think a little bit about this situation. If administrators make the mistake to leave sensitive information out on S3 buckets with anonymous read access could they make bigger mistakes? What if an administrator left an S3 bucket open with anonymous read/write access? All that someone would need to do is find the bucket, see if they could write to that bucket, figure out what it is used for, and then manipulate content for fun/profit.FYI – I will not post my code for bots/spidersFind S3 Buckets (one way out of many)Going through the net finding S3 buckets and testing them is painfully tedious if done manually and you would probably never find anything of use. You have to automate this process and the way I would go about doing this would be by creating a Spider.Create a simple spider that wonders through the web looking at the source code of webpages that have the following ‘src=’ tags.*.s3.amazonaws.com*.s3-[aws regions].amazonaws.comOnce the spider finds these URLs in the SRC tags have it dump the value, along with the page’s URL to a log file after checking for duplicate entries. That’s it … you found an S3 bucket … whoopee, note sarcasmIf you need help building a bot or spider pick up a book and learn. I recommend this one https://www.amazon.com/Webbots-Spiders-Screen-Scrapers-Developing/dp/1593273975/I will use CNN.com as an example. I found on the main page the S3 bucket http://s3.amazonaws.com/cnn-sponsored-contentCheck for Write Permissions (2 different ways)Get the ACLcurl [s3 bucket url]/?aclProbably the easiest and most detailed way to see if you can get anonymous write access is by reading the ACL. This has its drawbacks though as administrators could misconfigure the ACL for the bucket objects and have no access to read or write the ACL. In this case the bot would show that access is denied.The example from CNN.com gives us the ACL because “Everyone” has access to read the ACL (READ_ACP). You can see this listed at the bottom of the server’s response.&lt;URI&gt;http://acs.amazonaws.com/groups/global/AllUsers&lt;/URI&gt;&lt;/Grantee&gt;&lt;Permission&gt; WRITE&lt;/Permission&gt;Again we don’t want to have to go through all of this manually … you got a puter … use it. Write a simple script to monitor the log file for new entries. When a new S3 bucket URL is written to the log file the script just needs to request the ACL and check for write access. This can all be done with a combination of (you don’t need them all really) curl, grep, awk, and xmllint. Don’t know how to do it? Try google, I really do not want to provide all information for someone to launch a potentially malicious bot/spider.Just Try to Write to the BucketAnother way to test to see if you have write access to an S3 bucket is just to write to it. Create a simple txt file with a couple characters in it. Then use curl to upload it to the S3 bucket. If the connection ENDS with an HTTP/1.1 100 Continue then you have write access to the bucket.curl -v -H acl=public-read -H key=test.txt -T test.txt http://s3.amazonaws.com/cnn-sponsored-contentAbuse: What Does the Bucket ContainThis is where it gets a tad fun. So lets say that CNN had all their videos for their website hosted in an S3 bucket called cnn_video and we successfully wrote to http://s3.amazonaws.com/cnn_video Well if you have write access in S3 you also have delete access (at least it seems that way in my testing).So if the video http://s3.amazonaws.com/cnn_video/main.mp4 was linked in www.cnn.com/index.htm then all an attacker would have to do is use the AWS REST API to delete (http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectDELETE.html) the video in the bucket and replace it with whatever other video they wanted (just named the same). The attacker now has their video posted on CNN … hypothetically of course.Note:  All CNN links with the exception of the one S3 bucket are fictional  Yes, this was written quickly  Yes, this is incomplete  No, I will not give you the code for my spider">
+    <meta itemprop="datePublished" content="June 20, 2017">
+    
+
+    <section class="page__content" itemprop="text">
+      <h2 id="summary">Summary</h2>
+
+<p>Recent news of the Verizon data leak <a href="http://www.darkreading.com/cloud/verizon-suffers-cloud-data-leak-exposing-data-on-millions-of-customers/">http://www.darkreading.com/cloud/verizon-suffers-cloud-data-leak-exposing-data-on-millions-of-customers/</a> and a similar scenario concerning Dow Jones <a href="http://www.darkreading.com/cloud/dow-jones-data-leak-results-from-amazon-aws-configuration-error/">http://www.darkreading.com/cloud/dow-jones-data-leak-results-from-amazon-aws-configuration-error/</a> prompted me to do a little “poking around”. The basic misconfiguration in these cases was that the administrators of the AWS S3 buckets permitted read access to “Everyone” from anywhere. So really all someone had to do was find the S3 bucket and take whatever they wanted. The interesting thing is that AWS has changed the ACL configuration on S3 buckets pretty much right after the news of Dow Jones hit the main stream media.</p>
+
+<p>I started to think a little bit about this situation. If administrators make the mistake to leave sensitive information out on S3 buckets with anonymous read access could they make bigger mistakes? What if an administrator left an S3 bucket open with anonymous read/write access? All that someone would need to do is find the bucket, see if they could write to that bucket, figure out what it is used for, and then manipulate content for fun/profit.</p>
+
+<p>FYI – I will not post my code for bots/spiders</p>
+
+<h2 id="find-s3-buckets-one-way-out-of-many">Find S3 Buckets (one way out of many)</h2>
+
+<p>Going through the net finding S3 buckets and testing them is painfully tedious if done manually and you would probably never find anything of use. You have to automate this process and the way I would go about doing this would be by creating a Spider.</p>
+
+<p>Create a simple spider that wonders through the web looking at the source code of webpages that have the following ‘src=’ tags.
+*.s3.amazonaws.com
+*.s3-[aws regions].amazonaws.com</p>
+
+<p>Once the spider finds these URLs in the SRC tags have it dump the value, along with the page’s URL to a log file after checking for duplicate entries. That’s it … you found an S3 bucket … whoopee, note sarcasm</p>
+
+<p>If you need help building a bot or spider pick up a book and learn. I recommend this one <a href="https://www.amazon.com/Webbots-Spiders-Screen-Scrapers-Developing/dp/1593273975/">https://www.amazon.com/Webbots-Spiders-Screen-Scrapers-Developing/dp/1593273975/</a></p>
+
+<p>I will use CNN.com as an example. I found on the main page the S3 bucket http://s3.amazonaws.com/cnn-sponsored-content</p>
+
+<h2 id="check-for-write-permissions-2-different-ways">Check for Write Permissions (2 different ways)</h2>
+
+<h3 id="get-the-acl">Get the ACL</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl [s3 bucket url]/?acl
+</code></pre></div></div>
+
+<p>Probably the easiest and most detailed way to see if you can get anonymous write access is by reading the ACL. This has its drawbacks though as administrators could misconfigure the ACL for the bucket objects and have no access to read or write the ACL. In this case the bot would show that access is denied.</p>
+
+<p><img src="/assets/images/aws2017/s3-00.png" alt="alt text" title="s3-00" /></p>
+
+<p>The example from CNN.com gives us the ACL because “Everyone” has access to read the ACL (READ_ACP). You can see this listed at the bottom of the server’s response.</p>
+
+<p><img src="/assets/images/aws2017/s3-01.png" alt="alt text" title="s3-01" /></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;URI&gt;http://acs.amazonaws.com/groups/global/AllUsers&lt;/URI&gt;&lt;/Grantee&gt;&lt;Permission&gt; WRITE&lt;/Permission&gt;
+</code></pre></div></div>
+
+<p>Again we don’t want to have to go through all of this manually … you got a puter … use it. Write a simple script to monitor the log file for new entries. When a new S3 bucket URL is written to the log file the script just needs to request the ACL and check for write access. This can all be done with a combination of (you don’t need them all really) curl, grep, awk, and xmllint. Don’t know how to do it? Try google, I really do not want to provide all information for someone to launch a potentially malicious bot/spider.</p>
+
+<h3 id="just-try-to-write-to-the-bucket">Just Try to Write to the Bucket</h3>
+
+<p>Another way to test to see if you have write access to an S3 bucket is just to write to it. Create a simple txt file with a couple characters in it. Then use curl to upload it to the S3 bucket. If the connection ENDS with an HTTP/1.1 100 Continue then you have write access to the bucket.</p>
+
+<p><img src="/assets/images/aws2017/s3-02.png" alt="alt text" title="s3-02" /></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -v -H acl=public-read -H key=test.txt -T test.txt http://s3.amazonaws.com/cnn-sponsored-content
+</code></pre></div></div>
+
+<p><img src="/assets/images/aws2017/s3-03.png" alt="alt text" title="s3-03" /></p>
+
+<h3 id="abuse-what-does-the-bucket-contain">Abuse: What Does the Bucket Contain</h3>
+
+<p>This is where it gets a tad fun. So lets say that CNN had all their videos for their website hosted in an S3 bucket called cnn_video and we successfully wrote to http://s3.amazonaws.com/cnn_video Well if you have write access in S3 you also have delete access (at least it seems that way in my testing).</p>
+
+<p>So if the video http://s3.amazonaws.com/cnn_video/main.mp4 was linked in www.cnn.com/index.htm then all an attacker would have to do is use the AWS REST API to delete (http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectDELETE.html) the video in the bucket and replace it with whatever other video they wanted (just named the same). The attacker now has their video posted on CNN … hypothetically of course.</p>
+
+<h3 id="note">Note:</h3>
+
+<ul>
+  <li>All CNN links with the exception of the one S3 bucket are fictional<br /></li>
+  <li>Yes, this was written quickly<br /></li>
+  <li>Yes, this is incomplete<br /></li>
+  <li>No, I will not give you the code for my spider<br /></li>
+</ul>
+
+    </section>
+  </article>
+</div>
+
+    </div>
+
+    
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2019 RabbidByte. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.7.1/js/all.js" integrity="sha384-eVEQC9zshBn0rFj4+TU78eNA19HMNigMviK/PU/FFjLXqa/GKPgX58rvt5Z8PLs7" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+  </body>
+</html>
