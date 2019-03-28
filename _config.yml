@@ -11,7 +11,6 @@
 # https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/#installing-the-theme
 
 # hostname
-host                     : 192.168.1.30
 
 # theme                    : "minimal-mistakes-jekyll@4.15.2"
 remote_theme             : "mmistakes/minimal-mistakes@4.15.2"
