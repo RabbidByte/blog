@@ -6,7 +6,7 @@ categories: Blog Misc
 permalink: /:title.html
 ---
 <br />
-![alt text](/blog/assets/images/HRF/HRF-768x280.jpg "HackRF Title")
+![alt text](/assets/images/HRF/HRF-768x280.jpg "HackRF Title")
 ## The Story
 Recently many different radio hacks (mousejack, drone hijacking) have hit the internet. This has spurred my interest in analogoue and digital radio. After some bindge shopping on the internet and a few days wait I have had some very nice toys show up. Once the new electronics smell and novelty of a new toy had worn off the frustration kicked in.
 
@@ -32,31 +32,31 @@ My recommendations for HackRF One:
 ```
 sudo dnf update
 ```
-![alt text](/blog/assets/images/HRF/hrf-01.png "hrf-01")
+![alt text](/assets/images/HRF/hrf-01.png "hrf-01")
 ```
 sudo dnf install kernel-devel-4.2.3-300.fc23.x86_64
 ```
 (Most likely not needed but I had to install to compile the VM additions)
-![alt text](/blog/assets/images/HRF/hrf-03.png "hrf-03")
+![alt text](/assets/images/HRF/hrf-03.png "hrf-03")
 ```
 sudo dnf install gnuradio
 ```
-![alt text](/blog/assets/images/HRF/hrf-04.png "hrf-04")
+![alt text](/assets/images/HRF/hrf-04.png "hrf-04")
 ```
 sudo dnf install gr-osmosdr
 ```
-![alt text](/blog/assets/images/HRF/hrf-05.png "hrf-05")
+![alt text](/assets/images/HRF/hrf-05.png "hrf-05")
 ```
 sudo dnf install gqrx
 ```
-![alt text](/blog/assets/images/HRF/hrf-06.png "hrf-06")
+![alt text](/assets/images/HRF/hrf-06.png "hrf-06")
 ```
 hackrf_info
 ```
 (Used to check if all is good)<br />
-![alt text](/blog/assets/images/HRF/hrf-07.png "hrf-07")
+![alt text](/assets/images/HRF/hrf-07.png "hrf-07")
 3. You are done … yup that’s it. Way easier than Pentoo.
-![alt text](/blog/assets/images/HRF/hrf-08.png "hrf-08")
+![alt text](/assets/images/HRF/hrf-08.png "hrf-08")
 
 ## Additional Reading
 

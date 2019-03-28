@@ -34,20 +34,20 @@ You must know beforehand which executibles you want send.  This is the downside.
 ## Images From Testing
 The command
 
-![alt text](/blog/assets/images/transhex/command.png "The Command")
+![alt text](/assets/images/transhex/command.png "The Command")
 
 The files
 
-![alt text](/blog/assets/images/transhex/file_listing.png "The Files")
+![alt text](/assets/images/transhex/file_listing.png "The Files")
 
 Scan the attachment (just to show that it was malicious)
 
-![alt text](/blog/assets/images/transhex/scan-1.png "Scan 1")
+![alt text](/assets/images/transhex/scan-1.png "Scan 1")
 
 Scan the malicious image
 
-![alt text](/blog/assets/images/transhex/scan-2.png "Scan 2")
+![alt text](/assets/images/transhex/scan-2.png "Scan 2")
 
 Extracting the package from the image
 
-![alt text](/blog/assets/images/transhex/zip.png "Zip")
+![alt text](/assets/images/transhex/zip.png "Zip")
