@@ -1,0 +1,14 @@
+# main links
+main:
+  # - title: "Quick-Start Guide"
+  #   url: https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
+  - title: "Posts"
+    url: /index.html
+  - title: "Tools"
+    url: /tools.html
+  - title: "CtF"
+    url: /ctf.html
+  - title: "Resources"
+    url: /resources.html
+  - title: "About"
+    url: /about.html
