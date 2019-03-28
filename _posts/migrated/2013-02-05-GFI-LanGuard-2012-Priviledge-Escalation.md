@@ -33,7 +33,7 @@ As previously mentioned there are some settings and requirements needed for this
 1. Attacker must have local admin on a windows box that is joined to the same domain as GFI. This is really not hard to get. If you don’t know how to get local admin just check Google.
 2. The administrator MUST have configured a Domain Account in the Auto Remediation Settings. The hack will be able to elevate privileges to the level of this account.
 
-![alt text](/assets/images/gfi/Login.png "Login")
+![alt text](/blog/assets/images/gfi/Login.png "Login")
 
 ## The Files
 listener.py

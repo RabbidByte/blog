@@ -91,23 +91,23 @@ This trick has worked since I started using it back about 5 or 6 years ago and c
 ## Images
 Installation Permissions
 
-![alt text](/assets/images/transhex/www_perm.png "permissions")
+![alt text](/blog/assets/images/transhex/www_perm.png "permissions")
 
 Main Server Page
 
-![alt text](/assets/images/transhex/server.png "server")
+![alt text](/blog/assets/images/transhex/server.png "server")
 
 Usage Images
 
-![alt text](/assets/images/transhex/usage_01.png "usage 01")
+![alt text](/blog/assets/images/transhex/usage_01.png "usage 01")
 
-![alt text](/assets/images/transhex/usage_02.png "usage 02")
+![alt text](/blog/assets/images/transhex/usage_02.png "usage 02")
 
-![alt text](/assets/images/transhex/usage_03.png "usage 03")
+![alt text](/blog/assets/images/transhex/usage_03.png "usage 03")
 
-![alt text](/assets/images/transhex/usage_04.png "usage 04")
+![alt text](/blog/assets/images/transhex/usage_04.png "usage 04")
 
-![alt text](/assets/images/transhex/usage_05.png "usage 05")
+![alt text](/blog/assets/images/transhex/usage_05.png "usage 05")
 
 ## Files
 [https://github.com/RabbidByte/TransHex](https://github.com/RabbidByte/TransHex)

@@ -154,10 +154,10 @@ tcpdump -i wlan1 -s 0 -e -vv -XX link[25] != 0x80 -w /root/Rogue-Sniff/capture
 3.     The best places to take advantage of wireless networks is in highly populated areas that do not have hotspots.  Think of a convention or parade.  Some people really what to get on the net, and you could even highjack their broadcasts … say they are probing for “linksys” why not rename your SSID?
 
 ## Images of My Project
-![alt text](/assets/images/mobile/1.png "1")
+![alt text](/blog/assets/images/mobile/1.png "1")
 
-![alt text](/assets/images/mobile/2.png "2")
+![alt text](/blog/assets/images/mobile/2.png "2")
 
-![alt text](/assets/images/mobile/3.png "3")
+![alt text](/blog/assets/images/mobile/3.png "3")
 
-![alt text](/assets/images/mobile/4.png "4")
+![alt text](/blog/assets/images/mobile/4.png "4")

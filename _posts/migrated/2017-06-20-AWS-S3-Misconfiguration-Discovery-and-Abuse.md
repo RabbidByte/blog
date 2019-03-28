@@ -40,7 +40,7 @@ Probably the easiest and most detailed way to see if you can get anonymous write
 
 The example from CNN.com gives us the ACL because “Everyone” has access to read the ACL (READ_ACP). You can see this listed at the bottom of the server’s response.
 
-![alt text](/assets/images/aws2017/s3-01.png "s3-01")
+![alt text](/blog/assets/images/aws2017/s3-01.png "s3-01")
 
 ```
 <URI>http://acs.amazonaws.com/groups/global/AllUsers</URI></Grantee><Permission> WRITE</Permission>
@@ -52,13 +52,13 @@ Again we don’t want to have to go through all of this manually … you got a p
 
 Another way to test to see if you have write access to an S3 bucket is just to write to it. Create a simple txt file with a couple characters in it. Then use curl to upload it to the S3 bucket. If the connection ENDS with an HTTP/1.1 100 Continue then you have write access to the bucket.
 
-![alt text](/assets/images/aws2017/s3-02.png "s3-02")
+![alt text](/blog/assets/images/aws2017/s3-02.png "s3-02")
 
 ```
 curl -v -H acl=public-read -H key=test.txt -T test.txt http://s3.amazonaws.com/cnn-sponsored-content
 ```
 
-![alt text](/assets/images/aws2017/s3-03.png "s3-03")
+![alt text](/blog/assets/images/aws2017/s3-03.png "s3-03")
 
 ### Abuse: What Does the Bucket Contain
 
