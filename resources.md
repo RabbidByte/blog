@@ -3,6 +3,13 @@ layout: splash
 author_profile: true
 permalink: /resources.html
 ---
+<br />
+## My GitHub Link Collection
+* [https://github.com/danielmiessler/SecLists](https://github.com/danielmiessler/SecLists)
+* [https://github.com/g0tmi1k](https://github.com/g0tmi1k)
+* [https://github.com/jhaddix](https://github.com/jhaddix)
+* [https://github.com/duyetdev/bruteforce-database](https://github.com/duyetdev/bruteforce-database)
+
 ## Education
 * [BlackHat](http://blackhat.com/)
 * [ISC2](https://www.isc2.org/)
