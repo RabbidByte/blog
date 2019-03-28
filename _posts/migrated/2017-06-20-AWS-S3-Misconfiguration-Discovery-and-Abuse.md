@@ -36,7 +36,7 @@ curl [s3 bucket url]/?acl
 
 Probably the easiest and most detailed way to see if you can get anonymous write access is by reading the ACL. This has its drawbacks though as administrators could misconfigure the ACL for the bucket objects and have no access to read or write the ACL. In this case the bot would show that access is denied.
 
-![alt text](/assets/images/aws2017/s3-00.png "s3-00")
+![alt text](/blog/assets/images/aws2017/s3-00.png "s3-00")
 
 The example from CNN.com gives us the ACL because “Everyone” has access to read the ACL (READ_ACP). You can see this listed at the bottom of the server’s response.
 
