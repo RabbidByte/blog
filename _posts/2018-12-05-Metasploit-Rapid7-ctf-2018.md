@@ -37,6 +37,6 @@ Using exploit/multi/http/struts2_code_exec_showcase you were able to pop a shell
 
 Pretty lame but expected for the amount of time I put into it.
 
-![alt text](/assets/images/msf-2018/results01.png "Results")<br />
-![alt text](/assets/images/msf-2018/results02.png "Results")<br />
-![alt text](/assets/images/msf-2018/results03.png "Results")<br />
+![alt text](/assets/images/msf-2018/results01.PNG "Results")<br />
+![alt text](/assets/images/msf-2018/results02.PNG "Results")<br />
+![alt text](/assets/images/msf-2018/results03.PNG "Results")<br />
