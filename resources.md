@@ -9,6 +9,7 @@ permalink: /resources.html
 * [https://github.com/g0tmi1k](https://github.com/g0tmi1k)
 * [https://github.com/jhaddix](https://github.com/jhaddix)
 * [https://github.com/duyetdev/bruteforce-database](https://github.com/duyetdev/bruteforce-database)
+* [https://github.com/cure53](https://github.com/cure53)
 
 ## Education
 * [BlackHat](http://blackhat.com/)
