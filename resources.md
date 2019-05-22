@@ -5,11 +5,13 @@ permalink: /resources.html
 ---
 <br />
 ## My GitHub Link Collection
+* [https://github.com/trimstray/the-book-of-secret-knowledge](https://github.com/trimstray/the-book-of-secret-knowledge)
 * [https://github.com/danielmiessler/SecLists](https://github.com/danielmiessler/SecLists)
 * [https://github.com/g0tmi1k](https://github.com/g0tmi1k)
 * [https://github.com/jhaddix](https://github.com/jhaddix)
 * [https://github.com/duyetdev/bruteforce-database](https://github.com/duyetdev/bruteforce-database)
 * [https://github.com/cure53](https://github.com/cure53)
+* [https://github.com/orangetw/awesome-jenkins-rce-2019](https://github.com/orangetw/awesome-jenkins-rce-2019)
 
 ## Education
 * [BlackHat](http://blackhat.com/)
