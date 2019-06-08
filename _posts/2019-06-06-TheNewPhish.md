@@ -17,9 +17,9 @@ The initial hyperlink went to https://[redacted]/some/directory/redirect.aspx?ur
 
 ![alt text](/assets/images/phish/phish-02.PNG "phish-02")
 
-The login page is crazy neat!  It is a real Microsoft login page with an additional gotcha.  During the login process it adds an extra POST that sends the entered username and password to the attacker's server.  
-
 ![alt text](/assets/images/phish/phish-03.PNG "phish-03")
+
+The login page is crazy neat!  It is a real Microsoft login page with an additional gotcha.  During the login process it adds an extra POST that sends the entered username and password to the attacker's server.  
 
 ![alt text](/assets/images/phish/phish-04.PNG "phish-04")
 
