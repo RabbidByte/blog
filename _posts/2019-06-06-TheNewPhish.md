@@ -5,7 +5,7 @@ date: 2019-06-06 00:00:00 -0700
 categories: Blog
 permalink: /:title.html
 ---
-## Microsoft platfor for Phishing ... Microsoft
+## Microsoft platform for Phishing ... Microsoft
 
 Scams and phishing are continually getting more creative, and today I came across one phishing attack that really kinda amazed me.  The attack uses a legitimate Microsoft login page that will POST credentials to a malicious server.  I have not seen anything like this in the past so I thought that it would definitely be worth looking into.
 
