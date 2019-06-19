@@ -10,6 +10,7 @@ permalink: /resources.html
 * [https://github.com/g0tmi1k](https://github.com/g0tmi1k)
 * [https://github.com/jhaddix](https://github.com/jhaddix)
 * [https://github.com/duyetdev/bruteforce-database](https://github.com/duyetdev/bruteforce-database)
+* [https://github.com/nahamsec/JSParser](https://github.com/nahamsec/JSParser)
 * [https://github.com/cure53](https://github.com/cure53)
 * [https://github.com/orangetw/awesome-jenkins-rce-2019](https://github.com/orangetw/awesome-jenkins-rce-2019)
 
