@@ -1,9 +1,7 @@
 ---
-layout: splash
 title: "HackRF: The easy way"
 date: 2016-04-01 00:00:00 -0700
 categories: Blog Misc
-permalink: /:title.html
 ---
 <br />
 ![alt text](/assets/images/HRF/HRF-768x280.jpg "HackRF Title")

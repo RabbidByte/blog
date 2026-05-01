@@ -1,9 +1,7 @@
 ---
-layout: splash
 title: "GFI LanGuard 2012 Priviledge Escalation"
 date: 2013-02-05 00:00:00 -0700
 categories: Blog Tools
-permalink: /:title.html
 ---
 ## Download
 

@@ -1,9 +1,7 @@
 ---
-layout: splash
 title: "The New Phish"
 date: 2019-06-06 00:00:00 -0700
 categories: Blog
-permalink: /:title.html
 ---
 ## Microsoft platform for Phishing ... Microsoft
 
