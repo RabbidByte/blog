@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AWS S3: Misconfiguration, Discovery, and Abuse – RabbidByte</title>
+  <meta name="description" content="AWS S3: Misconfiguration, Discovery, and Abuse">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/fav/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/fav/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/fav/favicon-16x16.png">
+  <link rel="manifest" href="/assets/fav/site.webmanifest">
+  <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+<nav class="site-nav" role="navigation">
+  <div class="nav-inner">
+    <a href="/index.html" class="nav-brand">RabbidByte</a>
+    <ul class="nav-links" role="list">
+      <li><a href="/index.html">Posts</a></li>
+      <li><a href="/tools.html">Tools</a></li>
+      <li><a href="/ctf.html">CtF</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+    <details class="nav-mobile">
+      <summary class="nav-toggle">&#9776;</summary>
+      <ul class="nav-dropdown" role="list">
+        <li><a href="/index.html">Posts</a></li>
+        <li><a href="/tools.html">Tools</a></li>
+        <li><a href="/ctf.html">CtF</a></li>
+        <li><a href="/resources.html">Resources</a></li>
+        <li><a href="/about.html">About</a></li>
+      </ul>
+    </details>
+  </div>
+</nav>
+<div class="page-wrap">
+<div class="post-wrap">
+  <header class="post-header">
+    <div class="post-tags-top"><span class="post-tag">Blog</span><span class="post-tag">Misc</span></div>
+    <h1 class="post-title">AWS S3: Misconfiguration, Discovery, and Abuse</h1>
+    <div class="post-meta-bar"><span>June 20, 2017</span></div>
+  </header>
+  <div class="post-content">
+<h2>Summary</h2>
+<p>Recent news of the Verizon data leak <a href="http://www.darkreading.com/cloud/verizon-suffers-cloud-data-leak-exposing-data-on-millions-of-customers/">http://www.darkreading.com/cloud/verizon-suffers-cloud-data-leak-exposing-data-on-millions-of-customers/</a> and a similar scenario concerning Dow Jones <a href="http://www.darkreading.com/cloud/dow-jones-data-leak-results-from-amazon-aws-configuration-error/">http://www.darkreading.com/cloud/dow-jones-data-leak-results-from-amazon-aws-configuration-error/</a> prompted me to do a little “poking around”. The basic misconfiguration in these cases was that the administrators of the AWS S3 buckets permitted read access to “Everyone” from anywhere. So really all someone had to do was find the S3 bucket and take whatever they wanted. The interesting thing is that AWS has changed the ACL configuration on S3 buckets pretty much right after the news of Dow Jones hit the main stream media.</p>
+<p>I started to think a little bit about this situation. If administrators make the mistake to leave sensitive information out on S3 buckets with anonymous read access could they make bigger mistakes? What if an administrator left an S3 bucket open with anonymous read/write access? All that someone would need to do is find the bucket, see if they could write to that bucket, figure out what it is used for, and then manipulate content for fun/profit.</p>
+<p>FYI – I will not post my code for bots/spiders</p>
+<h2>Find S3 Buckets (one way out of many)</h2>
+<p>Going through the net finding S3 buckets and testing them is painfully tedious if done manually and you would probably never find anything of use. You have to automate this process and the way I would go about doing this would be by creating a Spider.</p>
+<p>Create a simple spider that wonders through the web looking at the source code of webpages that have the following ‘src=’ tags. *.s3.amazonaws.com *.s3-[aws regions].amazonaws.com</p>
+<p>Once the spider finds these URLs in the SRC tags have it dump the value, along with the page’s URL to a log file after checking for duplicate entries. That’s it … you found an S3 bucket … whoopee, note sarcasm</p>
+<p>If you need help building a bot or spider pick up a book and learn. I recommend this one <a href="https://www.amazon.com/Webbots-Spiders-Screen-Scrapers-Developing/dp/1593273975/">https://www.amazon.com/Webbots-Spiders-Screen-Scrapers-Developing/dp/1593273975/</a></p>
+<p>I will use CNN.com as an example. I found on the main page the S3 bucket http://s3.amazonaws.com/cnn-sponsored-content</p>
+<h2>Check for Write Permissions (2 different ways)</h2>
+<h3>Get the ACL</h3>
+<pre><code>curl [s3 bucket url]/?acl</code></pre>
+<p>Probably the easiest and most detailed way to see if you can get anonymous write access is by reading the ACL. This has its drawbacks though as administrators could misconfigure the ACL for the bucket objects and have no access to read or write the ACL. In this case the bot would show that access is denied.</p>
+<p><img src="/assets/images/aws2017/s3-00.png" alt="alt text"></p>
+<p>The example from CNN.com gives us the ACL because “Everyone” has access to read the ACL (READ_ACP). You can see this listed at the bottom of the server’s response.</p>
+<p><img src="/assets/images/aws2017/s3-01.png" alt="alt text"></p>
+<pre><code>&lt;URI&gt;http://acs.amazonaws.com/groups/global/AllUsers&lt;/URI&gt;&lt;/Grantee&gt;&lt;Permission&gt; WRITE&lt;/Permission&gt;</code></pre>
+<p>Again we don’t want to have to go through all of this manually … you got a puter … use it. Write a simple script to monitor the log file for new entries. When a new S3 bucket URL is written to the log file the script just needs to request the ACL and check for write access. This can all be done with a combination of (you don’t need them all really) curl, grep, awk, and xmllint. Don’t know how to do it? Try google, I really do not want to provide all information for someone to launch a potentially malicious bot/spider.</p>
+<h3>Just Try to Write to the Bucket</h3>
+<p>Another way to test to see if you have write access to an S3 bucket is just to write to it. Create a simple txt file with a couple characters in it. Then use curl to upload it to the S3 bucket. If the connection ENDS with an HTTP/1.1 100 Continue then you have write access to the bucket.</p>
+<p><img src="/assets/images/aws2017/s3-02.png" alt="alt text"></p>
+<pre><code>curl -v -H acl=public-read -H key=test.txt -T test.txt http://s3.amazonaws.com/cnn-sponsored-content</code></pre>
+<p><img src="/assets/images/aws2017/s3-03.png" alt="alt text"></p>
+<h3>Abuse: What Does the Bucket Contain</h3>
+<p>This is where it gets a tad fun. So lets say that CNN had all their videos for their website hosted in an S3 bucket called cnn_video and we successfully wrote to http://s3.amazonaws.com/cnn_video Well if you have write access in S3 you also have delete access (at least it seems that way in my testing).</p>
+<p>So if the video http://s3.amazonaws.com/cnn_video/main.mp4 was linked in www.cnn.com/index.htm then all an attacker would have to do is use the AWS REST API to delete (http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectDELETE.html) the video in the bucket and replace it with whatever other video they wanted (just named the same). The attacker now has their video posted on CNN … hypothetically of course.</p>
+<h3>Note:</h3>
+<ul>
+<li>All CNN links with the exception of the one S3 bucket are fictional<br /></li>
+<li>Yes, this was written quickly<br /></li>
+<li>Yes, this is incomplete<br /></li>
+<li>No, I will not give you the code for my spider<br /></li>
+</ul>
+  </div>
+</div>
+</div>
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-brand"><span>RabbidByte</span> &mdash; RabbidByte's Random Bytes</div>
+    <ul class="footer-nav" role="list">
+      <li><a href="/index.html">Posts</a></li>
+      <li><a href="/tools.html">Tools</a></li>
+      <li><a href="/ctf.html">CtF</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+  </div>
+  <p class="footer-copy">&copy; 2026 RabbidByte. All rights reserved.</p>
+</footer>
+</body>
+</html>

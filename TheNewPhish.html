@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 – RabbidByte</title>
-  <meta name="description" content="Page not found">
+  <title>The New Phish – RabbidByte</title>
+  <meta name="description" content="The New Phish">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
@@ -38,11 +38,25 @@
   </div>
 </nav>
 <div class="page-wrap">
-<div class="post-wrap" style="text-align:center; padding:8rem 2rem;">
-  <p class="hero-tag">// error</p>
-  <h1 class="post-title" style="font-size:4rem;">404</h1>
-  <p style="color:var(--text-dim); margin-bottom:2rem;">Page not found.</p>
-  <a href="/index.html" class="card-link" style="justify-content:center;">&larr; Back to home</a>
+<div class="post-wrap">
+  <header class="post-header">
+    <div class="post-tags-top"><span class="post-tag">Blog</span></div>
+    <h1 class="post-title">The New Phish</h1>
+    <div class="post-meta-bar"><span>June 06, 2019</span></div>
+  </header>
+  <div class="post-content">
+<h2>Microsoft platform for Phishing ... Microsoft</h2>
+<p>Scams and phishing are continually getting more creative, and today I came across one phishing attack that really kinda amazed me.  The attack uses a legitimate Microsoft login page that will POST credentials to a malicious server.  I have not seen anything like this in the past so I thought that it would definitely be worth looking into.</p>
+<p>The attack starts as most do ... an email.  The subject line is "Unblock Messages for [email address]" and the email claims that the portal (labeled by the email's domain) has blocked some emails and that the user must release them.  The phishing email is not very convincing as it starts with Dear [username] and finishes with Regards, [domain] among other red flags.  But the URL is where things get quite interesting.</p>
+<p><img src="/assets/images/phish/phish-01.PNG" alt="alt text"></p>
+<p>The initial hyperlink went to https://[redacted]/some/directory/redirect.aspx?url=https://[redacted].z6.web.core.windows.net/?username=anemailaddress  The attack initially uses an open redirect vulnerability on a website to push the user to a Microsoft login page.  This bypasses most if not all URL rewriting controls on emails and gets the user to the "payload" page.</p>
+<p><img src="/assets/images/phish/phish-02.PNG" alt="alt text"></p>
+<p><img src="/assets/images/phish/phish-03.PNG" alt="alt text"></p>
+<p>The login page is crazy neat!  It is a real Microsoft login page with an additional gotcha.  During the login process it adds an extra POST that sends the entered username and password to the attacker's server.</p>
+<p><img src="/assets/images/phish/phish-04.PNG" alt="alt text"></p>
+<p><img src="/assets/images/phish/phish-05.PNG" alt="alt text"></p>
+<p><img src="/assets/images/phish/phish-06.PNG" alt="alt text"></p>
+  </div>
 </div>
 </div>
 <footer class="site-footer" role="contentinfo">

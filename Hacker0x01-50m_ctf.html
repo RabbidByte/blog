@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hacker0x01 50m_ctf – RabbidByte</title>
+  <meta name="description" content="Hacker0x01 50m_ctf">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/fav/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/fav/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/fav/favicon-16x16.png">
+  <link rel="manifest" href="/assets/fav/site.webmanifest">
+  <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+<nav class="site-nav" role="navigation">
+  <div class="nav-inner">
+    <a href="/index.html" class="nav-brand">RabbidByte</a>
+    <ul class="nav-links" role="list">
+      <li><a href="/index.html">Posts</a></li>
+      <li><a href="/tools.html">Tools</a></li>
+      <li><a href="/ctf.html">CtF</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+    <details class="nav-mobile">
+      <summary class="nav-toggle">&#9776;</summary>
+      <ul class="nav-dropdown" role="list">
+        <li><a href="/index.html">Posts</a></li>
+        <li><a href="/tools.html">Tools</a></li>
+        <li><a href="/ctf.html">CtF</a></li>
+        <li><a href="/resources.html">Resources</a></li>
+        <li><a href="/about.html">About</a></li>
+      </ul>
+    </details>
+  </div>
+</nav>
+<div class="page-wrap">
+<div class="post-wrap">
+  <header class="post-header">
+    <div class="post-tags-top"><span class="post-tag">Blog</span><span class="post-tag">CtF</span></div>
+    <h1 class="post-title">Hacker0x01 50m_ctf</h1>
+    <div class="post-meta-bar"><span>March 27, 2019</span></div>
+  </header>
+  <div class="post-content">
+<br>
+<p><img src="/assets/images/50mCTF/main.png" alt="alt text"></p>
+<h2>Introduction</h2>
+<p>So I have never done write-ups for CtF's before but I am taking the information that I have and putting it all together in some posts.  This post and CtF posts before this date are going to be lacking as I never intended to write them up for a blog so don't be suprised when they don't meet your expectations.</p>
+<h2>Summary:</h2>
+<h3>Discovery of the application:</h3>
+<p>The h1Thermostat application was discovered by extracting the bit.do URL from the image at <a href="https://pbs.twimg.com/media/D0XoThpW0AE2r8S.png:large">https://pbs.twimg.com/media/D0XoThpW0AE2r8S.png:large</a>. The URL <a href="https://bit.do/h1therm">https://bit.do/h1therm</a> then led to a Google Drive where the Android application file (h1thermostat.apk) could be downloaded <a href="https://drive.google.com/file/d/1u5Mg1xKJMrW4DMGaWtBZ1TJKPdvqCWdJ/view">https://drive.google.com/file/d/1u5Mg1xKJMrW4DMGaWtBZ1TJKPdvqCWdJ/view</a>.</p>
+<p><img src="/assets/images/50mCTF/png_steg.png" alt="alt text"></p>
+<h3>Disassembly of the APK</h3>
+<p>The file h1thermostat.apk was loaded into the Android SDK for analysis. The thermostat application requested a username and password to access the services. The APK code was extracted and it was found that the system would proceed past the login screen if the server responded with ”success”:true in a JSON object.</p>
+<h3>Use of default/weak administrative credentials:</h3>
+<p>The thermostat application was loaded into the Android SDK and executed. When the application started it requested a username and password to access the services. The application accepted the credentials:</p>
+<p>Username: admin</p>
+<p>Password: password</p>
+<p>Although some luck is involved in guessing this username and password combination it can easily be automated as there is no rate limiting or account lockout enabled on the application.</p>
+<p><img src="/assets/images/50mCTF/weak_creds.png" alt="alt text"></p>
+<h3>SQL Injection Vulnerability</h3>
+<p>Looking into the APK code further using jadx-gui the LoginActivity class calls the PayloadRequest class when a user signs in. The process takes the username and password and combines it with a command field in a JSON object. The login JSON object contains the username, password, and command field.</p>
+<pre><code>({“password”:”password”, “username”:”admin”,”cmd”:”getTemp”})</code></pre>
+<p>This text string is then encrypted with AES/CBC/PKCS5 and then ran through a base64 encoder. The server (35.243.186.41) then checks the credentials and replies with an encrypted JSON object</p>
+<pre><code>({“success”:true,”temperature”:73})</code></pre>
+<p>It was found that the field “username” in the JSON object was vulnerable to an SQLi attack. A custom Java application was written that would create a JSON object with the desired fields filled in and parse the server’s response. The SQLi vulnerability was blind, meaning that inference was needed to determine what was happening on the server side. It was found that when the success field in the JSON object was true the SQL query completed successfully. When the query was incorrect and failed the sever responded with success as false and the error was “Unknown”. Finally, if the query completed successfully but it returned 0 rows, success would be false and the error that was returned is “Invalid username or password”.</p>
+<p>Using the different error messages returned by the server the SQLi vulnerability could be exploited to dump contents from the database. A custom <a href="https://github.com/RabbidByte/h1heat">Java application</a> was written to pull the information out of the database using the following queries with the password of “password”:</p>
+<pre><code>admin' AND user() LIKE ‘%’;--
+admin' AND (database()) LIKE ‘%’;--
+admin' AND (SELECT table_name FROM information_schema.tables WHERE table_schema=database() LIMIT 1 OFFSET 1") LIKE '%’;--
+admin' AND (SELECT column_name FROM information_schema.columns WHERE table_schema=database() AND table_name='users' LIMIT 1 OFFSET 1) LIKE '%’;--
+admin' AND (SELECT password FROM users LIMIT 1 OFFSET 0) LIKE '%’;--</code></pre>
+<p>The Java application would cycle through every printable character until a right answer was found. Once the first character was found the next character would be attacked. This would continue until the end of the string.</p>
+<p><img src="/assets/images/50mCTF/sqli.png" alt="alt text"></p>
+<h3>Information Disclosure:</h3>
+<p>The users table holds a single record. The id is 1, the username is admin, and the password is 5f4dcc3b5aa765d61d8327deb882cf99. It was found that the data stored in the password field is an md5 hash of the word “password”. If there were more accounts stored in the table these could easily be reversed using various methods.</p>
+<p>Once the devices table was dumped it was found that all IP addresses in the devices table were in reserved blocks and unrouteable. These addresses fell within the following ranges except for the record with the id 85.</p>
+<ul>
+<li>10.0.0.0–10.255.255.255</li>
+<li>100.64.0.0–100.127.255.255</li>
+<li>127.0.0.0–127.255.255.255</li>
+<li>169.254.0.0–169.254.255.255</li>
+<li>172.16.0.0–172.31.255.255</li>
+<li>192.0.0.0–192.0.0.255</li>
+<li>192.0.2.0–192.0.2.255</li>
+<li>192.88.99.0–192.88.99.255</li>
+<li>192.168.0.0–192.168.255.255</li>
+<li>198.18.0.0–198.19.255.255</li>
+<li>198.51.100.0–198.51.100.255</li>
+<li>203.0.113.0–203.0.113.255</li>
+<li>224.0.0.0–239.255.255.255</li>
+<li>240.0.0.0–255.255.255.254</li>
+<li>255.255.255.255</li>
+</ul>
+<p>The record with the id “85” in the devices table had an IP address of 104.196.12.98. This was the only accessible IP address in the table. When the address was visited with a web browser it displayed an administrative login page for “FliteThermostat”.</p>
+<p>*shitty image from cellphone, sorry.* <img src="/assets/images/50mCTF/login.jpg" alt="alt text"></p>
+<h3>Timing Attack:</h3>
+<p>The JavaScript used to send the username and password from the webpage to the server took the user inputted values and combined them with the hex characters ‘\x05\x00\x06’ between the two values. Once this string was created it was ran through a custom “hashing” function and sent off to the server for authentication.</p>
+<p>It was found through running a dictionary type attack that some responses from the server were much slower than others. This indicated that the hash could be cracked using a timing attack (and a helpful push in the right direction by 0xc0ffee).</p>
+<p>The hash was broken by brute forcing the string by two hexadecimal characters (1 byte) at a time and observing response times from the server. The longer response time that was received it was determined that the more likely the two characters were the next in the series of the string. The attack started with a series of 64 “0”’s and was brought down to the actual string using the response times from the server. After all 255 possible combinations were sent to the server the top 10 – 15 strings were replayed to eliminate false positives. When the string was found to replicate the same response time the process was started again on the next two characters.</p>
+<p><img src="/assets/images/50mCTF/hash.png" alt="alt text"></p>
+<p>The best results were found to be from a virtual machine replaying the POST with Burp although very slow. Settings were configured to only a single thread with 25 milliseconds for throttle. Once again this could be made more difficult by adding a rate limiting or account lockout control within the system.</p>
+<pre><code>f9865a4952a4f5d74b43f3558fed6a0225c6877fba60a250bcbde753f5db13d8</code></pre>
+<p>The hash was then sent to the server and the response gave a redirect and a Session ID. The session ID was added to a browser with the console command</p>
+<pre><code>javascript:void(document.cookie=-“SessionID=valuereturnedbyserver”);</code></pre>
+<p>and this enabled access to the web application showing the pages: control, main, update, and diagnostics.</p>
+<p>*another shitty cellphone picture, sorry.* <img src="/assets/images/50mCTF/loggedin.jpg" alt="alt text"></p>
+<h3>Thermostat Update Page:</h3>
+<p>The thermostat page was intended to download and install updates for the application. It was found that the port where the server was sending requests to could be changed by sending the parameter PORT=[port#] in the URL. After a portscan of 65,535 ports on the system and multiple other attempts I ran out of time here.</p>
+<p>This CtF was amazing and I would like to thank everyone who helped build it! I learnt so much in this experience including probably the most important lesson of not jumping on the first vulnerability and thinking it is the end. This will help me in future CtF’s and more importantly in bounty hunting.</p>
+<h2>The CtF Source</h2>
+<p><a href="https://github.com/Hacker0x01/FliteCTF">https://github.com/Hacker0x01/FliteCTF</a></p>
+<h2>Better Write-Ups than mine</h2>
+<ul>
+<li><a href="https://github.com/manoelt/50M_CTF_Writeup">https://github.com/manoelt/50M_CTF_Writeup</a></li>
+<li><a href="https://ajxchapman.github.io/security/2019/03/26/h1-702-ctf-2019.html">https://ajxchapman.github.io/security/2019/03/26/h1-702-ctf-2019.html</a></li>
+<li><a href="https://abdilahrf.github.io/hackerone/h1-702/writeup-hackerone-50m-ctf-h1-702">https://abdilahrf.github.io/hackerone/h1-702/writeup-hackerone-50m-ctf-h1-702</a></li>
+<li><a href="http://0xc0ffee.io/blog/50M-CTF">http://0xc0ffee.io/blog/50M-CTF</a></li>
+</ul>
+  </div>
+</div>
+</div>
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-brand"><span>RabbidByte</span> &mdash; RabbidByte's Random Bytes</div>
+    <ul class="footer-nav" role="list">
+      <li><a href="/index.html">Posts</a></li>
+      <li><a href="/tools.html">Tools</a></li>
+      <li><a href="/ctf.html">CtF</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+  </div>
+  <p class="footer-copy">&copy; 2026 RabbidByte. All rights reserved.</p>
+</footer>
+</body>
+</html>

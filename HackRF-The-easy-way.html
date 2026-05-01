@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HackRF: The easy way – RabbidByte</title>
+  <meta name="description" content="HackRF: The easy way">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/fav/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/fav/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/fav/favicon-16x16.png">
+  <link rel="manifest" href="/assets/fav/site.webmanifest">
+  <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+<nav class="site-nav" role="navigation">
+  <div class="nav-inner">
+    <a href="/index.html" class="nav-brand">RabbidByte</a>
+    <ul class="nav-links" role="list">
+      <li><a href="/index.html">Posts</a></li>
+      <li><a href="/tools.html">Tools</a></li>
+      <li><a href="/ctf.html">CtF</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+    <details class="nav-mobile">
+      <summary class="nav-toggle">&#9776;</summary>
+      <ul class="nav-dropdown" role="list">
+        <li><a href="/index.html">Posts</a></li>
+        <li><a href="/tools.html">Tools</a></li>
+        <li><a href="/ctf.html">CtF</a></li>
+        <li><a href="/resources.html">Resources</a></li>
+        <li><a href="/about.html">About</a></li>
+      </ul>
+    </details>
+  </div>
+</nav>
+<div class="page-wrap">
+<div class="post-wrap">
+  <header class="post-header">
+    <div class="post-tags-top"><span class="post-tag">Blog</span><span class="post-tag">Misc</span></div>
+    <h1 class="post-title">HackRF: The easy way</h1>
+    <div class="post-meta-bar"><span>April 01, 2016</span></div>
+  </header>
+  <div class="post-content">
+<br>
+<p><img src="/assets/images/HRF/HRF-768x280.jpg" alt="alt text"></p>
+<h2>The Story</h2>
+<p>Recently many different radio hacks (mousejack, drone hijacking) have hit the internet. This has spurred my interest in analogoue and digital radio. After some bindge shopping on the internet and a few days wait I have had some very nice toys show up. Once the new electronics smell and novelty of a new toy had worn off the frustration kicked in.</p>
+<p>RTL-SDR is a dirt cheap way to start playing with radio using the RTL2832U chipset. I like to do things right when I start a project so I decided to purchase a nice SDR hardware transciever that would provide all the functionality needed without breaking the bank. Enter the HackRF One from <a href="https://greatscottgadgets.com/hackrf/">Great Scott Gadgets</a>.</p>
+<p>Now wanting to get up and running with this device ASAP I followed the recommendation from Michael Ossmann <a href="https://greatscottgadgets.com/sdr/1/">https://greatscottgadgets.com/sdr/1/</a> and downloaded Pentoo Linux. This distro with the disposable laptop that I had dedicated to radio caused ALL my frustration. First off new inexpensive laptops now all come with Windows 10 … I like to keep that around for convenience. So I shrunk the partition and started the install of Pentoo. Now this HP laptop has the WORST BIOS I have ever come across. The ability to enable legacy booting is there but it lacks the option to set priority between UEFI and Legacy. Solution: Troubleshooting reboot to UEFI device from Windows EVERY TIME, then crash the boot process with USB drive, then the BIOS will let you select an OS from the MBR … so bloody painful!</p>
+<p>Finally I am logged into Pentoo … no network … and video keeps crapping out. I felt like I was working on a linux system back in 1999 hunting for drivers. Let’s make this part of the story short shall we? After about 5 hours of messing with this crap Gentoo distro and not being able to get openGL running right I almost chucked the laptop across the room. Why spend all this time trying to make a piece of junk like Gentoo working when the time could be spent building a proper box with support for HackRF?</p>
+<p>ENTER Fedora 23, yes I would much rather run RedHat however I am too cheap to pay for a subscription. I could not believe how streamlined it is to get HackRF going in Fedora so I decided to write this to save others time and pain with a crappy ass Gentoo distro. Oh and did I mention that Fedora 23 has UEFI support? Makes everything so much nicer.</p>
+<p>This is not the officially recommended way to install gnuradio. I encountered issues with PyBOMBS and version numbers. This supposedly was fixed <a href="https://github.com/gnuradio/pybombs/pull/246">https://github.com/gnuradio/pybombs/pull/246</a> although it didn’t work for me. I decided to go with dnf and see what I could do with the repositories and was pleasantly surprised.</p>
+<p>My recommendations for HackRF One: ..* DON’T use Pentoo ..* Screen shots and build done on a VM, don’t do this. Load onto your hardware so that you can take advantage of the high USB speeds of the HackRF One ..* Install gqrx with Fedora. Not needed but very useful.</p>
+<h2>BUILD</h2>
+<ol>
+<li>Perform a normal installation of Fedora 23 Workstation</li>
+<li>Open the CLI and run the following:</li>
+</ol>
+<pre><code>sudo dnf update</code></pre>
+<p><img src="/assets/images/HRF/hrf-01.png" alt="alt text"></p>
+<pre><code>sudo dnf install kernel-devel-4.2.3-300.fc23.x86_64</code></pre>
+<p>(Most likely not needed but I had to install to compile the VM additions) <img src="/assets/images/HRF/hrf-03.png" alt="alt text"></p>
+<pre><code>sudo dnf install gnuradio</code></pre>
+<p><img src="/assets/images/HRF/hrf-04.png" alt="alt text"></p>
+<pre><code>sudo dnf install gr-osmosdr</code></pre>
+<p><img src="/assets/images/HRF/hrf-05.png" alt="alt text"></p>
+<pre><code>sudo dnf install gqrx</code></pre>
+<p><img src="/assets/images/HRF/hrf-06.png" alt="alt text"></p>
+<pre><code>hackrf_info</code></pre>
+<p>(Used to check if all is good)<br /> <img src="/assets/images/HRF/hrf-07.png" alt="alt text"></p>
+<ol>
+<li>You are done … yup that’s it. Way easier than Pentoo.</li>
+</ol>
+<p><img src="/assets/images/HRF/hrf-08.png" alt="alt text"></p>
+<h2>Additional Reading</h2>
+<p><a href="http://www.amazon.com/The-Hobbyists-Guide-RTL-SDR-Software-ebook/dp/B00KCDF1QI">The Hobbyist’s Guide to the RTL-SDR: Really Cheap Software Defined Radio</a></p>
+<p><a href="http://www.arrl.org/files/file/Technology/tis/info/pdf/020708qex013.pdf">A Software-Defined Radio for the Masses, Part 1</a></p>
+<p><a href="http://www.eas.uccs.edu/~mwickert/ece4670/lecture_notes/Lab6.pdf">ECE 4670 Spring 2014 Lab 6 Software Defined Radio and the RTL-SDR USB Dongle</a></p>
+  </div>
+</div>
+</div>
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-brand"><span>RabbidByte</span> &mdash; RabbidByte's Random Bytes</div>
+    <ul class="footer-nav" role="list">
+      <li><a href="/index.html">Posts</a></li>
+      <li><a href="/tools.html">Tools</a></li>
+      <li><a href="/ctf.html">CtF</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+  </div>
+  <p class="footer-copy">&copy; 2026 RabbidByte. All rights reserved.</p>
+</footer>
+</body>
+</html>

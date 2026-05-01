@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Metasploit/Rapid7 CtF: 2018 – RabbidByte</title>
+  <meta name="description" content="Metasploit/Rapid7 CtF: 2018">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/fav/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/fav/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/fav/favicon-16x16.png">
+  <link rel="manifest" href="/assets/fav/site.webmanifest">
+  <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+<nav class="site-nav" role="navigation">
+  <div class="nav-inner">
+    <a href="/index.html" class="nav-brand">RabbidByte</a>
+    <ul class="nav-links" role="list">
+      <li><a href="/index.html">Posts</a></li>
+      <li><a href="/tools.html">Tools</a></li>
+      <li><a href="/ctf.html">CtF</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+    <details class="nav-mobile">
+      <summary class="nav-toggle">&#9776;</summary>
+      <ul class="nav-dropdown" role="list">
+        <li><a href="/index.html">Posts</a></li>
+        <li><a href="/tools.html">Tools</a></li>
+        <li><a href="/ctf.html">CtF</a></li>
+        <li><a href="/resources.html">Resources</a></li>
+        <li><a href="/about.html">About</a></li>
+      </ul>
+    </details>
+  </div>
+</nav>
+<div class="page-wrap">
+<div class="post-wrap">
+  <header class="post-header">
+    <div class="post-tags-top"><span class="post-tag">Blog</span><span class="post-tag">CtF</span></div>
+    <h1 class="post-title">Metasploit/Rapid7 CtF: 2018</h1>
+    <div class="post-meta-bar"><span>December 05, 2018</span></div>
+  </header>
+  <div class="post-content">
+<h2>Summary</h2>
+<p>This was the first CtF that I participated in that I actually kept files for.  This was don back in late 2018 and here I am almost 4 months later trying to write about it ... yeah this will not be pretty.  Either way Metasploit / Rapid7 put on this CtF that you had to register for and basically were let loose trying to find images of playing cards.  Once you found a card the MD5 hash of the image was the flag.  Simple right?  Well I did not have nearly enough time to dedicate to this one.  I spent a whopping 3 days, which were not full days, trying to finish this and didn’t get far at all.  So let me just quickly describe what I did end up finding and my results.</p>
+<h2>3 of Clubs</h2>
+<p>This one was a “give me”.  Basically, all you had to do was read the rules of entry on the website.  This being my first CtF I read them just to make sure I knew what I was actually supposed to be doing.  At the end of the rules you found the following:</p>
+<p>Thanks for actually reading our terms of service.  As a show of our gratitude, please find your splendiferous reward by pointing a web browser to your Linux host on port 31063.</p>
+<p>Yeah it was that easy … that’s the 3 of Clubs.</p>
+<p><img src="/assets/images/msf-2018/3_of_clubs.png" alt="alt text"></p>
+<h2>3 of Diamonds</h2>
+<p>What would a CtF be without at least one SQLi vuln right?  Well this was one I found.  It was pretty easy to be honest.  Just sqlmap it and the key was sitting in the table.  Enter the key into the website and you got your flag … at least I think.  Either way that’s how I remember it.</p>
+<p><img src="/assets/images/msf-2018/3_of_diamonds.png" alt="alt text"></p>
+<h2>10 of Hearts</h2>
+<p>This flag was found by first port scanning the Linux machine.  On TCP:8080 there was a running Apache Struts instance.  A little poking and prodding (remember I am writing this like 4 months later) we find that it is Struts 2.3.  Well Metasploit has an exploit for that … go figure right, who made this CtF?</p>
+<p>Using exploit/multi/http/struts2_code_exec_showcase you were able to pop a shell with a reverse bash payload.  Once you were in the system it was time to hunt for the flag.  Eventually I found the flag under /usr/local/tomcat/tmp.</p>
+<p><img src="/assets/images/msf-2018/10_of_hearts.png" alt="alt text"></p>
+<h2>My Ranking</h2>
+<p>Pretty lame but expected for the amount of time I put into it.</p>
+<p><img src="/assets/images/msf-2018/results01.PNG" alt="alt text"><br /> <img src="/assets/images/msf-2018/results02.PNG" alt="alt text"><br /> <img src="/assets/images/msf-2018/results03.PNG" alt="alt text"><br /></p>
+  </div>
+</div>
+</div>
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-brand"><span>RabbidByte</span> &mdash; RabbidByte's Random Bytes</div>
+    <ul class="footer-nav" role="list">
+      <li><a href="/index.html">Posts</a></li>
+      <li><a href="/tools.html">Tools</a></li>
+      <li><a href="/ctf.html">CtF</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+  </div>
+  <p class="footer-copy">&copy; 2026 RabbidByte. All rights reserved.</p>
+</footer>
+</body>
+</html>

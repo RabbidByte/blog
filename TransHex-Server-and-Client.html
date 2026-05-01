@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TransHex Server and Client – RabbidByte</title>
+  <meta name="description" content="TransHex Server and Client">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/fav/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/fav/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/fav/favicon-16x16.png">
+  <link rel="manifest" href="/assets/fav/site.webmanifest">
+  <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+<nav class="site-nav" role="navigation">
+  <div class="nav-inner">
+    <a href="/index.html" class="nav-brand">RabbidByte</a>
+    <ul class="nav-links" role="list">
+      <li><a href="/index.html">Posts</a></li>
+      <li><a href="/tools.html">Tools</a></li>
+      <li><a href="/ctf.html">CtF</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+    <details class="nav-mobile">
+      <summary class="nav-toggle">&#9776;</summary>
+      <ul class="nav-dropdown" role="list">
+        <li><a href="/index.html">Posts</a></li>
+        <li><a href="/tools.html">Tools</a></li>
+        <li><a href="/ctf.html">CtF</a></li>
+        <li><a href="/resources.html">Resources</a></li>
+        <li><a href="/about.html">About</a></li>
+      </ul>
+    </details>
+  </div>
+</nav>
+<div class="page-wrap">
+<div class="post-wrap">
+  <header class="post-header">
+    <div class="post-tags-top"><span class="post-tag">Blog</span><span class="post-tag">Tools</span></div>
+    <h1 class="post-title">TransHex Server and Client</h1>
+    <div class="post-meta-bar"><span>May 25, 2013</span></div>
+  </header>
+  <div class="post-content">
+<h2>Summary</h2>
+<p>We have all faced the problem of transferring “malicious” or binary files through corporate firewalls or proxies when doing penetration tests.  Previously the work around was quite easy.  FTP, SSL, and SSH tunneling (the list goes on) provided a quick and easy way to bring whatever tools a penetration tester needed into the environment.  Edge technologies have now matured and these simple techniques are no longer working mainly due to next generation firewalls with application ID.  So how do you get around this?  Go old school to beat new school tech!</p>
+<p>The general idea we had before writing the very rough first release of TransHex was AV does not scan hex in text files.  So how to beat the application ID portion of the nexgen firewalls?  Easy, you don’t.  We initially wrote the program completely in python as a client server app and we were quickly blocked by nexgen firewalls.  So if you can’t beat them, join them.  The app was ported to a web server and bingo bango we were transferring files through multiple nexgen firewalls without being detected.</p>
+<p>So here is a quick breakdown on how TransHex works.</p>
+<ol>
+<li>The attacker/pentester goes to the web app that would be loaded on a public server</li>
+<li>The attacker/pentester requests an exe that is available on a different publicly available server and submits to the application</li>
+<li>TransHex at this point downloads the exe and saves it to [web path]/hex/[filename]</li>
+<li>Once the download is complete a python script is ran that converts the binary file to a single hex string</li>
+<li>The hex string is written to a new text file in [web path]/hex/[filename]</li>
+<li>The attacker/pentester then goes back to the main page of the application by clicking continue</li>
+<li>The new text file is now listed on the first page</li>
+<li>The attacker/pentester then saves the text file to the local machine using the internet browser</li>
+<li>On the local machine the attacker/pentester converts the text file with the hex string to a binary using the python client script</li>
+</ol>
+<h2>Application Notes</h2>
+<p>This application is provided as is.  NO support is offered for this application and only you are liable for any damage this application may cause.</p>
+<h3>Features that need to be added</h3>
+<ol>
+<li>Error handling</li>
+<li>Help/man pages</li>
+<li>Request hex conversion of local (server side) executables</li>
+<li>Hex string obfuscation</li>
+</ol>
+<h3>Limitations and Testing</h3>
+<ol>
+<li>Max file size tested with 115KB</li>
+<li>File types tested Zip and exe, windows files and known malware</li>
+<li>Tested through multiple nexgen firewalls and proxies</li>
+<li>Must have python loaded on the client machine or</li>
+<li>Transfer the client as an exe to the client by other means</li>
+<li>Tested on Kali Linux (3.7-trunk-686-pae #1 AMP Debian 3.7.0.2-0+kali5 i686 GNU/Linux)</li>
+<li>The server application is NOT meant to be secure!  You must wrap your own security around the application</li>
+</ol>
+<h2>Installation (on Fresh install of Kali Linux)</h2>
+<h3>SERVER SIDE</h3>
+<ol>
+<li>Download the TransHex package from here (MD5:A38EB881A4708FD474D858680648E611 SHA1:10E0066CEF1B95CF77498347D21DFCBB15CA7D5F)</li>
+<li>Extract the files from the package</li>
+<li>Delete /var/www/index.html</li>
+<li>Copy contents of the Server folder from the package to /var/www/</li>
+<li>Ensure permissions are correct on the files (again this is NOT a secure app)</li>
+</ol>
+<pre><code>chmod 755 TransHex_BIN_to_TXT.py
+chmod 644 index.php
+chmod 644 getfile.php
+chmod 777 hex
+service apache2 start</code></pre>
+<ol>
+<li>Go to http://127.0.0.1 and the page should now be live</li>
+</ol>
+<h3>CLIENT SIDE</h3>
+<ol>
+<li>Somehow get the file TransHex_TXT_to_BIN.py to a client on the inside of the network (needs python installed)</li>
+<li>OR convert the file TransHex_TXT_to_BIN.py to a PE and get it to a client on the inside of the network</li>
+</ol>
+<h2>Usage</h2>
+<ol>
+<li>Locate the URL of the exe that you wish to download (also works with archive files)</li>
+<li>From the client on the inside of the network open a browser and go to your server, hopefully the URL isn’t blocked</li>
+<li>Enter the URL of the exe into the text field and click “Go Get It!”</li>
+<li>Wait for the page to load.  There is no progress bar and with large files or slow connections PHP settings may have to be changed on the server</li>
+<li>Once the page loads click “continue …”</li>
+<li>You will now see your text file in the list</li>
+<li>Right click the hyperlink of the text file and select “Save Link As…”</li>
+<li>Save the text file to the same location that the TransHex_TXT_to_BIN.py file is</li>
+<li>Open a command shell on the client</li>
+<li>Navigate to the path were TransHex_TXT_to_BIN.py is located</li>
+<li>Run – python TransHex_TXT_to_BIN.py [text file name] [new binary file name]</li>
+</ol>
+<h2>Conclusion</h2>
+<p>Based on a very simple idea TransHex is able to defeat very sophisticated technology.  It is obviously limited to being able to get the client into the internal network and being able to execute it.</p>
+<p>This trick has worked since I started using it back about 5 or 6 years ago and continues to work today.  Edge technology may never be able to pick up on this as signatures would have to be made for ASCII text and compared to binary signatures or some other means would have to be created.  So have fun with it and as always don’t be stupid and break the law.</p>
+<h2>Images</h2>
+<p>Installation Permissions</p>
+<p><img src="/assets/images/transhex/www_perm.png" alt="alt text"></p>
+<p>Main Server Page</p>
+<p><img src="/assets/images/transhex/server.png" alt="alt text"></p>
+<p>Usage Images</p>
+<p><img src="/assets/images/transhex/usage_01.png" alt="alt text"></p>
+<p><img src="/assets/images/transhex/usage_02.png" alt="alt text"></p>
+<p><img src="/assets/images/transhex/usage_03.png" alt="alt text"></p>
+<p><img src="/assets/images/transhex/usage_04.png" alt="alt text"></p>
+<p><img src="/assets/images/transhex/usage_05.png" alt="alt text"></p>
+<h2>Files</h2>
+<p><a href="https://github.com/RabbidByte/TransHex">https://github.com/RabbidByte/TransHex</a></p>
+  </div>
+</div>
+</div>
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-brand"><span>RabbidByte</span> &mdash; RabbidByte's Random Bytes</div>
+    <ul class="footer-nav" role="list">
+      <li><a href="/index.html">Posts</a></li>
+      <li><a href="/tools.html">Tools</a></li>
+      <li><a href="/ctf.html">CtF</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+  </div>
+  <p class="footer-copy">&copy; 2026 RabbidByte. All rights reserved.</p>
+</footer>
+</body>
+</html>

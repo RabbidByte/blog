@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transfer Any Binary into a Protected Network – RabbidByte</title>
+  <meta name="description" content="Transfer Any Binary into a Protected Network">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/fav/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/fav/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/fav/favicon-16x16.png">
+  <link rel="manifest" href="/assets/fav/site.webmanifest">
+  <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+<nav class="site-nav" role="navigation">
+  <div class="nav-inner">
+    <a href="/index.html" class="nav-brand">RabbidByte</a>
+    <ul class="nav-links" role="list">
+      <li><a href="/index.html">Posts</a></li>
+      <li><a href="/tools.html">Tools</a></li>
+      <li><a href="/ctf.html">CtF</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+    <details class="nav-mobile">
+      <summary class="nav-toggle">&#9776;</summary>
+      <ul class="nav-dropdown" role="list">
+        <li><a href="/index.html">Posts</a></li>
+        <li><a href="/tools.html">Tools</a></li>
+        <li><a href="/ctf.html">CtF</a></li>
+        <li><a href="/resources.html">Resources</a></li>
+        <li><a href="/about.html">About</a></li>
+      </ul>
+    </details>
+  </div>
+</nav>
+<div class="page-wrap">
+<div class="post-wrap">
+  <header class="post-header">
+    <div class="post-tags-top"><span class="post-tag">Blog</span><span class="post-tag">Misc</span></div>
+    <h1 class="post-title">Transfer Any Binary into a Protected Network</h1>
+    <div class="post-meta-bar"><span>June 24, 2013</span></div>
+  </header>
+  <div class="post-content">
+<h2>Summary</h2>
+<p>Well this is another old trick that still works today.  It still gets past all edge security and antivirus … well that is until you pull the executable out again.  I find myself using this trick when I need to bring penetration testing tools into a network.  Most of the time antivirus or edge security devices will stop the transfer of these executables.  So what can you do to get them in?</p>
+<p>The first is very obvious, just zip them up and encrypt them.  This will get the package into some networks but not all.  Many networks now configure edge devices and email security systems to block and/or alert on encrypted attachments.  This would probably blow your cover and game over.</p>
+<p>Another way to get executables into networks is by using a system called <a href="https://github.com/RabbidByte/TransHex "TransHex Download"">TransHex</a> written while I was running essentialexploit.com.  As of now this has not been released but it will be very soon (*update* TransHex is now released).  This application requires a web server on the internet that dynamically converts binary to hex and then gives you a text file that you can download.  Once you have the text file the TransHex client will put that back into a binary for you.</p>
+<p>The simplest way to get an executable into a network is to email it or just download it.  However as we mentioned earlier most edge devices will stop the download and alert the admins.  Not something that you want to have happen, however with a little prep you can hide any binary into another file and just bring it on into a network.  Here is how it works.</p>
+<h2>How To Do It</h2>
+<p>You must know beforehand which executibles you want send.  This is the downside.  If you forget about a program that you need you will have to have access to the outside system again to send it.  Sometimes this could delay your penetration testing by quite a few hours, and sometimes it is not a problem at all.  So here’s what you do.</p>
+<ol>
+<li>On an external windows system take a harmless picture file and your executable and drop them in the same folder so that it’s easy to work with them</li>
+<li>Compress your executable (no encryption needed) into a zip file</li>
+<li>Open up a windows command prompt</li>
+<li>Navigate into the folder where your files are located</li>
+<li>Run – copy /B \[image file\] + \[zip file\] \[new image file\]</li>
+<li>Now there is a new file in your folder that looks exactly like your original image</li>
+<li>This new file is the image file with the zip in binary appended to the end of the file</li>
+<li>Now send this file into the protected network either by email, http … whatever</li>
+<li>On the internal windows system open up 7zip</li>
+<li>Under “File” select “open” and find your image file</li>
+<li>Once 7zip opens the image … you see your package!  Extract it and away you go, but beware of local antivirus because once the exe is extracted it will most likely be scanned.</li>
+</ol>
+<h2>Images From Testing</h2>
+<p>The command</p>
+<p><img src="/assets/images/transhex/command.png" alt="alt text"></p>
+<p>The files</p>
+<p><img src="/assets/images/transhex/file_listing.png" alt="alt text"></p>
+<p>Scan the attachment (just to show that it was malicious)</p>
+<p><img src="/assets/images/transhex/scan-1.png" alt="alt text"></p>
+<p>Scan the malicious image</p>
+<p><img src="/assets/images/transhex/scan-2.png" alt="alt text"></p>
+<p>Extracting the package from the image</p>
+<p><img src="/assets/images/transhex/zip.png" alt="alt text"></p>
+  </div>
+</div>
+</div>
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-brand"><span>RabbidByte</span> &mdash; RabbidByte's Random Bytes</div>
+    <ul class="footer-nav" role="list">
+      <li><a href="/index.html">Posts</a></li>
+      <li><a href="/tools.html">Tools</a></li>
+      <li><a href="/ctf.html">CtF</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+  </div>
+  <p class="footer-copy">&copy; 2026 RabbidByte. All rights reserved.</p>
+</footer>
+</body>
+</html>
