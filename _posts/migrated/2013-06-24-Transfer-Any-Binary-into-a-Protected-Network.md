@@ -1,9 +1,7 @@
 ---
-layout: splash
 title: "Transfer Any Binary into a Protected Network"
 date: 2013-06-24 00:00:00 -0700
 categories: Blog Misc
-permalink: /:title.html
 ---
 ## Summary
 

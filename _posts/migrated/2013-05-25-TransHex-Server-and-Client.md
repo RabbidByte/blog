@@ -1,9 +1,7 @@
 ---
-layout: splash
 title: "TransHex Server and Client"
 date: 2013-05-25 00:00:00 -0700
 categories: Blog Tools
-permalink: /:title.html
 ---
 ## Summary
 
