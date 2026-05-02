@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building RabbidCode: An AI Dev Workstation – RabbidByte</title>
+  <meta name="description" content="Full build log for a dedicated AI development workstation on Debian 13 with OhMyDebn, Claude Code, opencode, and VS Code.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/fav/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/fav/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/fav/favicon-16x16.png">
+  <link rel="manifest" href="/assets/fav/site.webmanifest">
+  <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+<nav class="site-nav" role="navigation">
+  <div class="nav-inner">
+    <a href="/index.html" class="nav-brand">RabbidByte</a>
+    <ul class="nav-links" role="list">
+      <li><a href="/index.html" class="active">Posts</a></li>
+      <li><a href="/tools.html">Tools</a></li>
+      <li><a href="/ctf.html">CtF</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+    <details class="nav-mobile">
+      <summary class="nav-toggle">&#9776;</summary>
+      <ul class="nav-dropdown" role="list">
+        <li><a href="/index.html">Posts</a></li>
+        <li><a href="/tools.html">Tools</a></li>
+        <li><a href="/ctf.html">CtF</a></li>
+        <li><a href="/resources.html">Resources</a></li>
+        <li><a href="/about.html">About</a></li>
+      </ul>
+    </details>
+  </div>
+</nav>
+<div class="page-wrap">
+<div class="post-wrap">
+  <header class="post-header">
+    <div class="post-tags-top"><span class="post-tag">Blog</span></div>
+    <h1 class="post-title">Building RabbidCode: An AI Dev Workstation</h1>
+    <div class="post-meta-bar"><span>May 02, 2026</span></div>
+  </header>
+  <div class="post-content">
+<h2>Overview</h2>
+<p>I had an HP Z840 Workstation sitting around collecting dust and decided it was the perfect candidate to become a dedicated AI development machine.  The goal was simple: a clean build with a proper Linux desktop, all the AI coding tools installed and talking to each other, network storage mapped to the SAN, and git set up and ready.  The machine now runs Claude Code, opencode, and VS Code with the full AI assistant stack — and goes by the name RabbidCode.</p>
+<p>This is the full build log.</p>
+
+<h2>Hardware</h2>
+<p>The Z840 is an older workstation but it is seriously over-specced for this kind of work.  The Xeon E5-2650 v4 has 12 cores and 24 threads, the Quadro P4000 handles any GPU workloads, and 64 GB of ECC RAM means it is never going to complain about memory pressure.  Throw in a Samsung SSD for the OS and it moves fast.</p>
+
+<img src="/assets/images/aidev/specs.png" alt="RabbidCode system specs">
+
+<h2>Base Install: Debian 13 Trixie + Cinnamon</h2>
+<p>Started with a minimal Debian 13 (trixie) netinstall with Cinnamon selected as the desktop environment.  Nothing beyond the basics — just the base system and desktop.  After the install the usual housekeeping before touching anything else:</p>
+
+<pre><code>sudo apt update
+sudo apt upgrade
+sudo apt dist-upgrade
+sudo apt full-upgrade
+sudo apt install curl</code></pre>
+
+<h2>OhMyDebn</h2>
+<p>OhMyDebn is a Cinnamon desktop configuration toolkit for Debian that handles everything from color schemes and wallpapers to panel layouts, terminal configuration, and a solid set of developer tooling out of the box.  If you are running Cinnamon on Debian and have not tried it, you should.  It is what gives RabbidCode its look and feel.</p>
+
+<pre><code>curl -LO https://ohmydebn.org/install.sh
+bash install.sh</code></pre>
+
+<img src="/assets/images/aidev/install.png" alt="Base setup and OhMyDebn installation">
+
+<p>After the installer runs and you reboot you get a clean, polished Cinnamon environment with sensible defaults already in place.  Here is the final desktop:</p>
+
+<img src="/assets/images/aidev/rabbidcode-desktop.png" alt="RabbidCode desktop running OhMyDebn on Debian 13 Trixie">
+
+<h2>AI Tools</h2>
+<p>Three tools make up the core of the AI dev stack: opencode, Visual Studio Code, and Claude Code.  Between the three of them pretty much every AI-assisted development workflow is covered.</p>
+
+<img src="/assets/images/aidev/aitools.png" alt="AI tools installation">
+
+<h3>opencode</h3>
+<p>opencode is a terminal-based AI coding assistant that supports multiple models.  One command install:</p>
+
+<pre><code>curl -fsSL https://opencode.ai/install | bash</code></pre>
+
+<h3>Visual Studio Code</h3>
+<p>VS Code is not in the standard Debian repos so it comes in via extrepo.  The non-free flag also needs to be enabled in the extrepo config before enabling the VS Code repo:</p>
+
+<pre><code>sudo apt install extrepo -y
+sudo sed -i 's/# - non-free/- non-free/' /etc/extrepo/config.yaml
+sudo extrepo enable vscode
+sudo apt update
+sudo apt install code -y</code></pre>
+
+<h3>Claude Code</h3>
+<p>Claude Code is Anthropic's official CLI for Claude.  It also integrates directly into VS Code via extension.  Install is a single curl:</p>
+
+<pre><code>curl -fsSL https://claude.ai/install.sh | bash</code></pre>
+
+<h2>VS Code Extensions</h2>
+<p>Extensions installed to round out the environment:</p>
+<ul>
+<li>Claude Code for VS Code</li>
+<li>Live Preview</li>
+<li>opencode</li>
+<li>Pylance</li>
+<li>Python</li>
+<li>Python Debugger</li>
+<li>Python Environments</li>
+<li>TODO Highlight</li>
+<li>vscode-icons</li>
+</ul>
+
+<h2>Map Drives to SAN</h2>
+<p>With the machine on the network the SAN shares mount at boot via fstab.  SMB client and CIFS utils are required:</p>
+
+<pre><code>sudo apt install smbclient
+sudo apt install cifs-utils</code></pre>
+
+<p>Add the mount entries to <code>/etc/fstab</code>.  Credentials live in a dedicated auth file owned by root — do not put them directly in fstab:</p>
+
+<pre><code>sudo touch /etc/cifsauth
+sudo chmod 600 /etc/cifsauth</code></pre>
+
+<p>Edit <code>/etc/cifsauth</code> as root with your share credentials, then reference it in each fstab entry with <code>credentials=/etc/cifsauth</code>.</p>
+
+<h2>Git Setup</h2>
+<p>Global git config and an SSH key for GitHub.  ed25519 over RSA — smaller, faster, and more secure:</p>
+
+<pre><code>git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+ssh-keygen -t ed25519 -C "your_email@example.com"
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519</code></pre>
+
+<p>Copy the contents of <code>~/.ssh/id_ed25519.pub</code> and add it to your GitHub account under Settings &rarr; SSH and GPG keys.</p>
+
+<h2>References</h2>
+<ul>
+<li><a href="https://ohmydebn.org/installation/">OhMyDebn Installation</a></li>
+<li><a href="https://opencode.ai/docs/">opencode Documentation</a></li>
+</ul>
+  </div>
+</div>
+</div>
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-brand"><span>RabbidByte</span> &mdash; RabbidByte's Random Bytes</div>
+    <ul class="footer-nav" role="list">
+      <li><a href="/index.html">Posts</a></li>
+      <li><a href="/tools.html">Tools</a></li>
+      <li><a href="/ctf.html">CtF</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+  </div>
+  <p class="footer-copy">&copy; 2026 RabbidByte. All rights reserved.</p>
+</footer>
+</body>
+</html>
