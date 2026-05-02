@@ -1,5 +1,0 @@
-defaults:
-  - scope:
-      type: posts
-    values:
-      published: false
