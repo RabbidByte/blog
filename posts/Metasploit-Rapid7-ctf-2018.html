@@ -14,6 +14,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Metasploit/Rapid7 CtF: 2018 – RabbidByte</title>
   <meta name="description" content="Metasploit/Rapid7 CtF: 2018">
+  <link rel="canonical" href="https://essentialexploit.com/posts/Metasploit-Rapid7-ctf-2018.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Metasploit/Rapid7 CtF: 2018 – RabbidByte">
+  <meta property="og:description" content="Metasploit/Rapid7 CtF: 2018">
+  <meta property="og:url" content="https://essentialexploit.com/posts/Metasploit-Rapid7-ctf-2018.html">
+  <meta property="og:site_name" content="RabbidByte">
+  <meta property="og:image" content="https://essentialexploit.com/assets/fav/android-chrome-256x256.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@RabbidByte">
+  <meta name="twitter:title" content="Metasploit/Rapid7 CtF: 2018 – RabbidByte">
+  <meta name="twitter:description" content="Metasploit/Rapid7 CtF: 2018">
+  <meta name="twitter:image" content="https://essentialexploit.com/assets/fav/android-chrome-256x256.png">
+  <meta property="article:published_time" content="2018-12-05">
+  <meta property="article:author" content="RabbidByte">
+  <meta property="article:tag" content="Blog">
+  <meta property="article:tag" content="CtF">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
@@ -22,6 +38,29 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/fav/favicon-16x16.png">
   <link rel="manifest" href="/assets/fav/site.webmanifest">
   <link rel="stylesheet" href="/assets/css/main.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Metasploit/Rapid7 CtF: 2018",
+    "description": "Metasploit/Rapid7 CtF: 2018",
+    "datePublished": "2018-12-05",
+    "url": "https://essentialexploit.com/posts/Metasploit-Rapid7-ctf-2018.html",
+    "mainEntityOfPage": "https://essentialexploit.com/posts/Metasploit-Rapid7-ctf-2018.html",
+    "image": "https://essentialexploit.com/assets/fav/android-chrome-256x256.png",
+    "author": {
+      "@type": "Person",
+      "name": "RabbidByte",
+      "url": "https://essentialexploit.com/about.html"
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "RabbidByte",
+      "url": "https://essentialexploit.com/about.html"
+    },
+    "keywords": "Blog, CtF"
+  }
+  </script>
 </head>
 <body>
 <nav class="site-nav" role="navigation">
@@ -62,17 +101,17 @@
 <p>This one was a “give me”.  Basically, all you had to do was read the rules of entry on the website.  This being my first CtF I read them just to make sure I knew what I was actually supposed to be doing.  At the end of the rules you found the following:</p>
 <p>Thanks for actually reading our terms of service.  As a show of our gratitude, please find your splendiferous reward by pointing a web browser to your Linux host on port 31063.</p>
 <p>Yeah it was that easy … that’s the 3 of Clubs.</p>
-<p><img src="/assets/images/msf-2018/3_of_clubs.png" alt="alt text"></p>
+<p><img src="/assets/images/msf-2018/3_of_clubs.png" alt="Rapid7 Metasploit CTF '3 of Clubs' playing card showing a photo of Dublin, Ireland"></p>
 <h2>3 of Diamonds</h2>
 <p>What would a CtF be without at least one SQLi vuln right?  Well this was one I found.  It was pretty easy to be honest.  Just sqlmap it and the key was sitting in the table.  Enter the key into the website and you got your flag … at least I think.  Either way that’s how I remember it.</p>
-<p><img src="/assets/images/msf-2018/3_of_diamonds.png" alt="alt text"></p>
+<p><img src="/assets/images/msf-2018/3_of_diamonds.png" alt="Rapid7 Metasploit CTF '3 of Diamonds' playing card with ASCII art Metasploit logos"></p>
 <h2>10 of Hearts</h2>
 <p>This flag was found by first port scanning the Linux machine.  On TCP:8080 there was a running Apache Struts instance.  A little poking and prodding (remember I am writing this like 4 months later) we find that it is Struts 2.3.  Well Metasploit has an exploit for that … go figure right, who made this CtF?</p>
 <p>Using exploit/multi/http/struts2_code_exec_showcase you were able to pop a shell with a reverse bash payload.  Once you were in the system it was time to hunt for the flag.  Eventually I found the flag under /usr/local/tomcat/tmp.</p>
-<p><img src="/assets/images/msf-2018/10_of_hearts.png" alt="alt text"></p>
+<p><img src="/assets/images/msf-2018/10_of_hearts.png" alt="Rapid7 Metasploit CTF '10 of Hearts' playing card with a green Matrix-style code background"></p>
 <h2>My Ranking</h2>
 <p>Pretty lame but expected for the amount of time I put into it.</p>
-<p><img src="/assets/images/msf-2018/results01.PNG" alt="alt text"><br /> <img src="/assets/images/msf-2018/results02.PNG" alt="alt text"><br /> <img src="/assets/images/msf-2018/results03.PNG" alt="alt text"><br /></p>
+<p><img src="/assets/images/msf-2018/results01.PNG" alt="Metasploit Community CTF scoreboard showing 113th place with 300 points and a pie chart of solves vs fails"><br /> <img src="/assets/images/msf-2018/results02.PNG" alt="Line chart of score over time from November 30 to December 3, 2018"><br /> <img src="/assets/images/msf-2018/results03.PNG" alt="Solves table listing the 3 of Clubs, 3 of Diamonds, and 10 of Hearts challenges, each worth 100 points"><br /></p>
   </div>
 </div>
 </div>

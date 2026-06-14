@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://essentialexploit.com/sitemap.xml

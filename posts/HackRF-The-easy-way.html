@@ -14,6 +14,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HackRF: The easy way – RabbidByte</title>
   <meta name="description" content="HackRF: The easy way">
+  <link rel="canonical" href="https://essentialexploit.com/posts/HackRF-The-easy-way.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="HackRF: The easy way – RabbidByte">
+  <meta property="og:description" content="HackRF: The easy way">
+  <meta property="og:url" content="https://essentialexploit.com/posts/HackRF-The-easy-way.html">
+  <meta property="og:site_name" content="RabbidByte">
+  <meta property="og:image" content="https://essentialexploit.com/assets/fav/android-chrome-256x256.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@RabbidByte">
+  <meta name="twitter:title" content="HackRF: The easy way – RabbidByte">
+  <meta name="twitter:description" content="HackRF: The easy way">
+  <meta name="twitter:image" content="https://essentialexploit.com/assets/fav/android-chrome-256x256.png">
+  <meta property="article:published_time" content="2016-04-01">
+  <meta property="article:author" content="RabbidByte">
+  <meta property="article:tag" content="Blog">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
@@ -22,6 +37,29 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/fav/favicon-16x16.png">
   <link rel="manifest" href="/assets/fav/site.webmanifest">
   <link rel="stylesheet" href="/assets/css/main.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "HackRF: The easy way",
+    "description": "HackRF: The easy way",
+    "datePublished": "2016-04-01",
+    "url": "https://essentialexploit.com/posts/HackRF-The-easy-way.html",
+    "mainEntityOfPage": "https://essentialexploit.com/posts/HackRF-The-easy-way.html",
+    "image": "https://essentialexploit.com/assets/fav/android-chrome-256x256.png",
+    "author": {
+      "@type": "Person",
+      "name": "RabbidByte",
+      "url": "https://essentialexploit.com/about.html"
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "RabbidByte",
+      "url": "https://essentialexploit.com/about.html"
+    },
+    "keywords": "Blog"
+  }
+  </script>
 </head>
 <body>
 <nav class="site-nav" role="navigation">
@@ -57,7 +95,7 @@
   </header>
   <div class="post-content">
 <br>
-<p><img src="/assets/images/HRF/HRF-768x280.jpg" alt="alt text"></p>
+<p><img src="/assets/images/HRF/HRF-768x280.jpg" alt="HackRF One software-defined radio board by Great Scott Gadgets on a textured black background"></p>
 <h2>The Story</h2>
 <p>Recently many different radio hacks (mousejack, drone hijacking) have hit the internet. This has spurred my interest in analogoue and digital radio. After some bindge shopping on the internet and a few days wait I have had some very nice toys show up. Once the new electronics smell and novelty of a new toy had worn off the frustration kicked in.</p>
 <p>RTL-SDR is a dirt cheap way to start playing with radio using the RTL2832U chipset. I like to do things right when I start a project so I decided to purchase a nice SDR hardware transciever that would provide all the functionality needed without breaking the bank. Enter the HackRF One from <a href="https://greatscottgadgets.com/hackrf/">Great Scott Gadgets</a>.</p>
@@ -72,21 +110,21 @@
 <li>Open the CLI and run the following:</li>
 </ol>
 <pre><code>sudo dnf update</code></pre>
-<p><img src="/assets/images/HRF/hrf-01.png" alt="alt text"></p>
+<p><img src="/assets/images/HRF/hrf-01.png" alt="Fedora terminal running sudo dnf update, showing the package update list and dependency resolution"></p>
 <pre><code>sudo dnf install kernel-devel-4.2.3-300.fc23.x86_64</code></pre>
-<p>(Most likely not needed but I had to install to compile the VM additions) <img src="/assets/images/HRF/hrf-03.png" alt="alt text"></p>
+<p>(Most likely not needed but I had to install to compile the VM additions) <img src="/assets/images/HRF/hrf-03.png" alt="Fedora terminal showing dnf installing the kernel-devel-4.2.3-300.fc23.x86_64 package"></p>
 <pre><code>sudo dnf install gnuradio</code></pre>
-<p><img src="/assets/images/HRF/hrf-04.png" alt="alt text"></p>
+<p><img src="/assets/images/HRF/hrf-04.png" alt="Fedora terminal showing dnf resolving the 60-package gnuradio dependency list with an 87MB download size"></p>
 <pre><code>sudo dnf install gr-osmosdr</code></pre>
-<p><img src="/assets/images/HRF/hrf-05.png" alt="alt text"></p>
+<p><img src="/assets/images/HRF/hrf-05.png" alt="Fedora terminal showing dnf installing gr-osmosdr along with the hackrf, rtl-sdr, and related driver packages"></p>
 <pre><code>sudo dnf install gqrx</code></pre>
-<p><img src="/assets/images/HRF/hrf-06.png" alt="alt text"></p>
+<p><img src="/assets/images/HRF/hrf-06.png" alt="Fedora terminal showing dnf downloading and installing the gqrx package"></p>
 <pre><code>hackrf_info</code></pre>
-<p>(Used to check if all is good)<br /> <img src="/assets/images/HRF/hrf-07.png" alt="alt text"></p>
+<p>(Used to check if all is good)<br /> <img src="/assets/images/HRF/hrf-07.png" alt="Terminal output of hackrf_info confirming the HackRF One board is detected with its firmware version and serial number"></p>
 <ol>
 <li>You are done … yup that’s it. Way easier than Pentoo.</li>
 </ol>
-<p><img src="/assets/images/HRF/hrf-08.png" alt="alt text"></p>
+<p><img src="/assets/images/HRF/hrf-08.png" alt="Fedora 23 GNOME desktop application overview showing the installed gqrx icon among other apps"></p>
 <h2>Additional Reading</h2>
 <p><a href="http://www.amazon.com/The-Hobbyists-Guide-RTL-SDR-Software-ebook/dp/B00KCDF1QI">The Hobbyist’s Guide to the RTL-SDR: Really Cheap Software Defined Radio</a></p>
 <p><a href="http://www.arrl.org/files/file/Technology/tis/info/pdf/020708qex013.pdf">A Software-Defined Radio for the Masses, Part 1</a></p>
