@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J345029Q3D"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-J345029Q3D');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-Assisted SOC Investigations with Claude Code – RabbidByte</title>
+  <meta name="description" content="A technical walkthrough of how I wired Claude Code into a read-only SOC analyst workflow — per-product sub-agents, skills forked directly into those agents, MCP servers configured and locked read-only inside each agent, shared enrichment data, and auto-filed cases, daily reports, and dumps.">
+  <link rel="canonical" href="https://essentialexploit.com/posts/AI-Assisted-SOC-Investigations-with-Claude-Code.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="AI-Assisted SOC Investigations with Claude Code – RabbidByte">
+  <meta property="og:description" content="A technical walkthrough of how I wired Claude Code into a read-only SOC analyst workflow — per-product sub-agents, skills forked directly into those agents, MCP servers configured and locked read-only inside each agent, shared enrichment data, and auto-filed cases, daily reports, and dumps.">
+  <meta property="og:url" content="https://essentialexploit.com/posts/AI-Assisted-SOC-Investigations-with-Claude-Code.html">
+  <meta property="og:site_name" content="RabbidByte">
+  <meta property="og:image" content="https://essentialexploit.com/assets/fav/android-chrome-256x256.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@RabbidByte">
+  <meta name="twitter:title" content="AI-Assisted SOC Investigations with Claude Code – RabbidByte">
+  <meta name="twitter:description" content="A technical walkthrough of how I wired Claude Code into a read-only SOC analyst workflow — per-product sub-agents, skills forked directly into those agents, MCP servers configured and locked read-only inside each agent, shared enrichment data, and auto-filed cases, daily reports, and dumps.">
+  <meta name="twitter:image" content="https://essentialexploit.com/assets/fav/android-chrome-256x256.png">
+  <meta property="article:published_time" content="2026-07-17">
+  <meta property="article:author" content="RabbidByte">
+  <meta property="article:tag" content="Blog">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/fav/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/fav/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/fav/favicon-16x16.png">
+  <link rel="manifest" href="/assets/fav/site.webmanifest">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "AI-Assisted SOC Investigations with Claude Code",
+    "description": "A technical walkthrough of how I wired Claude Code into a read-only SOC analyst workflow — per-product sub-agents, skills forked directly into those agents, MCP servers configured and locked read-only inside each agent, shared enrichment data, and auto-filed cases, daily reports, and dumps.",
+    "datePublished": "2026-07-17",
+    "url": "https://essentialexploit.com/posts/AI-Assisted-SOC-Investigations-with-Claude-Code.html",
+    "mainEntityOfPage": "https://essentialexploit.com/posts/AI-Assisted-SOC-Investigations-with-Claude-Code.html",
+    "image": "https://essentialexploit.com/assets/fav/android-chrome-256x256.png",
+    "author": {
+      "@type": "Person",
+      "name": "RabbidByte",
+      "url": "https://essentialexploit.com/about.html"
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "RabbidByte",
+      "url": "https://essentialexploit.com/about.html"
+    },
+    "keywords": "Blog"
+  }
+  </script>
+</head>
+<body>
+<nav class="site-nav" role="navigation">
+  <div class="nav-inner">
+    <a href="/index.html" class="nav-brand">RabbidByte</a>
+    <ul class="nav-links" role="list">
+      <li><a href="/index.html" class="active">Posts</a></li>
+      <li><a href="/blog.html">Blog</a></li>
+      <li><a href="/tools.html">Tools</a></li>
+      <li><a href="/ctf.html">CtF</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+    <details class="nav-mobile">
+      <summary class="nav-toggle">&#9776;</summary>
+      <ul class="nav-dropdown" role="list">
+        <li><a href="/index.html">Posts</a></li>
+        <li><a href="/blog.html">Blog</a></li>
+        <li><a href="/tools.html">Tools</a></li>
+        <li><a href="/ctf.html">CtF</a></li>
+        <li><a href="/resources.html">Resources</a></li>
+        <li><a href="/about.html">About</a></li>
+      </ul>
+    </details>
+  </div>
+</nav>
+<div class="page-wrap">
+<div class="post-wrap">
+  <header class="post-header">
+    <div class="post-tags-top"><span class="post-tag">Blog</span></div>
+    <h1 class="post-title">AI-Assisted SOC Investigations with Claude Code</h1>
+    <div class="post-meta-bar"><span>July 17, 2026</span></div>
+  </header>
+  <div class="post-content">
+<p>Over the past few months I've started using Visual Studio Code and Claude Code in a way I didn't originally expect. Instead of having Claude Code help me build an application, I've effectively turned it into the application.</p>
+
+<p>That sounds like a word game until you sit on it for a bit. Normally you point a coding assistant at a repo and it helps write code with you (what I thought to begin with). What I've been doing is different: the assistant, plus a stack of custom context, <em>is</em> the thing that does the work. There's no app to deploy and no server to run — the whole workflow lives inside the IDE. This post is the story of exactly how the pieces are wired together to make a SOC analyst's job easier.</p>
+
+<figure>
+  <a href="/assets/images/ai-soc/vscode-agentic-soc.png" target="_blank" rel="noopener">
+    <img src="/assets/images/ai-soc/vscode-agentic-soc.png" alt="VS Code with the file explorer showing a Claude Code workspace — a .claude folder containing agents (crowdstrike-soc-analyst, qualys-vulnerability-analyst, report-formatter, junior-analyst), an MCP folder, and a skills folder — plus Cases, Daily Reports, Dumps and Documentation folders, alongside the Claude Code panel open on the right">
+  </a>
+  <figcaption>The whole workspace lives in the editor. Click the image to open it full size — the file tree is where all the wiring shows.</figcaption>
+</figure>
+
+<p>On the left is the workspace: a set of agents, the per-agent MCP configuration that wires them to CrowdStrike Falcon and Qualys, a folder of skills, and the output folders where finished work gets filed. On the right is Claude Code itself, waiting for the next question. There's no dashboard and no separate console — the editor <em>is</em> the operations surface. Everything below is a walk through that tree.</p>
+
+<h2>The pieces, and how they fit</h2>
+<p>Four moving parts do all the work, and the whole design is about keeping them scoped:</p>
+<ul>
+  <li><strong>Sub-agents</strong> — one per job or product, each with its own tools, its own memory, and a hard role boundary.</li>
+  <li><strong>Skills</strong> — repeatable procedures that don't run in the main chat; each one is forked directly into a named agent.</li>
+  <li><strong>MCP servers</strong> — the read-only connections to Falcon and Qualys, defined <em>inside</em> the agent that uses them, running in Docker.</li>
+  <li><strong>Shared context</strong> — per-agent memory plus a folder of human-curated enrichment data every analyst agent consults.</li>
+</ul>
+<p>The theme running through every one of those is least privilege: nothing is global, nothing is shared implicitly, and nothing touches a platform in a way that could change its state.</p>
+
+<h2>Sub-agents: one per job</h2>
+<p>The piece I'd push hardest on if you're building something similar is scoping the agents. Each product gets its own analyst agent and nothing else. Falcon work runs through a CrowdStrike agent; vulnerability and exposure work runs through a Qualys agent. Two more agents handle formatting and low-trust file chores. Every agent carries a distinct color so transcripts stay readable, a defined role boundary, and its own memory folder.</p>
+
+<table>
+  <thead>
+    <tr><th>Agent</th><th>Handles</th><th>Platform access</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>crowdstrike-soc-analyst</code></td><td>Falcon detections, alerts, host lookups, process trees, "is this malicious?"</td><td>Falcon MCP — read-only</td></tr>
+    <tr><td><code>qualys-vulnerability-analyst</code></td><td>CVE/QID lookups, patch prioritization, exposure and risk analysis</td><td>Qualys MCP — read-only</td></tr>
+    <tr><td><code>report-formatter</code></td><td>Turns a finished markdown report into a brand-consistent DOCX/PDF and visually verifies the result</td><td>None</td></tr>
+    <tr><td><code>junior-analyst</code></td><td>General file and support chores — deliberately lower-trust</td><td>None — no MCP, no shell</td></tr>
+  </tbody>
+</table>
+
+<p>The main thread never does the deep platform digging itself. It acts as a router: understand the request, delegate to the right specialist, then reconcile what comes back. Correlating findings <em>across</em> products — a Falcon detection and a Qualys exposure on the same asset — is treated as its own concern, handled a level up, so I never teach a single-product agent another product's data model.</p>
+
+<h2>Skills are linked directly to agents</h2>
+<p>A skill here is a repeatable procedure — "run the daily report," "open a case," "convert this to a document." The rule I hold to is that <strong>a skill never runs inline in the main chat.</strong> Every skill declares, in its own frontmatter, that it forks into a specific named agent. So the skill inherits exactly that agent's tools, memory, and role boundary — and the main thread stays a thin router that <em>triggers</em> the skill without ever executing its steps itself.</p>
+
+<table>
+  <thead>
+    <tr><th>Skill</th><th>Forks into</th><th>Trigger</th><th>Output lands in</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>crowdstrike-daily-report</code></td><td><code>crowdstrike-soc-analyst</code></td><td>"run the daily report"</td><td><code>Daily Reports/YYYY/MM/</code></td></tr>
+    <tr><td><code>start-a-new-case</code></td><td><code>crowdstrike-soc-analyst</code></td><td>"open a case for X"</td><td><code>Cases/YYYY/MM/</code> + case index</td></tr>
+    <tr><td><code>docx-report</code></td><td><code>report-formatter</code></td><td>"convert this to Word"</td><td>next to the source file</td></tr>
+    <tr><td><code>pdf-report</code></td><td><code>report-formatter</code></td><td>"export this as PDF"</td><td>next to the source file</td></tr>
+    <tr><td><code>update-enrichment-data</code></td><td><code>junior-analyst</code></td><td>"add this to enrichment data"</td><td><code>Enrichment Data/</code></td></tr>
+    <tr><td><code>add-user-trait</code></td><td><code>junior-analyst</code></td><td>"note that this account is a known VPN user"</td><td>user-traits lookup</td></tr>
+    <tr><td><code>add-future-feature</code></td><td><code>junior-analyst</code></td><td>"add a future feature"</td><td><code>Future Features/</code> + index</td></tr>
+  </tbody>
+</table>
+
+<p>Pairing each skill with an agent is what keeps tool use, platform access, and memory scoped to one accountable place. The document-formatting skills fork into the formatter (which has no platform access at all); the file-chore skills fork into the low-trust junior agent; anything that touches Falcon forks into the CrowdStrike agent. Nothing gets to quietly borrow another agent's privileges.</p>
+
+<h2>MCP servers live inside the agent, not the global config</h2>
+<p>This is the detail I'm most opinionated about. The Falcon and Qualys connections are <a href="https://modelcontextprotocol.io/">MCP</a> servers running in Docker containers, and their configuration is defined <strong>in the individual agent's own config file</strong> — the CrowdStrike agent carries the Falcon server block, the Qualys agent carries the Qualys server block. There is no project-level MCP config and no reliance on a personal global one.</p>
+
+<p>That matters for two reasons. First, tool access stays explicit and auditable: when I want to know what the Qualys agent can reach, it's declared in one file, not spread across a project config and a personal settings blob. Second, it avoids the failure mode where a shared, synced global config silently grants every agent — and every analyst — access to a platform at once. Each agent gets only the servers it needs, wired to it and nowhere else. The <code>junior-analyst</code> agent, for example, is given <em>no</em> MCP servers and <em>no</em> shell tools at all — it exists to do harmless file chores, and its config reflects exactly that lower trust level.</p>
+
+<p>The other half of that per-agent wiring is <em>when</em> the servers run. They aren't long-lived background services sitting around waiting — each MCP server is spun up on demand, in a Docker container on the local machine, only when the agent that owns it actually needs it, and torn down again as soon as the task is finished. Nothing lingers between requests. A daily-report run brings up the Falcon container, does its work, and the container is gone by the time I'm reading the summary.</p>
+
+<p>For me that turned out to be a bigger deal than I expected. The system this runs on has fairly minimal resources, and if these connectors were permanent containers eating RAM around the clock it would be a real problem. Because they only exist for the life of a task, the idle footprint is essentially nothing — the containers are only consuming resources during the few seconds an agent is actually querying a platform. On-demand, single-agent, and read-only end up reinforcing each other: the connection exists for exactly as long as one scoped, read-only task needs it, and not a moment longer.</p>
+
+<h2>Read-only, at all times</h2>
+<p>Here's the constraint that makes me comfortable pointing any of this at production security platforms: <strong>every platform connection is strictly read-only, always.</strong> The agents query, correlate, triage, and recommend. Not one of them contains a host, kills a process, quarantines a file, changes a detection's status, edits an asset tag, or launches a scan. There is no code path in this workspace that takes a state-changing action on Falcon or Qualys, by design.</p>
+
+<p>It's enforced in two layers rather than one. The agents' role boundaries say read-only and advisory in plain language — but more importantly, the agents simply aren't wired with the tools to do anything else. Anything that needs a real action gets escalated to a human with the right privileges, handed a clear recommendation and a stated confidence level. The system's job is to get an analyst to a decision faster, never to make the decision or pull the trigger for them.</p>
+
+<figure>
+  <img src="/assets/images/ai-soc/triage-prioritize.png" alt="Terminal-style illustration of a Claude Code session where a crowdstrike-soc-analyst agent runs a scoped 48-hour query, pulls 23 detections, correlates them against curated enrichment data, and reports two real leads promoted with twenty-one explained as known-good, noting the workflow is advisory only">
+  <figcaption>Illustrative only — this image was generated by AI to show the shape of a triage session and is not a screenshot of the real workflow or any real data.</figcaption>
+</figure>
+
+<h2>Where the work gets filed</h2>
+<p>Output isn't left floating in a chat transcript — every skill writes to a specific place on disk, and the folders themselves are part of the design. Three of them do most of the day-to-day work:</p>
+<ul>
+  <li><strong><code>Daily Reports/YYYY/MM/</code></strong> — recurring, severity-sorted Falcon summaries for a time window, filed by report date. This is what the <code>crowdstrike-daily-report</code> skill produces: ask for the daily report and it forks into the CrowdStrike agent, runs a scoped query, and drops a dated markdown summary into the right month folder.</li>
+  <li><strong><code>Dumps/YYYY/MM/</code></strong> — the space for random output. Ad-hoc reports, evidence exports, raw log pulls, one-off handoffs — anything that doesn't belong to a formal case but needs to live somewhere. Files land under the month matching their creation date, and every write here is paired with an agent-memory update so a future investigation can still correlate against it.</li>
+  <li><strong><code>Cases/YYYY/MM/</code></strong> — output from a human-led investigation, filed under the month the case was opened so one investigation's files stay together. Every file is prefixed with a case number, and rather than let me hand-pick one, the <code>start-a-new-case</code> skill allocates the next number, creates the folder, and logs it.</li>
+</ul>
+
+<figure>
+  <img src="/assets/images/ai-soc/timeline-evidence.png" alt="Terminal-style illustration of a Claude Code session building a timeline for a flagged host — a crowdstrike-soc-analyst agent gathers the process tree and host detail, a qualys-vulnerability-analyst agent checks exposure and open CVEs, and the workflow assembles a chronological timeline and a draft report for analyst review">
+  <figcaption>Illustrative only — this image was generated by AI to show how evidence-gathering across products fits together and is not a screenshot of the real workflow or any real data.</figcaption>
+</figure>
+
+<h2>The index files</h2>
+<p>A couple of folders carry a companion index file so I can see everything at a glance: <code>case-index.md</code> gives every case a stable, year-qualified identifier, and there's a matching index that tracks planned features. The important habit is that these indexes are treated as a convenience, not a source of truth. The <code>start-a-new-case</code> skill, for instance, confirms case numbers against the actual folder contents rather than trusting the index alone — so if the two ever disagree, the real files win. That keeps the system honest even when an index gets out of sync.</p>
+
+<h2>Future Features</h2>
+<p>Not everything is built yet obviously, so planned work gets a home too. Each not-yet-implemented integration or runbook is a "card" under <code>Future Features/</code>, following a shared template with a status line — <em>Waiting</em> or <em>Completed</em> — near the top, and all of them roll up into a single index. Creating one is itself a skill: <code>add-future-feature</code> forks into the low-trust <code>junior-analyst</code>, writes the card from a description, and updates the index in the same pass. It's the same pattern as <code>start-a-new-case</code> — a structured document and its index entry always created together, never by hand.</p>
+
+<h2>Enrichment data: shared ground truth</h2>
+<p>The analyst agents each keep their own private memory, but some knowledge needs to be shared across all of them — and it needs to be human-curated fact, not something an agent inferred. That lives in a dedicated <code>Enrichment Data/</code> folder: structured lookup files that every read-only analyst agent is explicitly pointed at whenever it's correlating an identifier during an investigation.</p>
+
+<p>Two examples make it concrete. One file maps the organization's known public IP addresses to the resources that own them, so an address the platform APIs can't resolve gets recognized as company-owned instead of reported as an unknown external host. Another records per-user context — for instance, that a given account is a known (consumer) VPN user — so expected behavior isn't mistaken for an anomaly. A hit in one of these files tells the agent "this is known, lower the confidence on true positve".</p>
+
+<p>The wiring around it is deliberate. The folder is human-curated ground truth, replaced in place rather than versioned into dated snapshots, and kept distinct from any agent's private memory. It's maintained through skills — <code>update-enrichment-data</code> for whole files and <code>add-user-trait</code> for a single row — and those skills don't just edit the folder; they also verify that every analyst agent is still wired to consult it. Adding a new analyst agent without pointing it at this data is treated as a bug, not an oversight.</p>
+
+<h2>Memory that doesn't reset</h2>
+<p>The last piece that took this from "neat demo" to "I use it every day" is per-agent memory. Each agent keeps its own project-scoped notes — environment quirks, known false positives, gaps in what an API will and won't return — under its own memory folder. So institutional knowledge accumulates across conversations instead of resetting every session. The agent that learned last week a particular pattern is benign doesn't make me re-explain it this week. It's the counterpart to the shared enrichment data: enrichment data is human-authored fact every agent reads, memory is each agent's own learned experience of this specific environment.</p>
+
+<h2>Why this makes the job easier</h2>
+<p>None of the individual pieces are exotic. Sub-agents, skills, MCP servers, containers, a bit of retrieval and a lot of careful context — the parts are all off the shelf. The leverage is entirely in how they're wired: one agent per product, skills forked into those agents, MCP configured and locked read-only inside each agent, tools handed out on a need-to-have basis, shared facts in one curated place, and every output filed where the next investigation can find it. Get that scaffolding right and the analyst spends their time on judgment — is this real, how bad is it, what do we do — while the collection, correlation, sorting, and writing-up happens around them.</p>
+  </div>
+</div>
+</div>
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-brand"><span>RabbidByte</span> &mdash; RabbidByte's Random Bytes</div>
+    <ul class="footer-nav" role="list">
+      <li><a href="/index.html">Posts</a></li>
+      <li><a href="/blog.html">Blog</a></li>
+      <li><a href="/tools.html">Tools</a></li>
+      <li><a href="/ctf.html">CtF</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+  </div>
+  <p class="footer-copy">&copy; 2026 RabbidByte. All rights reserved.</p>
+</footer>
+</body>
+</html>
