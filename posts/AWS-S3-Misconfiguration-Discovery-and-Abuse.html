@@ -12,20 +12,22 @@
 </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AWS S3: Misconfiguration, Discovery, and Abuse – RabbidByte</title>
-  <meta name="description" content="AWS S3: Misconfiguration, Discovery, and Abuse">
+  <title>AWS S3 Bucket Misconfiguration: Discovery and Risk</title>
+  <meta name="description" content="Prompted by the Verizon and Dow Jones leaks, a look at how misconfigured AWS S3 buckets are discovered and what exposure they cause.">
   <link rel="canonical" href="https://essentialexploit.com/posts/AWS-S3-Misconfiguration-Discovery-and-Abuse.html">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="AWS S3: Misconfiguration, Discovery, and Abuse – RabbidByte">
-  <meta property="og:description" content="AWS S3: Misconfiguration, Discovery, and Abuse">
+  <meta property="og:title" content="AWS S3 Bucket Misconfiguration: Discovery and Risk">
+  <meta property="og:description" content="Prompted by the Verizon and Dow Jones leaks, a look at how misconfigured AWS S3 buckets are discovered and what exposure they cause.">
   <meta property="og:url" content="https://essentialexploit.com/posts/AWS-S3-Misconfiguration-Discovery-and-Abuse.html">
   <meta property="og:site_name" content="RabbidByte">
-  <meta property="og:image" content="https://essentialexploit.com/assets/fav/android-chrome-256x256.png">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://essentialexploit.com/assets/images/social/aws-s3-misconfiguration-discovery-and-abuse.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@RabbidByte">
-  <meta name="twitter:title" content="AWS S3: Misconfiguration, Discovery, and Abuse – RabbidByte">
-  <meta name="twitter:description" content="AWS S3: Misconfiguration, Discovery, and Abuse">
-  <meta name="twitter:image" content="https://essentialexploit.com/assets/fav/android-chrome-256x256.png">
+  <meta name="twitter:title" content="AWS S3 Bucket Misconfiguration: Discovery and Risk">
+  <meta name="twitter:description" content="Prompted by the Verizon and Dow Jones leaks, a look at how misconfigured AWS S3 buckets are discovered and what exposure they cause.">
+  <meta name="twitter:image" content="https://essentialexploit.com/assets/images/social/aws-s3-misconfiguration-discovery-and-abuse.png">
   <meta property="article:published_time" content="2017-06-20">
   <meta property="article:author" content="RabbidByte">
   <meta property="article:tag" content="Blog">
@@ -41,12 +43,12 @@
   {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": "AWS S3: Misconfiguration, Discovery, and Abuse",
-    "description": "AWS S3: Misconfiguration, Discovery, and Abuse",
+    "headline": "AWS S3 Bucket Misconfiguration: Discovery and Risk",
+    "description": "Prompted by the Verizon and Dow Jones leaks, a look at how misconfigured AWS S3 buckets are discovered and what exposure they cause.",
     "datePublished": "2017-06-20",
     "url": "https://essentialexploit.com/posts/AWS-S3-Misconfiguration-Discovery-and-Abuse.html",
     "mainEntityOfPage": "https://essentialexploit.com/posts/AWS-S3-Misconfiguration-Discovery-and-Abuse.html",
-    "image": "https://essentialexploit.com/assets/fav/android-chrome-256x256.png",
+    "image": "https://essentialexploit.com/assets/images/social/aws-s3-misconfiguration-discovery-and-abuse.png",
     "author": {
       "@type": "Person",
       "name": "RabbidByte",
@@ -64,9 +66,9 @@
 <body>
 <nav class="site-nav" role="navigation">
   <div class="nav-inner">
-    <a href="/index.html" class="nav-brand">RabbidByte</a>
+    <a href="/" class="nav-brand">RabbidByte</a>
     <ul class="nav-links" role="list">
-      <li><a href="/index.html">Posts</a></li>
+      <li><a href="/">Posts</a></li>
       <li><a href="/blog.html">Blog</a></li>
       <li><a href="/tools.html">Tools</a></li>
       <li><a href="/ctf.html">CtF</a></li>
@@ -76,7 +78,7 @@
     <details class="nav-mobile">
       <summary class="nav-toggle">&#9776;</summary>
       <ul class="nav-dropdown" role="list">
-        <li><a href="/index.html">Posts</a></li>
+        <li><a href="/">Posts</a></li>
         <li><a href="/blog.html">Blog</a></li>
         <li><a href="/tools.html">Tools</a></li>
         <li><a href="/ctf.html">CtF</a></li>
@@ -110,14 +112,14 @@
 <p>Probably the easiest and most detailed way to see if you can get anonymous write access is by reading the ACL. This has its drawbacks though as administrators could misconfigure the ACL for the bucket objects and have no access to read or write the ACL. In this case the bot would show that access is denied.</p>
 <p><img src="/assets/images/aws2017/s3-00.png" alt="Terminal showing a curl request to an S3 bucket's ?acl endpoint returning an AccessDenied XML error"></p>
 <p>The example from CNN.com gives us the ACL because “Everyone” has access to read the ACL (READ_ACP). You can see this listed at the bottom of the server’s response.</p>
-<p><img src="/assets/images/aws2017/s3-01.png" alt="Terminal output of the S3 bucket ACL XML response showing the AllUsers group granted WRITE permission"></p>
+<p><img src="/assets/images/aws2017/s3-01.png" alt="Terminal output of the S3 bucket ACL XML response showing the AllUsers group granted WRITE permission" loading="lazy"></p>
 <pre><code>&lt;URI&gt;http://acs.amazonaws.com/groups/global/AllUsers&lt;/URI&gt;&lt;/Grantee&gt;&lt;Permission&gt; WRITE&lt;/Permission&gt;</code></pre>
 <p>Again we don’t want to have to go through all of this manually … you got a puter … use it. Write a simple script to monitor the log file for new entries. When a new S3 bucket URL is written to the log file the script just needs to request the ACL and check for write access. This can all be done with a combination of (you don’t need them all really) curl, grep, awk, and xmllint. Don’t know how to do it? Try google, I really do not want to provide all information for someone to launch a potentially malicious bot/spider.</p>
 <h3>Just Try to Write to the Bucket</h3>
 <p>Another way to test to see if you have write access to an S3 bucket is just to write to it. Create a simple txt file with a couple characters in it. Then use curl to upload it to the S3 bucket. If the connection ENDS with an HTTP/1.1 100 Continue then you have write access to the bucket.</p>
-<p><img src="/assets/images/aws2017/s3-02.png" alt="Terminal output showing HTTP/1.1 100 Continue followed by 200 OK after uploading a test file to the S3 bucket"></p>
+<p><img src="/assets/images/aws2017/s3-02.png" alt="Terminal output showing HTTP/1.1 100 Continue followed by 200 OK after uploading a test file to the S3 bucket" loading="lazy"></p>
 <pre><code>curl -v -H acl=public-read -H key=test.txt -T test.txt http://s3.amazonaws.com/cnn-sponsored-content</code></pre>
-<p><img src="/assets/images/aws2017/s3-03.png" alt="Verbose curl output of the PUT request uploading test.txt to the S3 bucket with a public-read ACL"></p>
+<p><img src="/assets/images/aws2017/s3-03.png" alt="Verbose curl output of the PUT request uploading test.txt to the S3 bucket with a public-read ACL" loading="lazy"></p>
 <h3>Abuse: What Does the Bucket Contain</h3>
 <p>This is where it gets a tad fun. So lets say that CNN had all their videos for their website hosted in an S3 bucket called cnn_video and we successfully wrote to http://s3.amazonaws.com/cnn_video Well if you have write access in S3 you also have delete access (at least it seems that way in my testing).</p>
 <p>So if the video http://s3.amazonaws.com/cnn_video/main.mp4 was linked in www.cnn.com/index.htm then all an attacker would have to do is use the AWS REST API to delete (http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectDELETE.html) the video in the bucket and replace it with whatever other video they wanted (just named the same). The attacker now has their video posted on CNN … hypothetically of course.</p>
@@ -135,7 +137,7 @@
   <div class="footer-inner">
     <div class="footer-brand"><span>RabbidByte</span> &mdash; RabbidByte's Random Bytes</div>
     <ul class="footer-nav" role="list">
-      <li><a href="/index.html">Posts</a></li>
+      <li><a href="/">Posts</a></li>
       <li><a href="/blog.html">Blog</a></li>
       <li><a href="/tools.html">Tools</a></li>
       <li><a href="/ctf.html">CtF</a></li>

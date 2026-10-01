@@ -12,20 +12,22 @@
 </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KringleCon 2018 – RabbidByte</title>
-  <meta name="description" content="KringleCon 2018">
+  <title>KringleCon 2018: Notes and Walkthrough</title>
+  <meta name="description" content="Notes from SANS KringleCon 2018: the challenges I completed, what made me think, and what I wish I had written down at the time.">
   <link rel="canonical" href="https://essentialexploit.com/posts/KringleCon-2018.html">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="KringleCon 2018 – RabbidByte">
-  <meta property="og:description" content="KringleCon 2018">
+  <meta property="og:title" content="KringleCon 2018: Notes and Walkthrough">
+  <meta property="og:description" content="Notes from SANS KringleCon 2018: the challenges I completed, what made me think, and what I wish I had written down at the time.">
   <meta property="og:url" content="https://essentialexploit.com/posts/KringleCon-2018.html">
   <meta property="og:site_name" content="RabbidByte">
-  <meta property="og:image" content="https://essentialexploit.com/assets/fav/android-chrome-256x256.png">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://essentialexploit.com/assets/images/social/kringlecon-2018.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@RabbidByte">
-  <meta name="twitter:title" content="KringleCon 2018 – RabbidByte">
-  <meta name="twitter:description" content="KringleCon 2018">
-  <meta name="twitter:image" content="https://essentialexploit.com/assets/fav/android-chrome-256x256.png">
+  <meta name="twitter:title" content="KringleCon 2018: Notes and Walkthrough">
+  <meta name="twitter:description" content="Notes from SANS KringleCon 2018: the challenges I completed, what made me think, and what I wish I had written down at the time.">
+  <meta name="twitter:image" content="https://essentialexploit.com/assets/images/social/kringlecon-2018.png">
   <meta property="article:published_time" content="2019-01-04">
   <meta property="article:author" content="RabbidByte">
   <meta property="article:tag" content="Blog">
@@ -42,12 +44,12 @@
   {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": "KringleCon 2018",
-    "description": "KringleCon 2018",
+    "headline": "KringleCon 2018: Notes and Walkthrough",
+    "description": "Notes from SANS KringleCon 2018: the challenges I completed, what made me think, and what I wish I had written down at the time.",
     "datePublished": "2019-01-04",
     "url": "https://essentialexploit.com/posts/KringleCon-2018.html",
     "mainEntityOfPage": "https://essentialexploit.com/posts/KringleCon-2018.html",
-    "image": "https://essentialexploit.com/assets/fav/android-chrome-256x256.png",
+    "image": "https://essentialexploit.com/assets/images/social/kringlecon-2018.png",
     "author": {
       "@type": "Person",
       "name": "RabbidByte",
@@ -65,9 +67,9 @@
 <body>
 <nav class="site-nav" role="navigation">
   <div class="nav-inner">
-    <a href="/index.html" class="nav-brand">RabbidByte</a>
+    <a href="/" class="nav-brand">RabbidByte</a>
     <ul class="nav-links" role="list">
-      <li><a href="/index.html">Posts</a></li>
+      <li><a href="/">Posts</a></li>
       <li><a href="/blog.html">Blog</a></li>
       <li><a href="/tools.html">Tools</a></li>
       <li><a href="/ctf.html">CtF</a></li>
@@ -77,7 +79,7 @@
     <details class="nav-mobile">
       <summary class="nav-toggle">&#9776;</summary>
       <ul class="nav-dropdown" role="list">
-        <li><a href="/index.html">Posts</a></li>
+        <li><a href="/">Posts</a></li>
         <li><a href="/blog.html">Blog</a></li>
         <li><a href="/tools.html">Tools</a></li>
         <li><a href="/ctf.html">CtF</a></li>
@@ -101,25 +103,25 @@
 <p>Nope.  I just looked at the files again, and there is going to be no way I can put this one back together.  So I will give a list of the challenges that I recorded and some images.  This write up should go down in history as the worst, oh well.</p>
 <ul>
 <li>Bloodhound<br><img src="/assets/images/kringlecon18/Bloodhound.PNG" alt="BloodHound graph showing Active Directory attack paths between users, computers, and groups in the AD.KRINGLECASTLE.COM domain"></li>
-<li>Dev Ops Fail<br><img src="/assets/images/kringlecon18/devops.PNG" alt="Screenshot of a webpage showing exposed source code and commit history for the KringleCon Dev Ops Fail challenge"></li>
-<li>Elf InfoSec<br><img src="/assets/images/kringlecon18/ElfInfoSec.PNG" alt="Elf InfoSec Careers job application form with a malicious CSV DDE.csv file uploaded to trigger a DDE injection and reveal the candidate_evaluation.docx file"></li>
-<li>Encrypted Zip<br><img src="/assets/images/kringlecon18/encryptedzip.PNG" alt="Terminal showing a Python script used to brute-force the password on an encrypted candidate evaluation zip file"></li>
-<li>Google Vent<br><img src="/assets/images/kringlecon18/google.PNG" alt="Grid-based maze puzzle with red wall cells and green start and end points spanning two stacked grids labeled Q through AK"></li>
-<li>LethalForensicELFication<br><img src="/assets/images/kringlecon18/LethalForensicELFication.PNG" alt="Terminal showing the LethalForensicELFication challenge solved by answering 'Elinore' after reading the .viminfo file, ending with a Congratulations message"></li>
+<li>Dev Ops Fail<br><img src="/assets/images/kringlecon18/devops.PNG" alt="Screenshot of a webpage showing exposed source code and commit history for the KringleCon Dev Ops Fail challenge" loading="lazy"></li>
+<li>Elf InfoSec<br><img src="/assets/images/kringlecon18/ElfInfoSec.PNG" alt="Elf InfoSec Careers job application form with a malicious CSV DDE.csv file uploaded to trigger a DDE injection and reveal the candidate_evaluation.docx file" loading="lazy"></li>
+<li>Encrypted Zip<br><img src="/assets/images/kringlecon18/encryptedzip.PNG" alt="Terminal showing a Python script used to brute-force the password on an encrypted candidate evaluation zip file" loading="lazy"></li>
+<li>Google Vent<br><img src="/assets/images/kringlecon18/google.PNG" alt="Grid-based maze puzzle with red wall cells and green start and end points spanning two stacked grids labeled Q through AK" loading="lazy"></li>
+<li>LethalForensicELFication<br><img src="/assets/images/kringlecon18/LethalForensicELFication.PNG" alt="Terminal showing the LethalForensicELFication challenge solved by answering 'Elinore' after reading the .viminfo file, ending with a Congratulations message" loading="lazy"></li>
 <li>Packalyzer – I got nothing but I remember that this drove me crazy … I do have a very cryptic txt file … perhaps this is the lesson to take better notes?</li>
-<li>Piano<br><img src="/assets/images/kringlecon18/piano-done.PNG" alt="Piano challenge screen displaying a green and red bordered message reading 'You have unlocked Santa's vault!'"></li>
-<li>Python Jail<br><img src="/assets/images/kringlecon18/python.PNG" alt="Terminal showing commands used to break out of a restricted Python shell during the Python Jail challenge"></li>
-<li>Scan-o-matic<br><img src="/assets/images/kringlecon18/Scan-o-matic_error.PNG" alt="Badge Scan-O-Matic 4000 kiosk displaying a SQL error message beginning with 'SELECT FIRST_NAME,LAST', revealing a SQL injection vulnerability"></li>
-<li>Sleighbell<br><img src="/assets/images/kringlecon18/Sleighbell-win.PNG" alt="GDB debugger session showing breakpoints hit and 'You drew ticket number 1225!' followed by a Congratulations message and ASCII art for the Sleighbell challenge"></li>
-<li>Snort<br><img src="/assets/images/kringlecon18/snort-solved.PNG" alt="Terminal showing the KringleCastle Snort IDS Sensor challenge solved, with a Snort rule added to local.rules and a Congratulations message confirming it alerts only on ransomware traffic"></li>
-<li>Stall Mucking<br><img src="/assets/images/kringlecon18/StallMucking.PNG" alt="Terminal SMB session uploading report.txt, followed by ASCII art and a 'Stall Mucking' poem signed by Wunorse Openslae about recovered credentials"></li>
-<li>Vi – REALLY … WTF?!<br><img src="/assets/images/kringlecon18/vi.PNG" alt="Terminal showing the vi editor challenge solved, displaying ASCII art and a poem signed by Bushy Evergreen ending with 'Exit vi.'"></li>
-<li>Webcall<br><img src="/assets/images/kringlecon18/webcall2.PNG" alt="Terminal showing a curl HTTP/2 prior-knowledge POST request turning on the 'Candy Striper Turner-On'er' machine, with ASCII art and a Congratulations message signed by Holly Evergreen"></li>
-<li>YuleLog<br><img src="/assets/images/kringlecon18/YuleLog.PNG" alt="Terminal showing ASCII art with a Congratulations message about the cracked password 'Winter2018' being a weak season-year password per NIST guidance"></li>
+<li>Piano<br><img src="/assets/images/kringlecon18/piano-done.PNG" alt="Piano challenge screen displaying a green and red bordered message reading 'You have unlocked Santa's vault!'" loading="lazy"></li>
+<li>Python Jail<br><img src="/assets/images/kringlecon18/python.PNG" alt="Terminal showing commands used to break out of a restricted Python shell during the Python Jail challenge" loading="lazy"></li>
+<li>Scan-o-matic<br><img src="/assets/images/kringlecon18/Scan-o-matic_error.PNG" alt="Badge Scan-O-Matic 4000 kiosk displaying a SQL error message beginning with 'SELECT FIRST_NAME,LAST', revealing a SQL injection vulnerability" loading="lazy"></li>
+<li>Sleighbell<br><img src="/assets/images/kringlecon18/Sleighbell-win.PNG" alt="GDB debugger session showing breakpoints hit and 'You drew ticket number 1225!' followed by a Congratulations message and ASCII art for the Sleighbell challenge" loading="lazy"></li>
+<li>Snort<br><img src="/assets/images/kringlecon18/snort-solved.PNG" alt="Terminal showing the KringleCastle Snort IDS Sensor challenge solved, with a Snort rule added to local.rules and a Congratulations message confirming it alerts only on ransomware traffic" loading="lazy"></li>
+<li>Stall Mucking<br><img src="/assets/images/kringlecon18/StallMucking.PNG" alt="Terminal SMB session uploading report.txt, followed by ASCII art and a 'Stall Mucking' poem signed by Wunorse Openslae about recovered credentials" loading="lazy"></li>
+<li>Vi – REALLY … WTF?!<br><img src="/assets/images/kringlecon18/vi.PNG" alt="Terminal showing the vi editor challenge solved, displaying ASCII art and a poem signed by Bushy Evergreen ending with 'Exit vi.'" loading="lazy"></li>
+<li>Webcall<br><img src="/assets/images/kringlecon18/webcall2.PNG" alt="Terminal showing a curl HTTP/2 prior-knowledge POST request turning on the 'Candy Striper Turner-On'er' machine, with ASCII art and a Congratulations message signed by Holly Evergreen" loading="lazy"></li>
+<li>YuleLog<br><img src="/assets/images/kringlecon18/YuleLog.PNG" alt="Terminal showing ASCII art with a Congratulations message about the cracked password 'Winter2018' being a weak season-year password per NIST guidance" loading="lazy"></li>
 </ul>
 <h2>Results</h2>
 <p>Basically I finished … that’s it.  Plus one really painfull writeup, sorry.</p>
-<p><img src="/assets/images/kringlecon18/done.PNG" alt="KringleCon narrative objectives list showing all 10 objectives completed, including Directory Browsing, AD Privilege Discovery, Badge Manipulation, and Ransomware Recovery"></p>
+<p><img src="/assets/images/kringlecon18/done.PNG" alt="KringleCon narrative objectives list showing all 10 objectives completed, including Directory Browsing, AD Privilege Discovery, Badge Manipulation, and Ransomware Recovery" loading="lazy"></p>
   </div>
 </div>
 </div>
@@ -127,7 +129,7 @@
   <div class="footer-inner">
     <div class="footer-brand"><span>RabbidByte</span> &mdash; RabbidByte's Random Bytes</div>
     <ul class="footer-nav" role="list">
-      <li><a href="/index.html">Posts</a></li>
+      <li><a href="/">Posts</a></li>
       <li><a href="/blog.html">Blog</a></li>
       <li><a href="/tools.html">Tools</a></li>
       <li><a href="/ctf.html">CtF</a></li>

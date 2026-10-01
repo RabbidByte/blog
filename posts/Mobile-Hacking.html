@@ -12,20 +12,22 @@
 </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mobile Hacking – RabbidByte</title>
-  <meta name="description" content="Mobile Hacking">
+  <title>Building a Portable Wi-Fi Pentest Box on an Alix Board</title>
+  <meta name="description" content="Build notes for a completely mobile wireless hacking box using an Alix board, CF card and enclosure, so there is no laptop to carry.">
   <link rel="canonical" href="https://essentialexploit.com/posts/Mobile-Hacking.html">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Mobile Hacking – RabbidByte">
-  <meta property="og:description" content="Mobile Hacking">
+  <meta property="og:title" content="Building a Portable Wi-Fi Pentest Box on an Alix Board">
+  <meta property="og:description" content="Build notes for a completely mobile wireless hacking box using an Alix board, CF card and enclosure, so there is no laptop to carry.">
   <meta property="og:url" content="https://essentialexploit.com/posts/Mobile-Hacking.html">
   <meta property="og:site_name" content="RabbidByte">
-  <meta property="og:image" content="https://essentialexploit.com/assets/fav/android-chrome-256x256.png">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://essentialexploit.com/assets/images/social/mobile-hacking.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@RabbidByte">
-  <meta name="twitter:title" content="Mobile Hacking – RabbidByte">
-  <meta name="twitter:description" content="Mobile Hacking">
-  <meta name="twitter:image" content="https://essentialexploit.com/assets/fav/android-chrome-256x256.png">
+  <meta name="twitter:title" content="Building a Portable Wi-Fi Pentest Box on an Alix Board">
+  <meta name="twitter:description" content="Build notes for a completely mobile wireless hacking box using an Alix board, CF card and enclosure, so there is no laptop to carry.">
+  <meta name="twitter:image" content="https://essentialexploit.com/assets/images/social/mobile-hacking.png">
   <meta property="article:published_time" content="2012-05-16">
   <meta property="article:author" content="RabbidByte">
   <meta property="article:tag" content="Blog">
@@ -41,12 +43,12 @@
   {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": "Mobile Hacking",
-    "description": "Mobile Hacking",
+    "headline": "Building a Portable Wi-Fi Pentest Box on an Alix Board",
+    "description": "Build notes for a completely mobile wireless hacking box using an Alix board, CF card and enclosure, so there is no laptop to carry.",
     "datePublished": "2012-05-16",
     "url": "https://essentialexploit.com/posts/Mobile-Hacking.html",
     "mainEntityOfPage": "https://essentialexploit.com/posts/Mobile-Hacking.html",
-    "image": "https://essentialexploit.com/assets/fav/android-chrome-256x256.png",
+    "image": "https://essentialexploit.com/assets/images/social/mobile-hacking.png",
     "author": {
       "@type": "Person",
       "name": "RabbidByte",
@@ -64,9 +66,9 @@
 <body>
 <nav class="site-nav" role="navigation">
   <div class="nav-inner">
-    <a href="/index.html" class="nav-brand">RabbidByte</a>
+    <a href="/" class="nav-brand">RabbidByte</a>
     <ul class="nav-links" role="list">
-      <li><a href="/index.html">Posts</a></li>
+      <li><a href="/">Posts</a></li>
       <li><a href="/blog.html">Blog</a></li>
       <li><a href="/tools.html">Tools</a></li>
       <li><a href="/ctf.html">CtF</a></li>
@@ -76,7 +78,7 @@
     <details class="nav-mobile">
       <summary class="nav-toggle">&#9776;</summary>
       <ul class="nav-dropdown" role="list">
-        <li><a href="/index.html">Posts</a></li>
+        <li><a href="/">Posts</a></li>
         <li><a href="/blog.html">Blog</a></li>
         <li><a href="/tools.html">Tools</a></li>
         <li><a href="/ctf.html">CtF</a></li>
@@ -234,9 +236,9 @@ tcpdump -i wlan1 -s 0 -e -vv -XX link[25] != 0x80 -w /root/Rogue-Sniff/capture</
 </ol>
 <h2>Images of My Project</h2>
 <p><img src="/assets/images/mobile/1.png" alt="Top-down view of the bare Alix board with a CompactFlash card installed in its slot"></p>
-<p><img src="/assets/images/mobile/2.png" alt="The Alix board in its red enclosure connected to two ALFA USB wireless adapters and an antenna"></p>
-<p><img src="/assets/images/mobile/3.png" alt="A 9V battery and wiring being prepared with helping-hands clips for the mobile power solution"></p>
-<p><img src="/assets/images/mobile/4.png" alt="The Alix board with two ALFA USB wireless adapters and two 9V batteries wired up for portable power"></p>
+<p><img src="/assets/images/mobile/2.png" alt="The Alix board in its red enclosure connected to two ALFA USB wireless adapters and an antenna" loading="lazy"></p>
+<p><img src="/assets/images/mobile/3.png" alt="A 9V battery and wiring being prepared with helping-hands clips for the mobile power solution" loading="lazy"></p>
+<p><img src="/assets/images/mobile/4.png" alt="The Alix board with two ALFA USB wireless adapters and two 9V batteries wired up for portable power" loading="lazy"></p>
   </div>
 </div>
 </div>
@@ -244,7 +246,7 @@ tcpdump -i wlan1 -s 0 -e -vv -XX link[25] != 0x80 -w /root/Rogue-Sniff/capture</
   <div class="footer-inner">
     <div class="footer-brand"><span>RabbidByte</span> &mdash; RabbidByte's Random Bytes</div>
     <ul class="footer-nav" role="list">
-      <li><a href="/index.html">Posts</a></li>
+      <li><a href="/">Posts</a></li>
       <li><a href="/blog.html">Blog</a></li>
       <li><a href="/tools.html">Tools</a></li>
       <li><a href="/ctf.html">CtF</a></li>

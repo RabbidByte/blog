@@ -12,20 +12,22 @@
 </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Taking AI-Assisted SOC Investigations To Multi-User – RabbidByte</title>
-  <meta name="description" content="How I turned a single-user Claude Code SOC workflow into a multi-user web app on the Claude Agent SDK: LDAP/Active Directory authentication, group-based RBAC, an approval-gated permission model, plan usage bars, live Markdown/PDF preview, session management, skills, and a full audit log.">
+  <title>Multi-User Claude Agent SDK SOC App: LDAP, RBAC, Audit Log</title>
+  <meta name="description" content="Turning a single-user Claude Code SOC workflow into a multi-user web app on the Claude Agent SDK: LDAP/AD login, RBAC, approvals and audit logging.">
   <link rel="canonical" href="https://essentialexploit.com/posts/Taking-AI-Assisted-SOC-Investigations-To-Multi-User.html">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Taking AI-Assisted SOC Investigations To Multi-User – RabbidByte">
-  <meta property="og:description" content="How I turned a single-user Claude Code SOC workflow into a multi-user web app on the Claude Agent SDK: LDAP/Active Directory authentication, group-based RBAC, an approval-gated permission model, plan usage bars, live Markdown/PDF preview, session management, skills, and a full audit log.">
+  <meta property="og:title" content="Multi-User Claude Agent SDK SOC App: LDAP, RBAC, Audit Log">
+  <meta property="og:description" content="Turning a single-user Claude Code SOC workflow into a multi-user web app on the Claude Agent SDK: LDAP/AD login, RBAC, approvals and audit logging.">
   <meta property="og:url" content="https://essentialexploit.com/posts/Taking-AI-Assisted-SOC-Investigations-To-Multi-User.html">
   <meta property="og:site_name" content="RabbidByte">
-  <meta property="og:image" content="https://essentialexploit.com/assets/fav/android-chrome-256x256.png">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://essentialexploit.com/assets/images/social/taking-ai-assisted-soc-investigations-to-multi-user.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@RabbidByte">
-  <meta name="twitter:title" content="Taking AI-Assisted SOC Investigations To Multi-User – RabbidByte">
-  <meta name="twitter:description" content="How I turned a single-user Claude Code SOC workflow into a multi-user web app on the Claude Agent SDK: LDAP/Active Directory authentication, group-based RBAC, an approval-gated permission model, plan usage bars, live Markdown/PDF preview, session management, skills, and a full audit log.">
-  <meta name="twitter:image" content="https://essentialexploit.com/assets/fav/android-chrome-256x256.png">
+  <meta name="twitter:title" content="Multi-User Claude Agent SDK SOC App: LDAP, RBAC, Audit Log">
+  <meta name="twitter:description" content="Turning a single-user Claude Code SOC workflow into a multi-user web app on the Claude Agent SDK: LDAP/AD login, RBAC, approvals and audit logging.">
+  <meta name="twitter:image" content="https://essentialexploit.com/assets/images/social/taking-ai-assisted-soc-investigations-to-multi-user.png">
   <meta property="article:published_time" content="2026-10-01">
   <meta property="article:author" content="RabbidByte">
   <meta property="article:tag" content="Blog">
@@ -41,12 +43,12 @@
   {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": "Taking AI-Assisted SOC Investigations To Multi-User",
-    "description": "How I turned a single-user Claude Code SOC workflow into a multi-user web app on the Claude Agent SDK: LDAP/Active Directory authentication, group-based RBAC, an approval-gated permission model, plan usage bars, live Markdown/PDF preview, session management, skills, and a full audit log.",
+    "headline": "Multi-User Claude Agent SDK SOC App: LDAP, RBAC, Audit Log",
+    "description": "Turning a single-user Claude Code SOC workflow into a multi-user web app on the Claude Agent SDK: LDAP/AD login, RBAC, approvals and audit logging.",
     "datePublished": "2026-10-01",
     "url": "https://essentialexploit.com/posts/Taking-AI-Assisted-SOC-Investigations-To-Multi-User.html",
     "mainEntityOfPage": "https://essentialexploit.com/posts/Taking-AI-Assisted-SOC-Investigations-To-Multi-User.html",
-    "image": "https://essentialexploit.com/assets/fav/android-chrome-256x256.png",
+    "image": "https://essentialexploit.com/assets/images/social/taking-ai-assisted-soc-investigations-to-multi-user.png",
     "author": {
       "@type": "Person",
       "name": "RabbidByte",
@@ -64,9 +66,9 @@
 <body>
 <nav class="site-nav" role="navigation">
   <div class="nav-inner">
-    <a href="/index.html" class="nav-brand">RabbidByte</a>
+    <a href="/" class="nav-brand">RabbidByte</a>
     <ul class="nav-links" role="list">
-      <li><a href="/index.html" class="active">Posts</a></li>
+      <li><a href="/" class="active">Posts</a></li>
       <li><a href="/blog.html">Blog</a></li>
       <li><a href="/tools.html">Tools</a></li>
       <li><a href="/ctf.html">CtF</a></li>
@@ -76,7 +78,7 @@
     <details class="nav-mobile">
       <summary class="nav-toggle">&#9776;</summary>
       <ul class="nav-dropdown" role="list">
-        <li><a href="/index.html">Posts</a></li>
+        <li><a href="/">Posts</a></li>
         <li><a href="/blog.html">Blog</a></li>
         <li><a href="/tools.html">Tools</a></li>
         <li><a href="/ctf.html">CtF</a></li>
@@ -129,7 +131,7 @@
 
 <figure>
   <a href="/assets/images/pyagent/login.png" target="_blank" rel="noopener">
-    <img src="/assets/images/pyagent/login.png" alt="pyAgent sign-in page: a centered dark card with a terminal-prompt logo, the title pyAgent AI SOC Operator, the text Sign in with your domain account, empty Username and Password fields, and a red Sign in button">
+    <img src="/assets/images/pyagent/login.png" alt="pyAgent sign-in page: a centered dark card with a terminal-prompt logo, the title pyAgent AI SOC Operator, the text Sign in with your domain account, empty Username and Password fields, and a red Sign in button" loading="lazy">
   </a>
   <figcaption>Sign in with your domain account. That's the only credential anyone has to know.</figcaption>
 </figure>
@@ -203,7 +205,7 @@
 
 <figure>
   <a href="/assets/images/pyagent/configure.png" target="_blank" rel="noopener">
-    <img src="/assets/images/pyagent/configure.png" alt="The Agent configuration window with tabs for Tools, Skills, Allow rules, Commands and refusals, and Limits and prompt. The Tools tab lists built-in tools Bash, Read, Write, Edit, Glob, Grep, Skill and Agent, each with an on checkbox and an approval column reading Asks an approver, or Read-only commands run; the rest ask, or Run without asking for Skill and Agent">
+    <img src="/assets/images/pyagent/configure.png" alt="The Agent configuration window with tabs for Tools, Skills, Allow rules, Commands and refusals, and Limits and prompt. The Tools tab lists built-in tools Bash, Read, Write, Edit, Glob, Grep, Skill and Agent, each with an on checkbox and an approval column reading Asks an approver, or Read-only commands run; the rest ask, or Run without asking for Skill and Agent" loading="lazy">
   </a>
   <figcaption>The Tools tab. Every built-in tool can be switched off, and the approval column shows exactly what happens when the agent reaches for it.</figcaption>
 </figure>
@@ -309,7 +311,7 @@
 
 <figure>
   <a href="/assets/images/pyagent/audit-log.png" target="_blank" rel="noopener">
-    <img src="/assets/images/pyagent/audit-log.png" alt="The Audit log window: filters for date range, username, IP and event above a table with Time, Event, Actor, Outcome, IP and Details columns showing events such as auth.success, conversation.created, file.previewed, file.downloaded and tool.invoked, with outcomes OK, ALLOW and PENDING">
+    <img src="/assets/images/pyagent/audit-log.png" alt="The Audit log window: filters for date range, username, IP and event above a table with Time, Event, Actor, Outcome, IP and Details columns showing events such as auth.success, conversation.created, file.previewed, file.downloaded and tool.invoked, with outcomes OK, ALLOW and PENDING" loading="lazy">
   </a>
   <figcaption>The Logging window, one click from the top bar. Filter by date, user, IP or event, and drag the column edges to read long details.</figcaption>
 </figure>
@@ -357,7 +359,7 @@ tool.denied     actor=bob    outcome=no_authority  Write .../AUTHTEST.txt</code>
   <div class="footer-inner">
     <div class="footer-brand"><span>RabbidByte</span> &mdash; RabbidByte's Random Bytes</div>
     <ul class="footer-nav" role="list">
-      <li><a href="/index.html">Posts</a></li>
+      <li><a href="/">Posts</a></li>
       <li><a href="/blog.html">Blog</a></li>
       <li><a href="/tools.html">Tools</a></li>
       <li><a href="/ctf.html">CtF</a></li>

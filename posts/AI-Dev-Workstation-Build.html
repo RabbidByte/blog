@@ -12,20 +12,22 @@
 </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Building RabbidCode: An AI Dev Workstation – RabbidByte</title>
-  <meta name="description" content="Full build log for a dedicated AI development workstation on Debian 13 with OhMyDebn, Claude Code, opencode, and VS Code.">
+  <title>Building an AI Dev Workstation on Debian 13 with Claude Code</title>
+  <meta name="description" content="Full build log for a dedicated AI development workstation: Debian 13, OhMyDebn, Claude Code, opencode and VS Code on an HP Z840.">
   <link rel="canonical" href="https://essentialexploit.com/posts/AI-Dev-Workstation-Build.html">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Building RabbidCode: An AI Dev Workstation – RabbidByte">
-  <meta property="og:description" content="Full build log for a dedicated AI development workstation on Debian 13 with OhMyDebn, Claude Code, opencode, and VS Code.">
+  <meta property="og:title" content="Building an AI Dev Workstation on Debian 13 with Claude Code">
+  <meta property="og:description" content="Full build log for a dedicated AI development workstation: Debian 13, OhMyDebn, Claude Code, opencode and VS Code on an HP Z840.">
   <meta property="og:url" content="https://essentialexploit.com/posts/AI-Dev-Workstation-Build.html">
   <meta property="og:site_name" content="RabbidByte">
-  <meta property="og:image" content="https://essentialexploit.com/assets/fav/android-chrome-256x256.png">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://essentialexploit.com/assets/images/social/ai-dev-workstation-build.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@RabbidByte">
-  <meta name="twitter:title" content="Building RabbidCode: An AI Dev Workstation – RabbidByte">
-  <meta name="twitter:description" content="Full build log for a dedicated AI development workstation on Debian 13 with OhMyDebn, Claude Code, opencode, and VS Code.">
-  <meta name="twitter:image" content="https://essentialexploit.com/assets/fav/android-chrome-256x256.png">
+  <meta name="twitter:title" content="Building an AI Dev Workstation on Debian 13 with Claude Code">
+  <meta name="twitter:description" content="Full build log for a dedicated AI development workstation: Debian 13, OhMyDebn, Claude Code, opencode and VS Code on an HP Z840.">
+  <meta name="twitter:image" content="https://essentialexploit.com/assets/images/social/ai-dev-workstation-build.png">
   <meta property="article:published_time" content="2026-05-02">
   <meta property="article:author" content="RabbidByte">
   <meta property="article:tag" content="Blog">
@@ -41,12 +43,12 @@
   {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": "Building RabbidCode: An AI Dev Workstation",
-    "description": "Full build log for a dedicated AI development workstation on Debian 13 with OhMyDebn, Claude Code, opencode, and VS Code.",
+    "headline": "Building an AI Dev Workstation on Debian 13 with Claude Code",
+    "description": "Full build log for a dedicated AI development workstation: Debian 13, OhMyDebn, Claude Code, opencode and VS Code on an HP Z840.",
     "datePublished": "2026-05-02",
     "url": "https://essentialexploit.com/posts/AI-Dev-Workstation-Build.html",
     "mainEntityOfPage": "https://essentialexploit.com/posts/AI-Dev-Workstation-Build.html",
-    "image": "https://essentialexploit.com/assets/fav/android-chrome-256x256.png",
+    "image": "https://essentialexploit.com/assets/images/social/ai-dev-workstation-build.png",
     "author": {
       "@type": "Person",
       "name": "RabbidByte",
@@ -64,9 +66,9 @@
 <body>
 <nav class="site-nav" role="navigation">
   <div class="nav-inner">
-    <a href="/index.html" class="nav-brand">RabbidByte</a>
+    <a href="/" class="nav-brand">RabbidByte</a>
     <ul class="nav-links" role="list">
-      <li><a href="/index.html" class="active">Posts</a></li>
+      <li><a href="/" class="active">Posts</a></li>
       <li><a href="/blog.html">Blog</a></li>
       <li><a href="/tools.html">Tools</a></li>
       <li><a href="/ctf.html">CtF</a></li>
@@ -76,7 +78,7 @@
     <details class="nav-mobile">
       <summary class="nav-toggle">&#9776;</summary>
       <ul class="nav-dropdown" role="list">
-        <li><a href="/index.html">Posts</a></li>
+        <li><a href="/">Posts</a></li>
         <li><a href="/blog.html">Blog</a></li>
         <li><a href="/tools.html">Tools</a></li>
         <li><a href="/ctf.html">CtF</a></li>
@@ -118,16 +120,16 @@ sudo apt install curl</code></pre>
 <pre><code>curl -LO https://ohmydebn.org/install.sh
 bash install.sh</code></pre>
 
-<img src="/assets/images/aidev/install.png" alt="Base setup and OhMyDebn installation">
+<img src="/assets/images/aidev/install.png" alt="Base setup and OhMyDebn installation" loading="lazy">
 
 <p>After the installer runs and you reboot you get a clean, polished Cinnamon environment with sensible defaults already in place.  Here is the final desktop:</p>
 
-<img src="/assets/images/aidev/rabbidcode-desktop.png" alt="RabbidCode desktop running OhMyDebn on Debian 13 Trixie">
+<img src="/assets/images/aidev/rabbidcode-desktop.png" alt="RabbidCode desktop running OhMyDebn on Debian 13 Trixie" loading="lazy">
 
 <h2>AI Tools</h2>
 <p>Three tools make up the core of the AI dev stack: opencode, Visual Studio Code, and Claude Code.  Between the three of them pretty much every AI-assisted development workflow is covered.</p>
 
-<img src="/assets/images/aidev/aitools.png" alt="AI tools installation">
+<img src="/assets/images/aidev/aitools.png" alt="AI tools installation" loading="lazy">
 
 <h3>opencode</h3>
 <p>opencode is a terminal-based AI coding assistant that supports multiple models.  One command install:</p>
@@ -198,7 +200,7 @@ ssh-add ~/.ssh/id_ed25519</code></pre>
   <div class="footer-inner">
     <div class="footer-brand"><span>RabbidByte</span> &mdash; RabbidByte's Random Bytes</div>
     <ul class="footer-nav" role="list">
-      <li><a href="/index.html">Posts</a></li>
+      <li><a href="/">Posts</a></li>
       <li><a href="/blog.html">Blog</a></li>
       <li><a href="/tools.html">Tools</a></li>
       <li><a href="/ctf.html">CtF</a></li>
