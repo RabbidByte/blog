@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J345029Q3D"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-J345029Q3D');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New OSINT Repo – RabbidByte</title>
+  <meta name="description" content="New OSINT Repo">
+  <link rel="canonical" href="https://essentialexploit.com/posts/New-OSINT-Repo.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="New OSINT Repo – RabbidByte">
+  <meta property="og:description" content="New OSINT Repo">
+  <meta property="og:url" content="https://essentialexploit.com/posts/New-OSINT-Repo.html">
+  <meta property="og:site_name" content="RabbidByte">
+  <meta property="og:image" content="https://essentialexploit.com/assets/fav/android-chrome-256x256.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@RabbidByte">
+  <meta name="twitter:title" content="New OSINT Repo – RabbidByte">
+  <meta name="twitter:description" content="New OSINT Repo">
+  <meta name="twitter:image" content="https://essentialexploit.com/assets/fav/android-chrome-256x256.png">
+  <meta property="article:published_time" content="2026-09-30">
+  <meta property="article:author" content="RabbidByte">
+  <meta property="article:tag" content="Blog">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/fav/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/fav/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/fav/favicon-16x16.png">
+  <link rel="manifest" href="/assets/fav/site.webmanifest">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "New OSINT Repo",
+    "description": "New OSINT Repo",
+    "datePublished": "2026-09-30",
+    "url": "https://essentialexploit.com/posts/New-OSINT-Repo.html",
+    "mainEntityOfPage": "https://essentialexploit.com/posts/New-OSINT-Repo.html",
+    "image": "https://essentialexploit.com/assets/fav/android-chrome-256x256.png",
+    "author": {
+      "@type": "Person",
+      "name": "RabbidByte",
+      "url": "https://essentialexploit.com/about.html"
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "RabbidByte",
+      "url": "https://essentialexploit.com/about.html"
+    },
+    "keywords": "Blog"
+  }
+  </script>
+</head>
+<body>
+<nav class="site-nav" role="navigation">
+  <div class="nav-inner">
+    <a href="/index.html" class="nav-brand">RabbidByte</a>
+    <ul class="nav-links" role="list">
+      <li><a href="/index.html" class="active">Posts</a></li>
+      <li><a href="/blog.html">Blog</a></li>
+      <li><a href="/tools.html">Tools</a></li>
+      <li><a href="/ctf.html">CtF</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+    <details class="nav-mobile">
+      <summary class="nav-toggle">&#9776;</summary>
+      <ul class="nav-dropdown" role="list">
+        <li><a href="/index.html">Posts</a></li>
+        <li><a href="/blog.html">Blog</a></li>
+        <li><a href="/tools.html">Tools</a></li>
+        <li><a href="/ctf.html">CtF</a></li>
+        <li><a href="/resources.html">Resources</a></li>
+        <li><a href="/about.html">About</a></li>
+      </ul>
+    </details>
+  </div>
+</nav>
+<div class="page-wrap">
+<div class="post-wrap">
+  <header class="post-header">
+    <div class="post-tags-top"><span class="post-tag">Blog</span></div>
+    <h1 class="post-title">New OSINT Repo</h1>
+    <div class="post-meta-bar"><span>September 30, 2026</span></div>
+  </header>
+  <div class="post-content">
+<h2>Summary</h2>
+<p>I just published a new repo on GitHub: <a href="https://github.com/RabbidByte/SketchyBrowserExt">SketchyBrowserExt</a>. It's a curated list of browser extension IDs that I consider malicious, intrusive, or just plain untrustworthy. Right now it sits at 7,569 entries.</p>
+<h2>How it started</h2>
+<p>It began as a simple list. I started with the chrome-mal-ids project as a base and then kept adding to it. Every time I see new research get posted about malicious extensions, or a batch of them getting yanked from the store, the IDs go into the list. It's grown a lot since that first version.</p>
+<h2>What's in it</h2>
+<p>Everything lives in a single file, <code>Malicious_or_Shady_BrowserExtensions.csv</code>, with four columns:</p>
+<ul>
+<li><strong>ID</strong> – the 32-character Chromium extension ID</li>
+<li><strong>Name</strong> – the extension name, where I know it (241 entries don't have one)</li>
+<li><strong>Browser</strong> – Chrome or Edge</li>
+<li><strong>Source</strong> – where the entry came from, so you can trace it back to the research or removal report</li>
+</ul>
+<p>The IDs are the same across Chrome, Edge, Brave, Opera, and Vivaldi, so the list works for any Chromium-based browser. To look one up, just drop the ID into <code>https://chromewebstore.google.com/detail/&lt;ID&gt;</code>.</p>
+<p>One thing I want to be really clear about: inclusion is not an accusation. This list is my opinion, not verified fact. I'm not auditing the code of these extensions, and some of them may be perfectly legitimate. Verify before you act on anything in it.</p>
+<h2>Auditing a machine locally</h2>
+<p>The repo README has a quick way to check what's installed against the list. First, grab the installed extension IDs (this is for Chrome on Linux, other browsers and OSes just have different profile paths):</p>
+<pre><code>ls ~/.config/google-chrome/*/Extensions/ \
+  | grep -E '^[a-p]{32}$' | sort -u &gt; /tmp/installed.txt</code></pre>
+<p>Then pull the ID column out of the CSV:</p>
+<pre><code>tail -n +2 Malicious_or_Shady_BrowserExtensions.csv | tr -d '\r' | cut -d, -f1 | sort -u &gt; /tmp/bad.txt</code></pre>
+<p>And finally print any matches along with the name, browser, and source:</p>
+<pre><code>import csv
+
+hits = set(open('/tmp/installed.txt').read().split()) &amp; set(open('/tmp/bad.txt').read().split())
+with open('Malicious_or_Shady_BrowserExtensions.csv', encoding='utf-8', newline='') as f:
+    for row in csv.DictReader(f):
+        if row['ID'] in hits:
+            print(row['ID'], row['Name'] or '(no name)', row['Browser'], row['Source'])</code></pre>
+<h2>Putting it to work in CrowdStrike</h2>
+<p>The real reason I keep this list up to date is that I use it at work. I upload the CSV as a lookup file in CrowdStrike Next-Gen SIEM and use it to fuel a dashboard that gets reported on weekly. The dashboard tracks the number of unique browser extensions seen across the environment, which users have a malicious extension installed, and any newly found malicious extensions for the week, with a table underneath for the details.</p>
+<img src="/assets/images/sketchy-ext/crowdstrike-dashboard.png" alt="CrowdStrike Next-Gen SIEM dashboard titled MaliciousBrowserExtensions showing 294 unique browser extensions, no users with malicious extensions, zero new malicious extensions found, and an empty malicious extensions table over the last 7 days">
+<p>Good news in that screenshot: 294 unique extensions seen and zero hits against the list. Since the lookup file is just the CSV, keeping the dashboard current is as easy as pulling the latest version of the repo and re-uploading it.</p>
+<h2>Wrap up</h2>
+<p>If you do any threat hunting, detection engineering, or endpoint work, feel free to grab the list and use it however you like. If you come across research on new malicious extensions that I'm missing, let me know and I'll get them added.</p>
+  </div>
+</div>
+</div>
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-brand"><span>RabbidByte</span> &mdash; RabbidByte's Random Bytes</div>
+    <ul class="footer-nav" role="list">
+      <li><a href="/index.html">Posts</a></li>
+      <li><a href="/blog.html">Blog</a></li>
+      <li><a href="/tools.html">Tools</a></li>
+      <li><a href="/ctf.html">CtF</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+  </div>
+  <p class="footer-copy">&copy; 2026 RabbidByte. All rights reserved.</p>
+</footer>
+</body>
+</html>
