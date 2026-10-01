@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J345029Q3D"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-J345029Q3D');
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taking AI-Assisted SOC Investigations To Multi-User – RabbidByte</title>
+  <meta name="description" content="How I turned a single-user Claude Code SOC workflow into a multi-user web app on the Claude Agent SDK: LDAP/Active Directory authentication, group-based RBAC, an approval-gated permission model, plan usage bars, live Markdown/PDF preview, session management, skills, and a full audit log.">
+  <link rel="canonical" href="https://essentialexploit.com/posts/Taking-AI-Assisted-SOC-Investigations-To-Multi-User.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Taking AI-Assisted SOC Investigations To Multi-User – RabbidByte">
+  <meta property="og:description" content="How I turned a single-user Claude Code SOC workflow into a multi-user web app on the Claude Agent SDK: LDAP/Active Directory authentication, group-based RBAC, an approval-gated permission model, plan usage bars, live Markdown/PDF preview, session management, skills, and a full audit log.">
+  <meta property="og:url" content="https://essentialexploit.com/posts/Taking-AI-Assisted-SOC-Investigations-To-Multi-User.html">
+  <meta property="og:site_name" content="RabbidByte">
+  <meta property="og:image" content="https://essentialexploit.com/assets/fav/android-chrome-256x256.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@RabbidByte">
+  <meta name="twitter:title" content="Taking AI-Assisted SOC Investigations To Multi-User – RabbidByte">
+  <meta name="twitter:description" content="How I turned a single-user Claude Code SOC workflow into a multi-user web app on the Claude Agent SDK: LDAP/Active Directory authentication, group-based RBAC, an approval-gated permission model, plan usage bars, live Markdown/PDF preview, session management, skills, and a full audit log.">
+  <meta name="twitter:image" content="https://essentialexploit.com/assets/fav/android-chrome-256x256.png">
+  <meta property="article:published_time" content="2026-10-01">
+  <meta property="article:author" content="RabbidByte">
+  <meta property="article:tag" content="Blog">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/fav/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/fav/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/fav/favicon-16x16.png">
+  <link rel="manifest" href="/assets/fav/site.webmanifest">
+  <link rel="stylesheet" href="/assets/css/main.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Taking AI-Assisted SOC Investigations To Multi-User",
+    "description": "How I turned a single-user Claude Code SOC workflow into a multi-user web app on the Claude Agent SDK: LDAP/Active Directory authentication, group-based RBAC, an approval-gated permission model, plan usage bars, live Markdown/PDF preview, session management, skills, and a full audit log.",
+    "datePublished": "2026-10-01",
+    "url": "https://essentialexploit.com/posts/Taking-AI-Assisted-SOC-Investigations-To-Multi-User.html",
+    "mainEntityOfPage": "https://essentialexploit.com/posts/Taking-AI-Assisted-SOC-Investigations-To-Multi-User.html",
+    "image": "https://essentialexploit.com/assets/fav/android-chrome-256x256.png",
+    "author": {
+      "@type": "Person",
+      "name": "RabbidByte",
+      "url": "https://essentialexploit.com/about.html"
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "RabbidByte",
+      "url": "https://essentialexploit.com/about.html"
+    },
+    "keywords": "Blog"
+  }
+  </script>
+</head>
+<body>
+<nav class="site-nav" role="navigation">
+  <div class="nav-inner">
+    <a href="/index.html" class="nav-brand">RabbidByte</a>
+    <ul class="nav-links" role="list">
+      <li><a href="/index.html" class="active">Posts</a></li>
+      <li><a href="/blog.html">Blog</a></li>
+      <li><a href="/tools.html">Tools</a></li>
+      <li><a href="/ctf.html">CtF</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+    <details class="nav-mobile">
+      <summary class="nav-toggle">&#9776;</summary>
+      <ul class="nav-dropdown" role="list">
+        <li><a href="/index.html">Posts</a></li>
+        <li><a href="/blog.html">Blog</a></li>
+        <li><a href="/tools.html">Tools</a></li>
+        <li><a href="/ctf.html">CtF</a></li>
+        <li><a href="/resources.html">Resources</a></li>
+        <li><a href="/about.html">About</a></li>
+      </ul>
+    </details>
+  </div>
+</nav>
+<div class="page-wrap">
+<div class="post-wrap">
+  <header class="post-header">
+    <div class="post-tags-top"><span class="post-tag">Blog</span></div>
+    <h1 class="post-title">Taking AI-Assisted SOC Investigations To Multi-User</h1>
+    <div class="post-meta-bar"><span>October 1, 2026</span></div>
+  </header>
+  <div class="post-content">
+<p>In my <a href="/posts/AI-Assisted-SOC-Investigations-with-Claude-Code.html">last post</a> I turned Claude Code into the SOC application: a VS Code workspace full of agents, skills, MCP servers and enrichment data, with the editor as the operations surface. It works really well, with one big catch. It works for <em>me</em>. The whole thing lives on one workstation, inside one person's IDE, under one person's login.</p>
+
+<p>The moment a second analyst wants to use it, you have a problem. They need their own copy of the repo, their own MCP credentials, their own Claude login, and no one has any idea what anyone else asked the agent to do. That's fine for a prototype and a non-starter for a SOC.</p>
+
+<p>So I took the same project and wrapped it in a multi-user web application. I'm calling the shell <strong>pyAgent</strong>. It's built on the <code>claude-agent-sdk</code>, and this post walks through the parts I care most about: LDAP authentication with role-based access control driven by Active Directory groups, what each role is allowed to do, the plan-usage bars, live Markdown/PDF preview, session management, skills, permission configuration and logging.</p>
+
+<blockquote>
+<p><strong>A fair warning before the rest of this.</strong> pyAgent is not an enterprise-grade product. It's a working internal tool that I built quickly to solve a real problem, and parts of it are still a bit of a hack job. It has had the security testing I describe below, but it hasn't had an independent review. Treat this post as a write-up of what I built and what I learned, not a recommendation to deploy it as is.</p>
+</blockquote>
+
+<figure>
+  <a href="/assets/images/pyagent/workspace.png" target="_blank" rel="noopener">
+    <img src="/assets/images/pyagent/workspace.png" alt="The pyAgent web interface after sign-in: a top bar with Configure, Logging and Sign out buttons and an APPROVER role badge, a Session and Week usage strip beneath it, a file explorer on the left, an empty file preview in the middle, and the agent chat on the right with Model, Skills and Sessions menus beside the message box">
+  </a>
+  <figcaption>The finished workspace. Click the image to open it full size. File explorer, live preview and agent chat in one window, with usage bars across the top.</figcaption>
+</figure>
+
+<h2>What it is</h2>
+<p>pyAgent is a small FastAPI application that sits in front of the Claude Agent SDK. You point it at a project folder and it becomes a shared web interface where an authenticated team talks to an agent that can act on that project, under a permission policy that I control in Python. Each analyst gets a private conversation. The project's files and the agent's memory are shared.</p>
+
+<pre><code>browser  ──POST /api/message──▶  FastAPI  ──▶  AgentSession
+   ▲                                              │
+   └────────SSE /api/events──────────────────┐    │ ClaudeSDKClient
+                                             │    ▼
+   ┌──POST /api/approve──▶ asyncio.Future ◀───┴── claude CLI subprocess ──▶ Claude</code></pre>
+
+<p>Each conversation owns a <code>claude</code> CLI subprocess. The browser sends messages in over POST and gets the agent's output back as a server-sent event stream. When the agent wants to do something privileged, its loop parks on an <code>asyncio.Future</code> and a card shows up in the browser. Nothing moves until a human with the right role clicks Approve or Deny.</p>
+
+<p>The other design decision worth calling out is that the shell never gets edited for a project. It's a clean git checkout at a release tag. Everything project-specific (config, secrets, certs, the audit log, custom tools) lives in a small <code>.pyagent/</code> overlay folder inside the project. Upgrading a deployment is a checkout of a newer tag, and the upgrade script validates the new version against the overlay and rolls itself back if anything fails.</p>
+
+<h2>LDAP authentication against Active Directory</h2>
+<p>Analysts sign in with their domain account. There's no separate user database and no passwords stored anywhere in the app.</p>
+
+<figure>
+  <a href="/assets/images/pyagent/login.png" target="_blank" rel="noopener">
+    <img src="/assets/images/pyagent/login.png" alt="pyAgent sign-in page: a centered dark card with a terminal-prompt logo, the title pyAgent AI SOC Operator, the text Sign in with your domain account, empty Username and Password fields, and a red Sign in button">
+  </a>
+  <figcaption>Sign in with your domain account. That's the only credential anyone has to know.</figcaption>
+</figure>
+
+<p>A login runs through these steps, in this order:</p>
+<ol>
+  <li><strong>Rate limit first.</strong> Per username and per IP, and <em>before</em> any bind. If you don't do this, walking a user list with bad passwords trips the domain's lockout policy on every account, and you've built a company-wide denial-of-service tool. The per-user limit has to sit comfortably under your AD lockout threshold.</li>
+  <li><strong>Reject empty passwords outright.</strong> Per the LDAP spec, a simple bind with a username and an empty password is an <em>unauthenticated bind</em>, and AD answers it with success.</li>
+  <li><strong>LDAPS or StartTLS, with certificate validation.</strong> The app refuses to start on plaintext LDAP, because a simple bind puts the password on the wire in the clear.</li>
+  <li><strong>Search as a read-only service account, then rebind as the user.</strong> The username goes through <code>escape_filter_chars</code> before it touches a search filter.</li>
+  <li><strong>Resolve groups, including nested ones.</strong> More on that below.</li>
+  <li><strong>Create a server-side session.</strong> A 32-byte random token in a <code>HttpOnly; Secure; SameSite=Strict</code> cookie, and the cookie carries nothing else.</li>
+</ol>
+
+<p>Every failure returns the same generic message to the browser. The real reason (AD hands back codes like <code>52e</code> for bad credentials, <code>775</code> for locked out, <code>533</code> for disabled) is decoded and written to the audit log only, so the login endpoint can't be used to enumerate accounts.</p>
+
+<h3>Nested groups</h3>
+<p>This one bit me early. The <code>memberOf</code> attribute only reports <em>direct</em> membership. If an analyst is in <code>SOC-Analysts</code> and that group is itself a member of the approvers group, <code>memberOf</code> misses it and the analyst silently loses a role. The fix is AD's <code>LDAP_MATCHING_RULE_IN_CHAIN</code>, which walks the whole chain server-side.</p>
+
+<h2>Roles, mapped from AD groups</h2>
+<p>Authentication tells me who someone is. Authorization is where the AD groups come in. Three roles, each mapped from a group named in the overlay's <code>.env</code>:</p>
+
+<table>
+  <thead>
+    <tr><th>Role</th><th>Mapped from</th><th>May</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>viewer</code></td><td><code>GROUP_VIEWER</code></td><td>Browse and preview files, read their own conversations</td></tr>
+    <tr><td><code>user</code></td><td><code>GROUP_USER</code></td><td>Send messages, run skills, switch models</td></tr>
+    <tr><td><code>approver</code></td><td><code>GROUP_APPROVER</code></td><td>Authorize privileged tool calls, and change the agent's configuration</td></tr>
+  </tbody>
+</table>
+
+<p>Two details of the mapping are deliberate. An empty <code>GROUP_USER</code> means "any authenticated account may chat," since AD membership is already the gate for a team tool. But an empty <code>GROUP_APPROVER</code> is <em>never</em> treated that way. It means nobody can approve. Defaulting that setting open would hand every user the power to authorize privileged commands, and the failure mode of "nobody can approve" is a lot more recoverable than the alternative.</p>
+
+<p>An account that's in none of the mapped groups can't sign in at all. That also makes shared links inert if they get forwarded outside the team (more on those below).</p>
+
+<p>When a non-approver triggers something that needs approval, they're refused with an explanation instead of being shown a prompt they can't answer.</p>
+
+<h3>What each control closes</h3>
+<p>Because this is multi-user, identity gets enforced at every entry point, not just the login page:</p>
+
+<table>
+  <thead>
+    <tr><th>Control</th><th>What it stops</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Server-generated conversation IDs + ownership check</td><td>Reading or driving another user's conversation</td></tr>
+    <tr><td>Identity from the cookie only, never a request field</td><td>Impersonation by editing a JSON body</td></tr>
+    <tr><td>404 instead of 403 for someone else's ID</td><td>Confirming that an ID exists</td></tr>
+    <tr><td><code>SameSite=Strict</code> + CSRF token + <code>Origin</code> check</td><td>Cross-site state changes</td></tr>
+    <tr><td>Strict CSP, no inline JS or CSS</td><td>XSS through the untrusted text the agent renders</td></tr>
+    <tr><td>Per-user and global conversation caps</td><td>Subprocess exhaustion, since each conversation holds a <code>claude</code> process</td></tr>
+  </tbody>
+</table>
+
+<h2>Permissions: four layers, and one trap</h2>
+<p>The SDK evaluates every tool call in a fixed order: hooks, deny rules, ask rules, permission mode, allow rules, and finally the <code>can_use_tool</code> callback. Understanding that order is most of understanding harness design. pyAgent uses four layers on purpose:</p>
+
+<ol>
+  <li><strong>Hard deny.</strong> A <code>PreToolUse</code> hook that runs first and holds even in <code>bypassPermissions</code>. <code>sudo</code>, <code>rm -rf</code>, pipe-to-shell, and credential files are refused categorically and nobody is ever asked.</li>
+  <li><strong>Narrow allowlist.</strong> Only the project's custom tools, which are read-only by construction, are pre-approved.</li>
+  <li><strong>Runtime classifier.</strong> Every <code>Bash</code> call reaches Python. A single command whose executable is on the read-only list runs immediately. Anything with shell metacharacters doesn't.</li>
+  <li><strong>Human approval.</strong> Whatever is left parks on that <code>asyncio.Future</code> and goes to an approver.</li>
+</ol>
+
+<p>The trap: <strong>a tool approved by an earlier step never reaches <code>can_use_tool</code>.</strong> If you put <code>"Bash"</code> in <code>allowed_tools</code>, your approval prompt silently stops firing, because the call is approved at the allow-rules step. That's why the allowlist here contains <em>only</em> the custom tools and Bash deliberately falls all the way through to Python.</p>
+
+<h3>Configuring it without editing code</h3>
+<p>Approvers get a <strong>Configure</strong> button. Turning on a newly added skill, allowing an enrichment domain or blocking a tool used to mean editing <code>extension.py</code> and <code>.claude/settings.json</code> by hand and keeping them in step. Now it's a panel.</p>
+
+<figure>
+  <a href="/assets/images/pyagent/configure.png" target="_blank" rel="noopener">
+    <img src="/assets/images/pyagent/configure.png" alt="The Agent configuration window with tabs for Tools, Skills, Allow rules, Commands and refusals, and Limits and prompt. The Tools tab lists built-in tools Bash, Read, Write, Edit, Glob, Grep, Skill and Agent, each with an on checkbox and an approval column reading Asks an approver, or Read-only commands run; the rest ask, or Run without asking for Skill and Agent">
+  </a>
+  <figcaption>The Tools tab. Every built-in tool can be switched off, and the approval column shows exactly what happens when the agent reaches for it.</figcaption>
+</figure>
+
+<table>
+  <thead>
+    <tr><th>Tab</th><th>Changes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Tools</td><td>Built-in tools on or off; whether <code>Skill</code>, <code>Agent</code> and the project's own tools run without asking; any other tool (an MCP tool, say) blocked outright</td></tr>
+    <tr><td>Skills</td><td>Which Claude Code settings the agent loads, and each project skill on or off</td></tr>
+    <tr><td>Allow rules</td><td>The project's <code>.claude/settings.json</code> allow rules. Adding one here acknowledges it</td></tr>
+    <tr><td>Commands &amp; refusals</td><td>Extra auto-approved commands, refused patterns and protected paths. Built-ins are listed but can't be removed</td></tr>
+    <tr><td>Limits &amp; prompt</td><td>Subagent depth and concurrency, the spend cap, and the text appended to the system prompt</td></tr>
+  </tbody>
+</table>
+
+<p>A few rules keep the panel from becoming a hole in the model it configures:</p>
+<ul>
+  <li><strong>Approvers only.</strong> The button is hidden from everyone else, and every route behind it re-checks the role plus CSRF. The panel decides what runs without approval, so it takes at least the authority to approve.</li>
+  <li><strong>Review, then save.</strong> <em>Review changes</em> lists what saving would do and flags every change that lets something run with <em>less</em> oversight. Nothing is written until you confirm.</li>
+  <li><strong>It can only tighten the floor, never lower it.</strong> Saving runs the same startup validation: only <code>Skill</code>, <code>Agent</code> and the project's own tools can be pre-approved, never Bash or a file writer, and the built-in refusals stay.</li>
+  <li><strong>The agent can't touch it.</strong> <code>policy.json</code> is on the hard-deny list. If someone hand-edits it into something invalid, new conversations are refused while refusals keep following the last valid policy.</li>
+  <li><strong>Mostly no restart.</strong> Refusals, auto-approved commands and disabled skills apply instantly, even in open conversations.</li>
+</ul>
+
+<h3>The allow-rule trap</h3>
+<p>If you let the agent load a project's Claude Code settings (so it picks up skills, subagents, <code>.mcp.json</code> and <code>CLAUDE.md</code>), you also inherit every <code>permissions.allow</code> rule in the project's <code>.claude/settings.json</code>. Those rules skip the approval gate entirely. They were written for interactive use, where a person was watching, and in a shared deployment they become a silent bypass.</p>
+
+<p>So pyAgent refuses to start until every inherited allow rule has been either moved out or <em>explicitly acknowledged</em>. It checks on every start and again whenever a conversation starts, so a rule added to the project later stops new conversations until someone decides about it.</p>
+
+<h2>Usage bars</h2>
+<p>If you've used Claude Code's <code>/usage</code> screen, the strip under the top bar will look familiar: a Session bar (the five-hour window) and a Week bar, each with how much is left and when it resets. Bars turn amber at 25% left and red at 10%.</p>
+
+<p>That matters more in a shared deployment than it did on my own machine. The plan belongs to the service account, so every analyst is spending from the same pool, and nobody wants to find out mid-investigation that someone else's long session ate the week.</p>
+
+<p>Two sources feed it:</p>
+<ul>
+  <li><strong>Polling</strong> the usage endpoint behind <code>/usage</code> with the service account's OAuth token. That gives live figures, but the endpoint is undocumented, so if it changes, polling fails quietly and the gauge falls back to the second source.</li>
+  <li><strong>The CLI's <code>RateLimitEvent</code>s</strong>, which are documented but sparse. A long conversation can run many turns without one.</li>
+</ul>
+
+<p>The token handling is deliberately narrow. It's read fresh for each poll and used for that one request. It's never logged, never sent to the browser, and never refreshed by the shell (the CLI renews it, and refreshing it from here would rotate the CLI's login). Redirects are refused so a redirect can't forward it to another host, and the credentials file is on the agent's hard-deny list. Only the usage windows reach the browser, never the billing detail the endpoint also returns.</p>
+
+<h2>Live preview for Markdown and PDF</h2>
+<p>Reports are the product of a SOC investigation, and they're mostly Markdown, PDF and Word. The middle panel previews them as rendered documents, so an analyst can ask the agent to write a case summary and read it right next to the chat without downloading anything.</p>
+
+<table>
+  <thead>
+    <tr><th>Type</th><th>Shown as</th><th>How it stays inert</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>.md</code></td><td>Formatted, with a Rendered / Source toggle</td><td>Sanitized against an allowlist (<code>nh3</code>): no scripts, event handlers, forms or iframes; links only to http(s), mailto or other project files</td></tr>
+    <tr><td><code>.pdf</code></td><td>The browser's own PDF viewer</td><td>Only files whose first bytes really are <code>%PDF-</code>, always served as <code>application/pdf</code> with <code>nosniff</code></td></tr>
+    <tr><td><code>.docx</code></td><td>The same viewer, after LibreOffice converts it</td><td>Converted from a temporary copy with a fresh profile (macro security on), a 60-second limit, one conversion at a time, cached per file version</td></tr>
+    <tr><td><code>.xlsx</code></td><td>A table per sheet</td><td>Cell values only, never formulas; <code>defusedxml</code> for parsing; hard caps on size</td></tr>
+  </tbody>
+</table>
+
+<p>Everything the agent writes ends up in a file the user is about to open, so rendering is where untrusted agent output meets the browser. Hence the sanitizing and the strict CSP. A file whose first bytes don't match its extension is shown as text or binary, never rendered as what its name claims.</p>
+
+<h3>The explorer is the dangerous part</h3>
+<p>The file tree is the shell's only path from an HTTP request to the filesystem, in a project whose root holds the LDAP service-account password, the TLS private key and the audit log. So it's deny-by-default in four layers. A hard-coded <code>NEVER_SERVE</code> list (<code>.env*</code>, <code>*.key</code>, <code>*.pem</code>, <code>.git/</code>, <code>id_rsa*</code>, audit logs) can't be configured away, and naming one as a root fails startup. Then explicit allowed roots, an exclusion list and size and type limits.</p>
+
+<p>Every request goes through one function that rejects <code>..</code> and absolute paths <em>before</em> touching the disk, resolves symlinks, and re-checks containment against the <em>resolved</em> path. That stops a symlink planted inside an allowed root from pointing at <code>.env</code>. A missing file and a forbidden file both return 404, so the API can't be used to probe what exists.</p>
+
+<p>There's also a <strong>Share link</strong> button in the preview header. A share link is just the app's URL with a file path on it. It carries no token and no share record, so it has no authority of its own. An anonymous visitor is bounced to sign in, an account in no mapped group can't get in at all, and the file is then fetched under the reader's own identity and role. Forward one outside the team and it's inert.</p>
+
+<h2>Session management</h2>
+<p>An investigation doesn't fit in one sitting. The <strong>Sessions</strong> menu lists your past conversations, newest first, and from it you can:</p>
+<ul>
+  <li><strong>Read</strong> one, read-only, with no agent process started.</li>
+  <li><strong>Continue</strong> one. The agent resumes from its own record of the conversation, so it still remembers what was said. It runs under the policy <em>as it is now</em>, not as it was.</li>
+  <li><strong>Delete</strong> one, which removes both the transcript here and the agent's own record.</li>
+  <li>Start a <strong>New session</strong>, which closes the open one but keeps it in the list.</li>
+</ul>
+
+<p>Each conversation is written to disk as two files named by a server-generated ID: a <code>.jsonl</code> of the events the browser rendered (a past conversation is shown by replaying the same stream it showed live), and a small <code>.json</code> holding the owner, title and the CLI's session IDs. Ownership is written by the server at creation and is the only thing a lookup trusts. Ask for an ID that isn't yours and you get a 404, exactly as with a live conversation. Approvers can't see other people's sessions either. The IDs are validated against a strict pattern before any path gets built, so a request can't name a file outside the sessions directory.</p>
+
+<p>That directory holds prompts and tool output, so it's hard-denied to the agent and excluded from the project's git.</p>
+
+<h2>Skills</h2>
+<p>The skills from the original project carry straight over. When the agent loads the project's Claude Code configuration, a <strong>Skills</strong> button appears next to the message box listing the project's skills, each with its description and expected arguments. Picking one drops <code>/skill-name </code> into the box, and anything you'd already typed is kept after it.</p>
+
+<p>Only the project's own skills are listed: those in <code>.claude/skills/</code> that the CLI reports as actually loaded. Bundled skills and built-ins like <code>/clear</code> are left out. Running a skill is just a normal message (the same text typed by hand does the same thing) so it needs the <code>user</code> role and is audited like any other prompt.</p>
+
+<h3>What a running skill is allowed to do</h3>
+<p>This was the hardest design decision in the project. Most of my skills fork into a subagent, and a skill that forks into a subagent never reaches the approval callback, because the CLI can't ask from inside one. I had two choices: let skills run unattended, or make them useless for anyone who isn't an approver.</p>
+
+<p>I went with a bounded grant. Once a project skill starts, the rest of <em>that turn's</em> tool calls run without asking. The grant is made in the <code>PreToolUse</code> hook, after the refusals and before any prompt, and it ends the moment the agent finishes replying.</p>
+
+<ul>
+  <li><strong>Still refused, and not approvable:</strong> <code>rm -rf</code>, <code>sudo</code>, pipe-to-shell, protected paths (the <code>.env</code>, TLS key, audit log, policy, sessions) and any tool turned off in Configure. A skill can't loosen any of that.</li>
+  <li><strong>Only the project's own, enabled skills.</strong> A bundled or plugin skill gets no such trust.</li>
+  <li><strong>Audited.</strong> A <code>skill.started</code> record, then every call as <code>tool.approved</code> with the reason <code>within skill /name</code>.</li>
+  <li><strong>Bounded</strong> by the turn limit and spend cap.</li>
+</ul>
+
+<p>The honest caveat is that you're trusting the skill. A skill's steps are written by the project, but the model carries them out on the user's arguments and on whatever the skill reads or fetches. Anyone who may run a skill can cause, through it, anything the skill's tools can do that isn't refused above. So give every skill the narrowest tools it needs, and turn off the ones you wouldn't run unattended. There's an escape hatch (<code>SKILL_RUNS_UNATTENDED=0</code>) that restores per-call approval, if the trade-off isn't right for a given environment.</p>
+
+<h2>Logging</h2>
+<p>For a security team's tool, the audit trail is a feature, not an afterthought. Everything lands in a single <code>audit.jsonl</code>, mode <code>0600</code>, one JSON object per line, written synchronously and flushed per record. Audit events are human-paced, and losing one to a buffer on crash defeats the point. Secret-shaped fields (<code>password</code>, <code>token</code>, <code>cookie</code> and friends) are redacted before anything is written, and values are size-bounded.</p>
+
+<figure>
+  <a href="/assets/images/pyagent/audit-log.png" target="_blank" rel="noopener">
+    <img src="/assets/images/pyagent/audit-log.png" alt="The Audit log window: filters for date range, username, IP and event above a table with Time, Event, Actor, Outcome, IP and Details columns showing events such as auth.success, conversation.created, file.previewed, file.downloaded and tool.invoked, with outcomes OK, ALLOW and PENDING">
+  </a>
+  <figcaption>The Logging window, one click from the top bar. Filter by date, user, IP or event, and drag the column edges to read long details.</figcaption>
+</figure>
+
+<p>What gets recorded: sign-ins and failures (with the decoded AD reason), conversations created, resumed and deleted, prompts submitted, skills started, every file previewed or downloaded, model switches, configuration changes, and every tool the agent asked to run along with who approved or denied it. A short slice of the approval flow looks like this:</p>
+
+<pre><code>tool.requested  actor=alice  outcome=pending       Write .../AUTHTEST.txt
+tool.approved   actor=alice  outcome=allow         Write .../AUTHTEST.txt
+tool.requested  actor=bob    outcome=pending       Write .../AUTHTEST.txt
+tool.denied     actor=bob    outcome=no_authority  Write .../AUTHTEST.txt</code></pre>
+
+<p>That's the whole accountability story in four lines: the same write was requested twice, an approver allowed it, and a plain user was refused. The agent itself can't read or modify the log.</p>
+
+<h2>Verifying it</h2>
+<p>A stub mode swaps AD for a fake local directory with a few test accounts, so the whole flow, including the security tests, runs without a domain controller. The test pass covers unauthenticated access to every route, the empty-password bypass, LDAP injection, cross-user IDOR, approval authorization, CSRF, security headers and rate limiting.</p>
+
+<p>That testing paid for itself. One scripted login beat the page's JavaScript to the draw and submitted the form natively, which put the credentials into the URL as a GET query string, and I watched <code>GET /login?username=…&amp;password=…</code> scroll past in the access log. The fix is three independent guards: the submit button ships disabled until the handler is attached, the inputs have no <code>name</code> attribute so a native submit would carry nothing, and the form is <code>method="post"</code> regardless. Then I re-verified with JavaScript disabled and a canary password to confirm it never appeared in the log.</p>
+
+<h2>Where this goes next</h2>
+<p>The goal was to keep everything that made the single-user version useful (the agents, the skills, the MCP wiring, the enrichment data) and make it safe to hand to the rest of the team. The design leans the same direction as the first post: least privilege, nothing shared implicitly, and every action attributable to a person. It's still a hack job in places, and the move to a managed platform is partly about growing it into something that deserves to be called production.</p>
+
+<p>The next step is bigger than a feature: this is moving off a single Claude plan and onto a managed model platform, either AWS Bedrock or Microsoft Foundry, depending on which fits the environment better. pyAgent was built on the service account's own Claude login because that was the fastest way to get a team using it, and it shows in a few places. The whole team spends from one plan, the usage bars lean on an undocumented endpoint, and the model access sits outside the controls the rest of the company already uses.</p>
+
+<p>Moving to a platform addresses those directly:</p>
+<ul>
+  <li><strong>Identity and access.</strong> Model access becomes an IAM role (Bedrock) or an Entra ID identity (Foundry) instead of a CLI login that lives in one service account's home directory. That's one less long-lived credential on the box, and access to the model is governed like every other cloud resource.</li>
+  <li><strong>Data handling.</strong> Prompts and tool output here are investigation data, which is exactly the kind of thing I want to keep inside our own cloud tenant, in a region we choose, under the platform's data-handling terms.</li>
+  <li><strong>Quotas and cost.</strong> Per-request billing and platform quotas replace the shared plan windows. The Session and Week bars as they exist today will change, since they were built around plan limits, and what replaces them is likely usage and spend against a budget.</li>
+  <li><strong>Network and logging.</strong> Private connectivity to the model endpoint, plus the platform's own request logging, sits underneath pyAgent's audit log. pyAgent still records who asked and who approved, and the platform records what was sent to the model.</li>
+</ul>
+
+<p>Either way, the web app itself moves into a container. Today pyAgent runs as a systemd service on a single server with an overlay folder beside the project, and that layout doesn't carry over unchanged. A few things get reworked:</p>
+<ul>
+  <li><strong>Configuration and secrets.</strong> The overlay's <code>.env</code> (LDAP service account password and all) gives way to the platform's secret store and environment, so nothing sensitive is baked into the image or sits on a disk.</li>
+  <li><strong>State.</strong> Sessions, the preview cache and the audit log currently live on local disk. In a container that needs either persistent storage or, for the audit log in particular, shipping the records out to central logging so they outlive the container.</li>
+  <li><strong>TLS.</strong> pyAgent terminates its own TLS today. Behind a platform load balancer it makes more sense for the platform to do that, which means revisiting the startup checks that currently refuse to run without TLS.</li>
+  <li><strong>Dependencies in the image.</strong> LibreOffice for the Word previews have to be built into the image, and the image gets pinned to a release tag the same way the shell is pinned today.</li>
+</ul>
+
+<p>The part I'm keeping is everything above the model: the AD sign-in (move to Entra ID), the role mapping, the approval gates, the previews, the sessions and the audit trail. That's the reason for building it as a shell with a project overlay in the first place. The model backend is a configuration concern, not a rewrite. I'll write up the move properly once it's done, including what changed in the usage reporting and anything that behaved differently on the platform.</p>
+  </div>
+</div>
+</div>
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-brand"><span>RabbidByte</span> &mdash; RabbidByte's Random Bytes</div>
+    <ul class="footer-nav" role="list">
+      <li><a href="/index.html">Posts</a></li>
+      <li><a href="/blog.html">Blog</a></li>
+      <li><a href="/tools.html">Tools</a></li>
+      <li><a href="/ctf.html">CtF</a></li>
+      <li><a href="/resources.html">Resources</a></li>
+      <li><a href="/about.html">About</a></li>
+    </ul>
+  </div>
+  <p class="footer-copy">&copy; 2026 RabbidByte. All rights reserved.</p>
+</footer>
+</body>
+</html>
